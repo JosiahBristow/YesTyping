@@ -71,3 +71,32 @@ create policy "stats_own_insert" on public.stats
 drop policy if exists "stats_own_update" on public.stats;
 create policy "stats_own_update" on public.stats
   for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ---------------------------------------------------------------------------
+-- Race room registry. Kept in sync via Realtime presence so the race page can
+-- list open rooms. Public read/write; stale rows are pruned by the client.
+-- ---------------------------------------------------------------------------
+
+create table if not exists public.rooms (
+  code text primary key,
+  players integer not null default 1,
+  updated_at timestamptz default now()
+);
+
+alter table public.rooms enable row level security;
+
+drop policy if exists "rooms_public_insert" on public.rooms;
+create policy "rooms_public_insert" on public.rooms
+  for insert with check (true);
+
+drop policy if exists "rooms_public_update" on public.rooms;
+create policy "rooms_public_update" on public.rooms
+  for update using (true) with check (true);
+
+drop policy if exists "rooms_public_select" on public.rooms;
+create policy "rooms_public_select" on public.rooms
+  for select using (true);
+
+drop policy if exists "rooms_public_delete" on public.rooms;
+create policy "rooms_public_delete" on public.rooms
+  for delete using (true);

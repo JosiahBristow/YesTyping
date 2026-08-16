@@ -287,7 +287,15 @@
     "results": "比赛结果",
     "again": "再战一局",
     "leaderboard": "排行榜",
-    "nameCol": "玩家"
+    "nameCol": "玩家",
+    "roomsTitle": "可用房间",
+    "roomsEmpty": "当前没有可用房间——创建一个或快速匹配吧。",
+    "refresh": "刷新",
+    "players": "人",
+    "chatTitle": "房间聊天",
+    "chatEmpty": "等待时打个招呼吧！",
+    "chatPlaceholder": "输入消息…",
+    "send": "发送"
   },
   "leaderboard": {
     "title": "排行榜",

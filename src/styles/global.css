@@ -2738,6 +2738,123 @@ a {
   color: var(--ink-soft);
 }
 
+/* Race room list */
+
+.race-rooms {
+  margin-top: 1.4rem;
+  text-align: left;
+  border-top: 1px solid var(--line);
+  padding-top: 1.2rem;
+}
+
+.race-rooms-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.race-rooms-head h3 {
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.race-rooms-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0;
+  margin: 0;
+}
+
+.race-rooms-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--canvas);
+}
+
+.race-rooms-code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--brand-ink);
+  flex: 1;
+}
+
+.race-rooms-players {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* Race chat */
+
+.race-chat {
+  padding: 1.1rem 1.2rem;
+}
+
+.race-chat-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-faint);
+  margin-bottom: 0.6rem;
+}
+
+.race-chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 0.7rem;
+}
+
+.race-chat-msg {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.race-chat-msg b {
+  flex: none;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.race-chat-msg.me b {
+  color: var(--brand-ink);
+}
+
+.race-chat-msg span {
+  overflow-wrap: anywhere;
+}
+
+.race-chat-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.race-chat-form input {
+  flex: 1;
+  font: inherit;
+  color: var(--ink);
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.8rem;
+}
+
+.race-chat-form input:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: -1px;
+}
+
 /* ---------- Leaderboard ---------- */
 
 .leaderboard-tabs {

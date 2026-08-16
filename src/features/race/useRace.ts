@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 import { supabase, supabaseConfigured } from '../../lib/supabase'
+import { deleteRoom, upsertRoom } from './rooms'
 
 export type RacePhase = 'waiting' | 'racing' | 'done'
 
@@ -21,6 +22,13 @@ export interface RacePlayer {
   accuracy: number
 }
 
+export interface ChatMessage {
+  key: string
+  name: string
+  text: string
+  ts: number
+}
+
 function fromPresence(channel: RealtimeChannel): Record<string, RacePlayer> {
   const state = channel.presenceState<PresencePayload>()
   const next: Record<string, RacePlayer> = {}
@@ -38,6 +46,7 @@ export function useRace(roomId: string, name: string) {
   const [players, setPlayers] = useState<Record<string, RacePlayer>>({})
   const [phase, setPhase] = useState<RacePhase>('waiting')
   const [seed, setSeed] = useState<number | null>(null)
+  const [messages, setMessages] = useState<ChatMessage[]>([])
 
   const channelRef = useRef<RealtimeChannel | null>(null)
   const myKeyRef = useRef(Math.random().toString(36).slice(2, 10))
@@ -52,7 +61,17 @@ export function useRace(roomId: string, name: string) {
     const channel = client.channel(`race:${roomId}`)
     channelRef.current = channel
 
-    const applyPresence = () => setPlayers(fromPresence(channel))
+    const presenceCount = () => Object.keys(channel.presenceState()).length
+    const syncRoom = () => {
+      const count = presenceCount()
+      if (count === 0) void deleteRoom(roomId)
+      else void upsertRoom(roomId, count)
+    }
+
+    const applyPresence = () => {
+      setPlayers(fromPresence(channel))
+      syncRoom()
+    }
     const applyProgress = (key: string, p: PresencePayload) => {
       setPlayers((prev) => {
         const existing = prev[key]
@@ -72,19 +91,30 @@ export function useRace(roomId: string, name: string) {
       .on('broadcast', { event: 'progress' }, ({ payload }) => {
         applyProgress(payload.key as string, payload as PresencePayload)
       })
+      .on('broadcast', { event: 'chat' }, ({ payload }) => {
+        const msg = payload as ChatMessage
+        setMessages((prev) => [...prev.slice(-50), msg])
+      })
 
     void channel.subscribe(async (status) => {
       if (status === 'SUBSCRIBED') {
         setConnected(true)
         await channel.track({ name: nameRef.current, progress: 0, finished: false, wpm: 0, accuracy: 0 })
+        syncRoom()
       }
     })
 
+    // keep the room row fresh while we're sitting in it
+    const keepAlive = window.setInterval(syncRoom, 15000)
+
     return () => {
+      window.clearInterval(keepAlive)
+      void deleteRoom(roomId)
       void client.removeChannel(channel)
       channelRef.current = null
       setConnected(false)
       setPhase('waiting')
+      setMessages([])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId])
@@ -111,5 +141,15 @@ export function useRace(roomId: string, name: string) {
     setPhase('done')
   }
 
-  return { connected, players, phase, seed, myKey: myKeyRef.current, startRace, updateProgress, finishRace }
+  const sendChat = (text: string) => {
+    const trimmed = text.trim()
+    if (!trimmed) return
+    const ch = channelRef.current
+    const msg: ChatMessage = { key: myKeyRef.current, name: nameRef.current, text: trimmed, ts: Date.now() }
+    setMessages((prev) => [...prev.slice(-50), msg])
+    if (!ch) return
+    void ch.send({ type: 'broadcast', event: 'chat', payload: msg })
+  }
+
+  return { connected, players, phase, seed, messages, myKey: myKeyRef.current, startRace, updateProgress, finishRace, sendChat }
 }

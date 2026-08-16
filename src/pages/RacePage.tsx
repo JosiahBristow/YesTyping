@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRace } from '../features/race/useRace'
+import { fetchRooms, type RoomInfo } from '../features/race/rooms'
 import { fetchLeaderboard, saveRaceResult, type RaceRecord } from '../features/race/leaderboard'
 import { generateSeededWords } from '../features/typing/words'
 import { useTypingEngine } from '../features/typing/useTypingEngine'
@@ -133,6 +134,16 @@ export function RacePage() {
   const [roomId, setRoomId] = useState('')
   const [joined, setJoined] = useState(false)
   const [myResult, setMyResult] = useState<{ wpm: number; accuracy: number; won: boolean } | null>(null)
+  const [chatDraft, setChatDraft] = useState('')
+  const [rooms, setRooms] = useState<RoomInfo[]>([])
+
+  const refreshRooms = () => {
+    void fetchRooms().then(setRooms)
+  }
+
+  useEffect(() => {
+    if (supabaseConfigured && !joined) refreshRooms()
+  }, [joined])
 
   const race = useRace(joined ? roomId : '', name)
   const text = useMemo(() => (race.seed !== null ? generateSeededWords(220, race.seed) : ''), [race.seed])
@@ -201,6 +212,39 @@ export function RacePage() {
             </div>
             {!user && <p className="section-sub" style={{ fontSize: '0.82rem' }}>{t('race.guestNote')}</p>}
           </div>
+
+          <div className="race-rooms">
+            <div className="race-rooms-head">
+              <h3>{t('race.roomsTitle')}</h3>
+              <button type="button" className="btn btn-ghost btn-sm" onClick={refreshRooms}>
+                ↺ {t('race.refresh')}
+              </button>
+            </div>
+            {rooms.length === 0 ? (
+              <p className="section-sub" style={{ fontSize: '0.88rem' }}>{t('race.roomsEmpty')}</p>
+            ) : (
+              <ul className="race-rooms-list">
+                {rooms.map((r) => (
+                  <li key={r.code}>
+                    <span className="race-rooms-code">{r.code}</span>
+                    <span className="race-rooms-players">
+                      👤 {r.players}
+                    </span>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-sm"
+                      onClick={() => {
+                        setRoomId(r.code)
+                        setJoined(true)
+                      }}
+                    >
+                      {t('race.join')} →
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       ) : (
         <div className="race-room">
@@ -231,13 +275,48 @@ export function RacePage() {
           </div>
 
           {race.phase === 'waiting' && (
-            <div className="card race-waiting">
-              <p>{t('race.waiting', { count: playerList.length })}</p>
-              <button type="button" className="btn btn-primary" onClick={race.startRace} disabled={playerList.length < 2}>
-                {t('race.start')}
-              </button>
-              {playerList.length < 2 && <p className="section-sub" style={{ fontSize: '0.82rem' }}>{t('race.needTwo')}</p>}
-            </div>
+            <>
+              <div className="card race-waiting">
+                <p>{t('race.waiting', { count: playerList.length })}</p>
+                <button type="button" className="btn btn-primary" onClick={race.startRace} disabled={playerList.length < 2}>
+                  {t('race.start')}
+                </button>
+                {playerList.length < 2 && <p className="section-sub" style={{ fontSize: '0.82rem' }}>{t('race.needTwo')}</p>}
+              </div>
+
+              <div className="card race-chat">
+                <h4 className="race-chat-title">{t('race.chatTitle')}</h4>
+                <div className="race-chat-list">
+                  {race.messages.length === 0 && (
+                    <p className="section-sub" style={{ fontSize: '0.85rem' }}>{t('race.chatEmpty')}</p>
+                  )}
+                  {race.messages.map((m, i) => (
+                    <div key={i} className={cn('race-chat-msg', m.key === race.myKey && 'me')}>
+                      <b>{m.name}</b>
+                      <span>{m.text}</span>
+                    </div>
+                  ))}
+                </div>
+                <form
+                  className="race-chat-form"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    race.sendChat(chatDraft)
+                    setChatDraft('')
+                  }}
+                >
+                  <input
+                    value={chatDraft}
+                    onChange={(e) => setChatDraft(e.target.value)}
+                    placeholder={t('race.chatPlaceholder')}
+                    maxLength={200}
+                  />
+                  <button type="submit" className="btn btn-primary btn-sm">
+                    {t('race.send')}
+                  </button>
+                </form>
+              </div>
+            </>
           )}
 
           {race.phase === 'racing' && text && (
