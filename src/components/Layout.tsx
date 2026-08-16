@@ -77,13 +77,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <button
                   type="button"
                   className="user-chip"
-                  title={user.email ?? ''}
+                  title={`${displayName(user)} — ${user.email ?? ''}`}
                   aria-expanded={userMenuOpen}
+                  aria-label={displayName(user)}
                   onClick={() => setUserMenuOpen((o) => !o)}
                 >
                   <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
-                  <span className="user-name">{displayName(user)}</span>
-                  <span className="user-caret">{userMenuOpen ? '▲' : '▼'}</span>
                 </button>
                 {userMenuOpen && (
                   <div className="user-dropdown">
