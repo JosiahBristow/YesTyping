@@ -22,10 +22,17 @@ export const useAuth = create<AuthState>((set) => ({
 
   signUp: async (email, password) => {
     if (!supabase) return { ok: false, error: 'Supabase not configured' }
-    const { data, error } = await supabase.auth.signUp({ email, password })
+    const emailRedirectTo = `${window.location.origin}${import.meta.env.BASE_URL}`
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo },
+    })
     if (error) return { ok: false, error: error.message }
     set({ error: null })
-    return data.session ? { ok: true } : { ok: true, error: 'Check your email to confirm your account.' }
+    return data.session
+      ? { ok: true }
+      : { ok: true, error: 'Check your email to confirm your account.' }
   },
 
   signIn: async (email, password) => {
