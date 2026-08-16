@@ -94,6 +94,13 @@ const SHIFT_KEYS: Record<string, string> = {
   '?': '/',
 }
 
+const SHIFT_CHARS = new Set(Object.keys(SHIFT_KEYS))
+
+/** True when a character can only be typed while holding Shift. */
+export function needsShift(ch: string): boolean {
+  return /[A-Z]/.test(ch) || SHIFT_CHARS.has(ch)
+}
+
 const LAYOUT_MAP: Record<Exclude<LayoutId, 'qwerty'>, Record<string, string>> = {
   dvorak: DVORAK,
   colemak: COLEMAK,

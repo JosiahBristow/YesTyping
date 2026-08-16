@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useTypingEngine } from './useTypingEngine'
-import { fingerForChar, keyForChar } from './layouts'
+import { fingerForChar, keyForChar, needsShift } from './layouts'
 import type { EngineResult } from './metrics'
 import { formatClock } from './metrics'
 import { Keyboard } from '../../components/Keyboard'
 import { Numpad } from '../../components/Numpad'
+import { KeyboardToggle } from '../../components/KeyboardToggle'
 import { ResultSummary } from '../../components/ResultSummary'
 import { FingerGuide } from '../../components/FingerGuide'
 import { LayoutPicker } from '../../components/LayoutPicker'
@@ -50,6 +51,7 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
   const finger = numpad ? null : currentChar ? fingerForChar(currentChar, layout) : null
   const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
+  const shiftNeeded = currentChar !== null && needsShift(currentChar)
 
   useEffect(() => {
     if (!result) return
@@ -97,6 +99,7 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
           <span className="next-key" title={t('practice.nextKey')}>
             {nextKeyLabel}
           </span>
+          {shiftNeeded && <span className="shift-badge">⇧ {t('practice.shift')}</span>}
           <span className="type-hint-text">{t('practice.fingerHint')}</span>
           <span className="finger-chip">
             <i className={cn('finger-dot', `finger-${finger}`)} />
@@ -107,6 +110,7 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
 
       <div className="kb-toolbar">
         {numpad ? <span className="kb-toolbar-note">{t('practice.numpadHint')}</span> : <LayoutPicker />}
+        <KeyboardToggle />
       </div>
       {showKeyboard &&
         (numpad ? (

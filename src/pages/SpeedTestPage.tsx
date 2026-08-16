@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { useMemo, useState } from 'react'
 import { useTypingEngine } from '../features/typing/useTypingEngine'
-import { fingerForChar, keyForChar } from '../features/typing/layouts'
+import { fingerForChar, keyForChar, needsShift } from '../features/typing/layouts'
 import type { EngineResult } from '../features/typing/metrics'
 import { formatClock } from '../features/typing/metrics'
 import { generateWords } from '../features/typing/words'
 import { useLocalStats } from '../features/stats/useLocalStats'
 import { maybeUnlock, winRace } from '../features/achievements/achievements'
 import { Keyboard } from '../components/Keyboard'
+import { KeyboardToggle } from '../components/KeyboardToggle'
 import { TrendChart } from '../components/TrendChart'
 import { FingerGuide } from '../components/FingerGuide'
 import { LayoutPicker } from '../components/LayoutPicker'
@@ -97,6 +98,7 @@ function SpeedEngine({
   const finger = currentChar ? fingerForChar(currentChar, layout) : null
   const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
+  const shiftNeeded = currentChar !== null && needsShift(currentChar)
 
   return (
     <>
@@ -167,6 +169,7 @@ function SpeedEngine({
           <span className="next-key" title={t('practice.nextKey')}>
             {nextKeyLabel}
           </span>
+          {shiftNeeded && <span className="shift-badge">⇧ {t('practice.shift')}</span>}
           <span className="type-hint-text">{t('practice.fingerHint')}</span>
           <span className="finger-chip">
             <i className={cn('finger-dot', `finger-${finger}`)} />
@@ -177,6 +180,7 @@ function SpeedEngine({
 
       <div className="kb-toolbar">
         <LayoutPicker />
+        <KeyboardToggle />
       </div>
       {showKeyboard && (
         <Keyboard

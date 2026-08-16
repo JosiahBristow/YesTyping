@@ -76,7 +76,10 @@
     "lockedShort": "Locked",
     "resume": "Continue",
     "backToLessons": "All lessons",
-    "nextKey": "Next key"
+    "nextKey": "Next key",
+    "shift": "Shift",
+    "hideKeyboard": "Hide keyboard",
+    "showKeyboard": "Show keyboard"
   },
   "speed": {
     "title": "Speed Test",

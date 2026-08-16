@@ -12,7 +12,8 @@ import { Keyboard } from '../components/Keyboard'
 import { LayoutPicker } from '../components/LayoutPicker'
 import { FingerGuide } from '../components/FingerGuide'
 import { TypeArea } from '../features/typing/TypeArea'
-import { fingerForChar, keyForChar } from '../features/typing/layouts'
+import { fingerForChar, keyForChar, needsShift } from '../features/typing/layouts'
+import { KeyboardToggle } from '../components/KeyboardToggle'
 import { useLayout } from '../lib/layout'
 import { useSettings } from '../lib/settings'
 import { cn } from '../lib/cn'
@@ -63,6 +64,7 @@ function RaceEngine({
   const finger = currentChar ? fingerForChar(currentChar, layout) : null
   const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
+  const shiftNeeded = currentChar !== null && needsShift(currentChar)
 
   return (
     <div className="session-grid">
@@ -89,6 +91,7 @@ function RaceEngine({
             <span className="next-key" title={t('practice.nextKey')}>
               {nextKeyLabel}
             </span>
+            {shiftNeeded && <span className="shift-badge">⇧ {t('practice.shift')}</span>}
             <span className="type-hint-text">{t('practice.fingerHint')}</span>
             <span className="finger-chip">
               <i className={cn('finger-dot', `finger-${finger}`)} />
@@ -99,6 +102,7 @@ function RaceEngine({
 
         <div className="kb-toolbar">
           <LayoutPicker />
+          <KeyboardToggle />
         </div>
         {showKeyboard && (
           <Keyboard

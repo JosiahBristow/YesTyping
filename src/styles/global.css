@@ -985,6 +985,21 @@ a {
   color: var(--ink-soft);
 }
 
+.shift-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--amber-ink);
+  background: var(--amber-soft);
+  border: 1px solid rgba(255, 178, 36, 0.35);
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  white-space: nowrap;
+}
+
 .finger-chip {
   display: inline-flex;
   align-items: center;
@@ -1013,6 +1028,8 @@ a {
 .kb-toolbar {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
   margin-top: 1.3rem;
 }
 

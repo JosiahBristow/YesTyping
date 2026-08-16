@@ -76,7 +76,10 @@
     "lockedShort": "已锁定",
     "resume": "继续练习",
     "backToLessons": "返回小节列表",
-    "nextKey": "下一个按键"
+    "nextKey": "下一个按键",
+    "shift": "Shift",
+    "hideKeyboard": "隐藏键盘",
+    "showKeyboard": "显示键盘"
   },
   "speed": {
     "title": "打字测试",
