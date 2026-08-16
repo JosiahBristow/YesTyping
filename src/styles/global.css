@@ -2673,10 +2673,11 @@ a {
 }
 
 .user-name {
-  max-width: 9ch;
+  max-width: 20ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 600;
 }
 
 .login-btn {
