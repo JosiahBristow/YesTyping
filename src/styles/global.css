@@ -508,6 +508,8 @@ a {
 .course-card.type-english .course-ic { background: var(--brand-soft); }
 .course-card.type-numbers .course-ic { background: #ffe9e6; }
 .course-card.type-vim .course-ic { background: #e2f6e9; }
+.course-card.type-pinyin .course-ic { background: #f0e9ff; }
+.course-card.type-chinese .course-ic { background: #ffe9e6; }
 
 .course-card h3 {
   margin-top: 1rem;

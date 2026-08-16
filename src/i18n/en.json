@@ -38,7 +38,9 @@
     "finger": "Finger basics",
     "english": "English",
     "numbers": "Numbers row",
-    "vim": "Vim"
+    "vim": "Vim",
+    "pinyin": "Pinyin",
+    "chinese": "Chinese"
   },
   "practice": {
     "back": "All courses",

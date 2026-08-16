@@ -38,7 +38,9 @@
     "finger": "指法基础",
     "english": "英文",
     "numbers": "数字键位",
-    "vim": "Vim 键位"
+    "vim": "Vim 键位",
+    "pinyin": "拼音练习",
+    "chinese": "中文输入"
   },
   "practice": {
     "back": "全部课程",

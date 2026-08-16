@@ -96,6 +96,42 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     optsRef.current.onFinish?.(result)
   }
 
+  const commitText = (str: string) => {
+    if (finishedRef.current) return
+    if (!startRef.current) {
+      startRef.current = performance.now()
+      setStarted(true)
+    }
+
+    const chars = Array.from(str)
+    let i = indexRef.current
+    for (const ch of chars) {
+      if (i >= textRef.current.length - EXTEND_AHEAD && optsRef.current.extend) {
+        const more = optsRef.current.extend()
+        if (more && more.length > 0) {
+          textRef.current = textRef.current + more
+          statesRef.current = [
+            ...statesRef.current,
+            ...Array.from({ length: more.length }, () => 'pending' as CharState),
+          ]
+          setText(textRef.current)
+        }
+      }
+      const expected = textRef.current[i]
+      statesRef.current[i] = ch === expected ? 'correct' : 'wrong'
+      i++
+    }
+    indexRef.current = i
+    setStates([...statesRef.current])
+    setIndex(i)
+    setLastKey(str)
+    setPressCount((c) => c + 1)
+
+    if (indexRef.current >= textRef.current.length && mode === 'lesson') {
+      finish()
+    }
+  }
+
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.isComposing || e.keyCode === 229) return
     if (finishedRef.current) return
@@ -114,42 +150,52 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     }
 
     if (e.key.length !== 1) return
-
-    if (!startRef.current) {
-      startRef.current = performance.now()
-      setStarted(true)
-    }
-
-    let i = indexRef.current
-    if (i >= textRef.current.length - EXTEND_AHEAD && optsRef.current.extend) {
-      const more = optsRef.current.extend()
-      if (more && more.length > 0) {
-        textRef.current = textRef.current + more
-        statesRef.current = [
-          ...statesRef.current,
-          ...Array.from({ length: more.length }, () => 'pending' as CharState),
-        ]
-        setText(textRef.current)
-      }
-    }
-
-    const expected = textRef.current[i]
-    const ok = e.key === expected
-    statesRef.current[i] = ok ? 'correct' : 'wrong'
-    indexRef.current = i + 1
-    setStates([...statesRef.current])
-    setIndex(indexRef.current)
-    setLastKey(e.key)
-    setPressCount((c) => c + 1)
-
-    if (indexRef.current >= textRef.current.length && mode === 'lesson') {
-      finish()
-    }
+    commitText(e.key)
   }
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    const el = document.createElement('input')
+    el.type = 'text'
+    el.setAttribute('autocomplete', 'off')
+    el.setAttribute('autocorrect', 'off')
+    el.setAttribute('autocapitalize', 'off')
+    el.setAttribute('spellcheck', 'false')
+    el.style.cssText =
+      'position:fixed;top:0;left:0;width:1px;height:1px;border:0;padding:0;background:transparent;opacity:0'
+
+    const onInput = (e: Event) => {
+      const ie = e as InputEvent
+      if (ie.isComposing) return
+      if (ie.inputType !== 'insertCompositionText') return
+      const data = ie.data
+      el.value = ''
+      if (data && data.length > 0) commitText(data)
+    }
+    const onFocus = () => el.focus()
+    const onMouseDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null
+      if (target && target.closest('button, a, input, textarea, select')) return
+      el.focus()
+    }
+
+    document.body.appendChild(el)
+    el.focus()
+    el.addEventListener('input', onInput)
+    window.addEventListener('focus', onFocus)
+    window.addEventListener('mousedown', onMouseDown)
+
+    return () => {
+      el.removeEventListener('input', onInput)
+      window.removeEventListener('focus', onFocus)
+      window.removeEventListener('mousedown', onMouseDown)
+      el.remove()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
