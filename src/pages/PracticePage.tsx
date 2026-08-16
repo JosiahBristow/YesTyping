@@ -76,7 +76,7 @@ export function PracticePage() {
   }
 
   return (
-    <div className="page container" style={{ maxWidth: '860px' }}>
+    <div className="page container" style={{ maxWidth: '1080px' }}>
       <div className="page-head">
         <Link to={`/courses/${course.id}`} className="btn btn-ghost btn-sm" style={{ marginBottom: '0.75rem' }}>
           ← {t('practice.backToLessons')}
