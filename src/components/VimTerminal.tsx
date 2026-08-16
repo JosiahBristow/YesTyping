@@ -63,7 +63,7 @@ export function VimTerminal() {
       const handled = /^[\x20-\x7e]$/.test(key) || key === 'Enter' || key === 'Backspace' || key === 'Escape' || key === 'Tab'
       if (handled) e.preventDefault()
       const res = handleKey(state, key)
-      setState(res.state)
+      setState({ ...res.state })
       if (res.sound === 'error') playError()
       else playKey()
     }
