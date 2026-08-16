@@ -2763,6 +2763,11 @@ a {
   color: var(--ink-faint);
 }
 
+.race-player-meta.ready {
+  color: var(--good);
+  font-weight: 700;
+}
+
 .race-waiting {
   text-align: center;
   padding: 2.5rem 1rem;

@@ -152,6 +152,7 @@ export function RacePage() {
   const text = useMemo(() => (race.seed !== null ? generateSeededWords(220, race.seed) : ''), [race.seed])
 
   const playerList = Object.values(race.players).sort((a, b) => a.name.localeCompare(b.name))
+  const readyCount = playerList.filter((p) => p.ready).length
 
   const join = () => {
     if (!roomId.trim() || !name.trim()) return
@@ -272,8 +273,14 @@ export function RacePage() {
                 <div className="timer-track race-track">
                   <div className="race-fill you" style={{ width: `${Math.round(p.progress * 100)}%` }} />
                 </div>
-                <span className="race-player-meta">
-                  {p.finished ? `✓ ${p.wpm}` : `${Math.round(p.progress * 100)}%`}
+                <span className={cn('race-player-meta', p.ready && 'ready')}>
+                  {race.phase === 'waiting'
+                    ? p.ready
+                      ? `✓ ${t('race.ready')}`
+                      : '⏳'
+                    : p.finished
+                      ? `✓ ${p.wpm}`
+                      : `${Math.round(p.progress * 100)}%`}
                 </span>
               </div>
             ))}
@@ -283,10 +290,23 @@ export function RacePage() {
             <>
               <div className="card race-waiting">
                 <p>{t('race.waiting', { count: playerList.length })}</p>
-                <button type="button" className="btn btn-primary" onClick={race.startRace} disabled={playerList.length < 2}>
-                  {t('race.start')}
+                <button
+                  type="button"
+                  className={cn('btn', race.ready ? 'btn-ghost' : 'btn-primary')}
+                  onClick={race.toggleReady}
+                  disabled={playerList.length < 2}
+                >
+                  {race.ready ? `✓ ${t('race.ready')}` : t('race.getReady')}
                 </button>
-                {playerList.length < 2 && <p className="section-sub" style={{ fontSize: '0.82rem' }}>{t('race.needTwo')}</p>}
+                {playerList.length < 2 ? (
+                  <p className="section-sub" style={{ fontSize: '0.82rem' }}>{t('race.needTwo')}</p>
+                ) : readyCount === playerList.length ? (
+                  <p className="section-sub" style={{ fontSize: '0.82rem' }}>🏁 {t('race.autoStart')}</p>
+                ) : (
+                  <p className="section-sub" style={{ fontSize: '0.82rem' }}>
+                    {t('race.readyCount', { ready: readyCount, total: playerList.length })}
+                  </p>
+                )}
               </div>
 
               <div className="card race-chat">
