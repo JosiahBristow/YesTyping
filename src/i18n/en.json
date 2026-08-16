@@ -227,6 +227,7 @@
     "genericError": "Something went wrong. Please try again.",
     "rateLimit": "Too many attempts — wait about an hour. Also make sure \"Confirm email\" is turned OFF in Supabase → Authentication → Providers → Email, otherwise every sign-up tries to send a (fake) confirmation email.",
     "confirmEmail": "Email confirmation is still ON. Turn it off in Supabase → Authentication → Providers → Email to enable username sign-up.",
+    "signupDisabled": "Sign-ups are disabled in Supabase. Enable them: Authentication → Providers → Email → turn ON \"Enable sign up\" (and keep \"Confirm email\" OFF).",
     "privacyNote": "Your progress and achievements stay on this device. Signing in adds your race results to the leaderboard."
   },
   "race": {

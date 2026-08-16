@@ -227,6 +227,7 @@
     "genericError": "出错了，请重试。",
     "rateLimit": "尝试过于频繁，请约一小时后重试。同时请确认 Supabase 的“Confirm email”已关闭（Authentication → Providers → Email），否则每次注册都会尝试给假邮箱发确认信。",
     "confirmEmail": "邮箱确认功能仍是开启状态。请到 Supabase → Authentication → Providers → Email 关闭“Confirm email”，才能使用用户名注册。",
+    "signupDisabled": "Supabase 已关闭注册功能。请到 Authentication → Providers → Email 打开“Enable sign up”（允许注册），并保持“Confirm email”关闭。",
     "privacyNote": "进度和成就会保留在本设备。登录后对战成绩可进入排行榜。"
   },
   "race": {

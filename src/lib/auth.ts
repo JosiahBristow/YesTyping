@@ -23,11 +23,14 @@ export function isValidUsername(username: string): boolean {
 interface AuthResult {
   ok: boolean
   error?: string
-  code?: 'rate_limit' | 'confirm_email'
+  code?: 'rate_limit' | 'confirm_email' | 'signup_disabled'
 }
 
 /** Turn a raw Supabase error into something actionable. */
 function classifyAuthError(error: { message: string }): { error: string; code?: AuthResult['code'] } {
+  if (/signup.{0,20}disabled|signups not allowed/i.test(error.message)) {
+    return { error: error.message, code: 'signup_disabled' }
+  }
   if (/rate limit/i.test(error.message)) {
     return { error: error.message, code: 'rate_limit' }
   }

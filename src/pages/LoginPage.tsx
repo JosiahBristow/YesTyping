@@ -82,6 +82,8 @@ export function LoginPage() {
     setBusy(false)
     if (res.code === 'rate_limit') {
       setNotice(t('auth.rateLimit'))
+    } else if (res.code === 'signup_disabled') {
+      setNotice(t('auth.signupDisabled'))
     } else if (res.code === 'confirm_email') {
       setNotice(t('auth.confirmEmail'))
     } else if (!res.ok) {
