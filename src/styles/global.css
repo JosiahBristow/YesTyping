@@ -971,6 +971,25 @@ a {
   flex-wrap: wrap;
 }
 
+.result-actions .kbd-hint {
+  flex-basis: 100%;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+
+.kbd-hint kbd {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  background: var(--canvas);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
 /* ---------- Speed test ---------- */
 
 .speed-panel {

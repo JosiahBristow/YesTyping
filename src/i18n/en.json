@@ -53,6 +53,7 @@
     "time": "Time",
     "consistency": "Consistency",
     "again": "Try again",
+    "enterNext": "Press <kbd>Enter</kbd> for the next lesson",
     "choseLesson": "Choose a lesson"
   },
   "speed": {

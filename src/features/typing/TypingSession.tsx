@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useTypingEngine } from './useTypingEngine'
 import { fingerForChar, keyForChar } from './layouts'
 import type { EngineResult } from './metrics'
@@ -112,6 +112,11 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
                   <button type="button" className="btn btn-primary" onClick={onNext}>
                     {t('practice.next')} →
                   </button>
+                )}
+                {onNext && (
+                  <p className="kbd-hint">
+                    <Trans i18nKey="practice.enterNext" components={{ kbd: <kbd>Enter</kbd> }} />
+                  </p>
                 )}
               </>
             }

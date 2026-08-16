@@ -53,6 +53,7 @@
     "time": "用时",
     "consistency": "稳定性",
     "again": "再练一次",
+    "enterNext": "按 <kbd>Enter</kbd> 进入下一课",
     "choseLesson": "选择课程"
   },
   "speed": {
