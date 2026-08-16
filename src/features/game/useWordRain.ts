@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { playError, playKey } from '../../lib/sound'
 import { unlockGame } from '../achievements/achievements'
 import { WORD_POOL } from '../typing/words'
+import { pickSpawnX } from './placement'
 
 export interface FallingWord {
   id: number
@@ -37,11 +38,13 @@ export function useWordRain() {
   const [targetId, setTargetId] = useState<number | null>(null)
   const [over, setOver] = useState(false)
   const [started, setStarted] = useState(false)
+  const [paused, setPaused] = useState(false)
 
   const wordsRef = useRef<FallingWord[]>([])
   const livesRef = useRef(START_LIVES)
   const overRef = useRef(false)
   const startedRef = useRef(false)
+  const pausedRef = useRef(false)
   const scoreRef = useRef(0)
   const levelRef = useRef(1)
   const comboRef = useRef(0)
@@ -49,13 +52,20 @@ export function useWordRain() {
   const bufferRef = useRef('')
   const targetRef = useRef<FallingWord | null>(null)
   const nextIdRef = useRef(1)
+  const lastWordRef = useRef('')
 
   const syncWords = () => setWords([...wordsRef.current])
 
   const spawn = () => {
     if (wordsRef.current.length >= 4 + Math.floor(levelRef.current / 2)) return
-    const word = POOL[Math.floor(Math.random() * POOL.length)]
-    wordsRef.current.push({ id: nextIdRef.current++, word, x: 6 + Math.random() * 74, y: -5 })
+    let word = POOL[Math.floor(Math.random() * POOL.length)]
+    for (let tries = 0; tries < 6 && word === lastWordRef.current; tries++) {
+      word = POOL[Math.floor(Math.random() * POOL.length)]
+    }
+    lastWordRef.current = word
+    const x = pickSpawnX(word, wordsRef.current)
+    if (x === null) return
+    wordsRef.current.push({ id: nextIdRef.current++, word, x, y: -5 })
   }
 
   const clearTarget = () => {
@@ -73,6 +83,7 @@ export function useWordRain() {
   useEffect(() => {
     if (!started || over) return
     const id = window.setInterval(() => {
+      if (pausedRef.current) return
       const drop = 0.22 + levelRef.current * 0.1
       for (const w of wordsRef.current) {
         w.y += drop
@@ -98,7 +109,14 @@ export function useWordRain() {
   }, [started, over])
 
   const onKey = (e: KeyboardEvent) => {
-    if (overRef.current || !startedRef.current) return
+    if (e.key === 'Escape') {
+      if (startedRef.current && !overRef.current) {
+        pausedRef.current = !pausedRef.current
+        setPaused(pausedRef.current)
+      }
+      return
+    }
+    if (overRef.current || !startedRef.current || pausedRef.current) return
     if (e.ctrlKey || e.metaKey || e.altKey) return
     if (e.key.length !== 1) return
     const ch = e.key.toLowerCase()
@@ -153,6 +171,12 @@ export function useWordRain() {
     return () => window.removeEventListener('keydown', onKey)
   })
 
+  const togglePause = () => {
+    if (!startedRef.current || overRef.current) return
+    pausedRef.current = !pausedRef.current
+    setPaused(pausedRef.current)
+  }
+
   const start = () => {
     wordsRef.current = []
     bufferRef.current = ''
@@ -164,6 +188,7 @@ export function useWordRain() {
     maxComboRef.current = 0
     overRef.current = false
     startedRef.current = true
+    pausedRef.current = false
     setWords([])
     setScore(0)
     setLives(START_LIVES)
@@ -174,6 +199,7 @@ export function useWordRain() {
     setTargetId(null)
     setOver(false)
     setStarted(true)
+    setPaused(false)
     for (let i = 0; i < 2; i++) spawn()
     syncWords()
   }
@@ -194,6 +220,8 @@ export function useWordRain() {
     targetId,
     over,
     started,
+    paused,
     start,
+    togglePause,
   }
 }

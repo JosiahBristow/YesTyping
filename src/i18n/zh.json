@@ -190,7 +190,11 @@
     "done": "游戏结束！",
     "finalScore": "最终得分",
     "newBest": "新的个人最佳！",
-    "again": "再来一局"
+    "again": "再来一局",
+    "pause": "暂停",
+    "resume": "继续",
+    "paused": "已暂停",
+    "pauseHint": "按 Esc 或点击按钮继续"
   },
   "settings": {
     "title": "设置",

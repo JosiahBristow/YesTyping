@@ -33,6 +33,17 @@ export function GamePage() {
             <b>{best}</b>
             <span>{t('game.best')}</span>
           </div>
+          {game.started && !game.over && (
+            <button
+              type="button"
+              className="game-pause"
+              aria-label={game.paused ? t('game.resume') : t('game.pause')}
+              title={game.paused ? t('game.resume') : t('game.pause')}
+              onClick={game.togglePause}
+            >
+              {game.paused ? '▶' : '⏸'}
+            </button>
+          )}
         </div>
 
         <div className="game-field" aria-live="polite">
@@ -58,6 +69,16 @@ export function GamePage() {
               <button type="button" className="btn btn-primary" onClick={game.start}>
                 {t('game.start')}
               </button>
+            </div>
+          )}
+          {game.paused && !game.over && (
+            <div className="game-paused">
+              <div className="big">⏸️</div>
+              <h2>{t('game.paused')}</h2>
+              <button type="button" className="btn btn-primary" onClick={game.togglePause}>
+                ▶ {t('game.resume')}
+              </button>
+              <p className="game-paused-hint">{t('game.pauseHint')}</p>
             </div>
           )}
           {game.over && (

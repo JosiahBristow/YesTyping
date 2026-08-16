@@ -190,7 +190,11 @@
     "done": "Game over!",
     "finalScore": "Final score",
     "newBest": "New personal best!",
-    "again": "Play again"
+    "again": "Play again",
+    "pause": "Pause",
+    "resume": "Resume",
+    "paused": "Paused",
+    "pauseHint": "Press Esc or the button to resume"
   },
   "settings": {
     "title": "Settings",

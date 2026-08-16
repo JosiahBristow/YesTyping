@@ -1924,6 +1924,22 @@ a {
   color: var(--ink-soft);
 }
 
+.game-pause {
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.game-pause:hover {
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+}
+
 .game-field {
   position: relative;
   height: 420px;
@@ -1952,7 +1968,8 @@ a {
 }
 
 .game-idle,
-.game-over {
+.game-over,
+.game-paused {
   position: absolute;
   inset: 0;
   display: grid;
@@ -1961,16 +1978,25 @@ a {
   gap: 0.6rem;
   text-align: center;
   padding: 1rem;
+  background: var(--overlay);
+  backdrop-filter: blur(3px);
 }
 
 .game-idle .big,
-.game-over .big {
+.game-over .big,
+.game-paused .big {
   font-size: 2.6rem;
 }
 
-.game-over h2 {
+.game-over h2,
+.game-paused h2 {
   font-family: var(--font-display);
   font-size: 1.5rem;
+}
+
+.game-paused-hint {
+  font-size: 0.8rem;
+  color: var(--ink-faint);
 }
 
 .game-over p {
