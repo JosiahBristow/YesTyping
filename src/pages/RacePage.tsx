@@ -12,7 +12,7 @@ import { Keyboard } from '../components/Keyboard'
 import { LayoutPicker } from '../components/LayoutPicker'
 import { FingerGuide } from '../components/FingerGuide'
 import { TypeArea } from '../features/typing/TypeArea'
-import { fingerForChar, keyForChar, needsShift } from '../features/typing/layouts'
+import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from '../features/typing/layouts'
 import { KeyboardToggle } from '../components/KeyboardToggle'
 import { useLayout } from '../lib/layout'
 import { useSettings } from '../lib/settings'
@@ -65,6 +65,7 @@ function RaceEngine({
   const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
   const shiftNeeded = currentChar !== null && needsShift(currentChar)
+  const shiftSide = shiftNeeded && activeKey ? shiftSideForKey(activeKey) : null
 
   return (
     <div className="session-grid">
@@ -91,7 +92,11 @@ function RaceEngine({
             <span className="next-key" title={t('practice.nextKey')}>
               {nextKeyLabel}
             </span>
-            {shiftNeeded && <span className="shift-badge">⇧ {t('practice.shift')}</span>}
+            {shiftNeeded && (
+              <span className="shift-badge">
+                ⇧ {shiftSide === 'left' ? t('practice.shiftLeft') : shiftSide === 'right' ? t('practice.shiftRight') : t('practice.shift')}
+              </span>
+            )}
             <span className="type-hint-text">{t('practice.fingerHint')}</span>
             <span className="finger-chip">
               <i className={cn('finger-dot', `finger-${finger}`)} />
@@ -111,7 +116,7 @@ function RaceEngine({
             pressCount={engine.pressCount}
             layout={layout}
             lastWasWrong={lastWasWrong}
-            shiftActive={shiftNeeded}
+            shiftSide={shiftSide}
           />
         )}
       </div>

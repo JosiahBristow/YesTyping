@@ -78,6 +78,8 @@
     "backToLessons": "返回小节列表",
     "nextKey": "下一个按键",
     "shift": "Shift",
+    "shiftLeft": "左 Shift",
+    "shiftRight": "右 Shift",
     "hideKeyboard": "隐藏键盘",
     "showKeyboard": "显示键盘"
   },

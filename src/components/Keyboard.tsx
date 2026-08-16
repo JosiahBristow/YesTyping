@@ -11,7 +11,7 @@ export interface KeyboardProps {
   layout?: LayoutId
   errorKeys?: Record<string, number>
   lastWasWrong?: boolean
-  shiftActive?: boolean
+  shiftSide?: 'left' | 'right' | null
 }
 
 function capClass(finger: Finger | undefined): string {
@@ -26,14 +26,16 @@ export function Keyboard({
   layout = 'qwerty',
   errorKeys,
   lastWasWrong = false,
-  shiftActive = false,
+  shiftSide = null,
 }: KeyboardProps) {
   const { t } = useTranslation()
   const pressed = pressedKey ? keyForChar(pressedKey, layout) : null
   const maxErr = errorKeys ? Math.max(1, ...Object.values(errorKeys)) : 0
 
-  const renderCap = (key: string, extraClass = '') => {
+  const renderCap = (key: string, isLeftShift = false, extraClass = '') => {
     const isShift = key === 'Shift'
+    const isRightShift = isShift && !isLeftShift
+    const shiftOn = isShift && ((isLeftShift && shiftSide === 'left') || (isRightShift && shiftSide === 'right'))
     const finger = FINGER_BY_KEY[key]
     const isActive = activeKey === key
     const isPressed = pressed === key
@@ -42,7 +44,7 @@ export function Keyboard({
       'keycap',
       capClass(finger),
       isShift && 'shift',
-      isShift && shiftActive && 'shift-on',
+      shiftOn && 'shift-on',
       isActive && 'is-active',
       isPressed && 'is-pressed',
       isPressed && lastWasWrong && 'is-wrong',
@@ -69,10 +71,10 @@ export function Keyboard({
     <div className="kb" aria-hidden>
       {KEYBOARD_ROWS.map((row, r) => (
         <div className="kb-row" key={r}>
-          {row.map((k) => renderCap(k))}
+          {row.map((k, i) => renderCap(k, k === 'Shift' && i === 0))}
         </div>
       ))}
-      <div className="kb-row space-row">{renderCap('space', 'kb-space-label')}</div>
+      <div className="kb-row space-row">{renderCap('space', false, 'kb-space-label')}</div>
       {showLegend && (
         <div className="kb-legend">
           {FINGERS.map((f) => (

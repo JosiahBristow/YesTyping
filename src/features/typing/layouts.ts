@@ -101,6 +101,18 @@ export function needsShift(ch: string): boolean {
   return /[A-Z]/.test(ch) || SHIFT_CHARS.has(ch)
 }
 
+/**
+ * Which Shift key to hold for a key: keys typed with the left hand need the
+ * right Shift and vice versa. Returns null for thumb/unknown keys.
+ */
+export function shiftSideForKey(key: string): 'left' | 'right' | null {
+  const finger = FINGER_BY_KEY[key]
+  if (!finger) return null
+  if (finger.startsWith('l')) return 'right'
+  if (finger.startsWith('r')) return 'left'
+  return null
+}
+
 const LAYOUT_MAP: Record<Exclude<LayoutId, 'qwerty'>, Record<string, string>> = {
   dvorak: DVORAK,
   colemak: COLEMAK,

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useMemo, useState } from 'react'
 import { useTypingEngine } from '../features/typing/useTypingEngine'
-import { fingerForChar, keyForChar, needsShift } from '../features/typing/layouts'
+import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from '../features/typing/layouts'
 import type { EngineResult } from '../features/typing/metrics'
 import { formatClock } from '../features/typing/metrics'
 import { generateWords } from '../features/typing/words'
@@ -99,6 +99,7 @@ function SpeedEngine({
   const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
   const shiftNeeded = currentChar !== null && needsShift(currentChar)
+  const shiftSide = shiftNeeded && activeKey ? shiftSideForKey(activeKey) : null
 
   return (
     <>
@@ -169,7 +170,11 @@ function SpeedEngine({
           <span className="next-key" title={t('practice.nextKey')}>
             {nextKeyLabel}
           </span>
-          {shiftNeeded && <span className="shift-badge">⇧ {t('practice.shift')}</span>}
+          {shiftNeeded && (
+            <span className="shift-badge">
+              ⇧ {shiftSide === 'left' ? t('practice.shiftLeft') : shiftSide === 'right' ? t('practice.shiftRight') : t('practice.shift')}
+            </span>
+          )}
           <span className="type-hint-text">{t('practice.fingerHint')}</span>
           <span className="finger-chip">
             <i className={cn('finger-dot', `finger-${finger}`)} />
@@ -189,7 +194,7 @@ function SpeedEngine({
           pressCount={engine.pressCount}
           layout={layout}
           lastWasWrong={lastWasWrong}
-          shiftActive={shiftNeeded}
+          shiftSide={shiftSide}
         />
       )}
         </div>

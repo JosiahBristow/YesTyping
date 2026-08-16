@@ -78,6 +78,8 @@
     "backToLessons": "All lessons",
     "nextKey": "Next key",
     "shift": "Shift",
+    "shiftLeft": "Left Shift",
+    "shiftRight": "Right Shift",
     "hideKeyboard": "Hide keyboard",
     "showKeyboard": "Show keyboard"
   },
