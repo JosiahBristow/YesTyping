@@ -20,10 +20,21 @@ export function isValidUsername(username: string): boolean {
   return /^[a-zA-Z0-9_]{3,20}$/.test(username)
 }
 
+export type UsernameStatus = 'available' | 'taken' | 'unknown'
+
+/** Check whether a username is still free (RPC returns the email or null). */
+export async function checkUsername(username: string): Promise<UsernameStatus> {
+  if (!isValidUsername(username)) return 'unknown'
+  if (!supabase || !supabaseConfigured) return 'unknown'
+  const { data, error } = await supabase.rpc('get_auth_email', { username })
+  if (error) return 'unknown'
+  return data ? 'taken' : 'available'
+}
+
 interface AuthResult {
   ok: boolean
   error?: string
-  code?: 'rate_limit' | 'confirm_email' | 'signup_disabled'
+  code?: 'rate_limit' | 'confirm_email' | 'signup_disabled' | 'username_taken' | 'user_not_found'
 }
 
 /** Turn a raw Supabase error into something actionable. */
@@ -57,7 +68,7 @@ export const useAuth = create<AuthState>((set) => ({
   signUp: async (username, password) => {
     if (!supabase) return { ok: false, error: 'Supabase not configured' }
     const existing = await resolveUsernameEmail(username)
-    if (existing) return { ok: false, error: 'That username is already taken.' }
+    if (existing) return { ok: false, error: 'That username is already taken.', code: 'username_taken' }
     const { data, error } = await supabase.auth.signUp({
       email: usernameEmail(username),
       password,
@@ -74,7 +85,7 @@ export const useAuth = create<AuthState>((set) => ({
   signIn: async (username, password) => {
     if (!supabase) return { ok: false, error: 'Supabase not configured' }
     const email = await resolveUsernameEmail(username)
-    if (!email) return { ok: false, error: 'User not found.' }
+    if (!email) return { ok: false, error: 'User not found.', code: 'user_not_found' }
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) return { ok: false, ...classifyAuthError(error) }
     set({ error: null })

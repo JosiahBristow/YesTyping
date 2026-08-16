@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLang } from '../lib/lang'
@@ -13,11 +13,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const sound = useSound((s) => s.enabled)
   const user = useAuth((s) => s.user)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const location = useLocation()
+  const userMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMenuOpen(false)
+    setUserMenuOpen(false)
   }, [location.pathname])
+
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setUserMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onDown)
+    return () => document.removeEventListener('mousedown', onDown)
+  }, [])
 
   const navLink = ({ isActive }: { isActive: boolean }) => (isActive ? 'active' : '')
 
@@ -49,9 +60,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="nav-spacer" />
           <div className="header-actions">
             {user ? (
-              <div className="user-chip" title={user.email ?? ''}>
-                <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
-                <span className="user-name">{displayName(user)}</span>
+              <div className="user-menu" ref={userMenuRef}>
+                <button
+                  type="button"
+                  className="user-chip"
+                  title={user.email ?? ''}
+                  aria-expanded={userMenuOpen}
+                  onClick={() => setUserMenuOpen((o) => !o)}
+                >
+                  <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
+                  <span className="user-name">{displayName(user)}</span>
+                  <span className="user-caret">{userMenuOpen ? '▲' : '▼'}</span>
+                </button>
+                {userMenuOpen && (
+                  <div className="user-dropdown">
+                    <div className="user-dropdown-head">
+                      <b>{displayName(user)}</b>
+                      <span>{user.email}</span>
+                    </div>
+                    <Link to="/settings">{t('nav.settings')}</Link>
+                    <button type="button" onClick={() => void useAuth.getState().signOut()}>
+                      {t('auth.signOut')}
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <Link to="/login" className="nav-icon-btn login-btn" title={t('nav.login')}>
@@ -127,6 +159,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   EN
                 </button>
               </div>
+              {user && (
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => void useAuth.getState().signOut()}>
+                  {t('auth.signOut')}
+                </button>
+              )}
             </div>
           </nav>
         </div>

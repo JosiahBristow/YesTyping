@@ -1850,6 +1850,23 @@ a {
   border-top: 1px solid var(--line);
 }
 
+.settings-section {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-bottom: 0.2rem;
+}
+
+.settings-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
 .settings-label {
   font-size: 0.95rem;
   font-weight: 600;
@@ -2118,6 +2135,46 @@ a {
   outline-offset: -1px;
 }
 
+.auth-pw {
+  position: relative;
+  display: block;
+}
+
+.auth-pw input {
+  width: 100%;
+}
+
+.auth-pw-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  font-size: 1rem;
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.auth-pw-toggle:hover {
+  opacity: 1;
+}
+
+.auth-avail {
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.auth-avail.ok {
+  color: var(--good);
+}
+
+.auth-avail.bad {
+  color: var(--bad);
+}
+
 .auth-notice {
   font-size: 0.85rem;
   color: var(--bad);
@@ -2182,13 +2239,79 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.22rem 0.7rem 0.22rem 0.25rem;
+  padding: 0.22rem 0.55rem 0.22rem 0.25rem;
   border-radius: 999px;
   background: var(--panel);
   border: 1px solid var(--line);
   font-size: 0.85rem;
   font-weight: 600;
   margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.user-caret {
+  font-size: 0.6rem;
+  color: var(--ink-faint);
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 200px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 0.5rem;
+  z-index: 30;
+}
+
+.user-dropdown-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.4rem 0.6rem 0.6rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0.4rem;
+}
+
+.user-dropdown-head b {
+  font-size: 0.92rem;
+}
+
+.user-dropdown-head span {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-dropdown a,
+.user-dropdown button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  gap: 0.5rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: transparent;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.user-dropdown a:hover,
+.user-dropdown button:hover {
+  background: var(--canvas);
+  color: var(--ink);
 }
 
 .user-avatar {

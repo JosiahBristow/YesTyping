@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { displayName, useAuth } from '../lib/auth'
 import { useSound } from '../lib/sound'
 import { useTheme, type Theme } from '../lib/theme'
 import { useSettings } from '../lib/settings'
@@ -30,6 +32,7 @@ export function SettingsPage() {
   const { showKeyboard, setShowKeyboard } = useSettings()
   const { layout, setLayout } = useLayout()
   const { lang, setLang } = useLang()
+  const user = useAuth((s) => s.user)
 
   return (
     <div className="page container" style={{ maxWidth: '720px' }}>
@@ -37,6 +40,34 @@ export function SettingsPage() {
         <div className="eyebrow">{t('settings.title')}</div>
         <h1>{t('settings.heading')}</h1>
         <p>{t('settings.subtitle')}</p>
+      </div>
+
+      <div className="card settings-panel">
+        <h2 className="settings-section">{t('settings.account')}</h2>
+        {user ? (
+          <>
+            <Row label={t('settings.username')}>
+              <span className="settings-value">
+                <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
+                {displayName(user)}
+              </span>
+            </Row>
+            <Row label={t('settings.email')}>
+              <span className="settings-value">{user.email}</span>
+            </Row>
+            <Row label={t('settings.signOut')}>
+              <button type="button" className="btn btn-ghost btn-sm" onClick={() => void useAuth.getState().signOut()}>
+                {t('auth.signOut')}
+              </button>
+            </Row>
+          </>
+        ) : (
+          <Row label={t('settings.account')}>
+            <Link to="/login" className="btn btn-primary btn-sm">
+              {t('nav.login')}
+            </Link>
+          </Row>
+        )}
       </div>
 
       <div className="card settings-panel">

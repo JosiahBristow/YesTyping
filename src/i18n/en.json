@@ -208,7 +208,10 @@
       "light": "Light",
       "dark": "Dark"
     },
-    "showKeyboard": "Show on-screen keyboard"
+    "showKeyboard": "Show on-screen keyboard",
+    "account": "Account",
+    "username": "Username",
+    "email": "Email"
   },
   "auth": {
     "title": "Account",
@@ -222,6 +225,14 @@
     "signUp": "Create account",
     "username": "Username",
     "password": "Password",
+    "usernamePlaceholder": "letters, digits or underscores",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords don't match.",
+    "usernameAvailable": "Username is available",
+    "usernameTaken": "That username is already taken.",
+    "userNotFound": "User not found.",
     "usernameInvalid": "Username must be 3–20 letters, digits or underscores.",
     "validation": "Enter a valid username and a password of at least 6 characters.",
     "genericError": "Something went wrong. Please try again.",

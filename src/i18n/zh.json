@@ -208,7 +208,10 @@
       "light": "浅色",
       "dark": "深色"
     },
-    "showKeyboard": "显示屏幕键盘"
+    "showKeyboard": "显示屏幕键盘",
+    "account": "账号",
+    "username": "用户名",
+    "email": "邮箱"
   },
   "auth": {
     "title": "账号",
@@ -222,6 +225,14 @@
     "signUp": "注册",
     "username": "用户名",
     "password": "密码",
+    "usernamePlaceholder": "字母、数字或下划线",
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码",
+    "confirmPassword": "确认密码",
+    "passwordMismatch": "两次输入的密码不一致。",
+    "usernameAvailable": "用户名可用",
+    "usernameTaken": "该用户名已被占用。",
+    "userNotFound": "用户不存在。",
     "usernameInvalid": "用户名需为 3–20 位的字母、数字或下划线。",
     "validation": "请输入有效的用户名和至少 6 位的密码。",
     "genericError": "出错了，请重试。",
