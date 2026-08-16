@@ -11,6 +11,7 @@ export interface KeyboardProps {
   layout?: LayoutId
   errorKeys?: Record<string, number>
   lastWasWrong?: boolean
+  shiftActive?: boolean
 }
 
 function capClass(finger: Finger | undefined): string {
@@ -25,12 +26,14 @@ export function Keyboard({
   layout = 'qwerty',
   errorKeys,
   lastWasWrong = false,
+  shiftActive = false,
 }: KeyboardProps) {
   const { t } = useTranslation()
   const pressed = pressedKey ? keyForChar(pressedKey, layout) : null
   const maxErr = errorKeys ? Math.max(1, ...Object.values(errorKeys)) : 0
 
   const renderCap = (key: string, extraClass = '') => {
+    const isShift = key === 'Shift'
     const finger = FINGER_BY_KEY[key]
     const isActive = activeKey === key
     const isPressed = pressed === key
@@ -38,6 +41,8 @@ export function Keyboard({
     const classes = cn(
       'keycap',
       capClass(finger),
+      isShift && 'shift',
+      isShift && shiftActive && 'shift-on',
       isActive && 'is-active',
       isPressed && 'is-pressed',
       isPressed && lastWasWrong && 'is-wrong',
@@ -55,7 +60,7 @@ export function Keyboard({
         style={style}
         aria-hidden
       >
-        {charAtKey(key, layout)}
+        {isShift ? 'Shift' : charAtKey(key, layout)}
       </div>
     )
   }

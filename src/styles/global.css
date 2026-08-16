@@ -1140,6 +1140,30 @@ a {
   background: rgba(255, 255, 255, 0.55);
 }
 
+.keycap.shift {
+  max-width: none;
+  flex: 2.2;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+.keycap.shift.shift-on {
+  background: var(--amber);
+  color: #18202e;
+  border-color: transparent;
+  box-shadow:
+    0 5px 0 rgba(24, 32, 46, 0.25),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35),
+    0 0 14px var(--amber);
+}
+
+.keycap.shift.shift-on::after {
+  background: rgba(255, 255, 255, 0.5);
+}
+
 .keycap.is-pressed {
   animation: keypress 0.16s ease;
 }

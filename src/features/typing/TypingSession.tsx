@@ -122,6 +122,7 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
             pressCount={engine.pressCount}
             layout={layout}
             lastWasWrong={lastWasWrong}
+            shiftActive={shiftNeeded}
           />
         ))}
       </div>

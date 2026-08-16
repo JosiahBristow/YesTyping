@@ -189,6 +189,7 @@ function SpeedEngine({
           pressCount={engine.pressCount}
           layout={layout}
           lastWasWrong={lastWasWrong}
+          shiftActive={shiftNeeded}
         />
       )}
         </div>

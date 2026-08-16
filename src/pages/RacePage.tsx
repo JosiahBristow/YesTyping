@@ -111,6 +111,7 @@ function RaceEngine({
             pressCount={engine.pressCount}
             layout={layout}
             lastWasWrong={lastWasWrong}
+            shiftActive={shiftNeeded}
           />
         )}
       </div>
