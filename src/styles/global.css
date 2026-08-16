@@ -91,12 +91,21 @@ a {
   align-items: center;
   gap: 0.25rem;
   margin-left: 0.75rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
 }
 
 .nav a {
-  padding: 0.45rem 0.8rem;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 0.42rem 0.65rem;
   border-radius: 999px;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 500;
   color: var(--ink-soft);
   transition: color 0.15s ease, background 0.15s ease;
