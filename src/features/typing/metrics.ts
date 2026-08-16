@@ -53,3 +53,33 @@ export function formatClock(seconds: number): string {
   const r = s % 60
   return `${m}:${r.toString().padStart(2, '0')}`
 }
+
+// Lesson pass/fail thresholds
+export const LESSON_PASS = {
+  accuracy: 90,
+  wpm: 6,
+  timeSecPerChar: 1.5,
+  minTimeSec: 20,
+}
+
+export interface PassCriteria {
+  time: boolean
+  wpm: boolean
+  accuracy: boolean
+}
+
+export interface PassVerdict {
+  passed: boolean
+  criteria: PassCriteria
+}
+
+/** A lesson passes when the session meets the time, WPM and accuracy bars. */
+export function evaluatePass(result: EngineResult, textLength: number): PassVerdict {
+  const timeCap = Math.max(LESSON_PASS.minTimeSec, Math.round(textLength * LESSON_PASS.timeSecPerChar))
+  const criteria: PassCriteria = {
+    time: result.elapsedSec <= timeCap,
+    wpm: result.wpm >= LESSON_PASS.wpm,
+    accuracy: result.accuracy >= LESSON_PASS.accuracy,
+  }
+  return { passed: criteria.time && criteria.wpm && criteria.accuracy, criteria }
+}

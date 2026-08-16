@@ -81,7 +81,13 @@
     "shiftLeft": "Left Shift",
     "shiftRight": "Right Shift",
     "hideKeyboard": "Hide keyboard",
-    "showKeyboard": "Show keyboard"
+    "showKeyboard": "Show keyboard",
+    "passed": "Lesson passed!",
+    "notPassed": "Not passed yet",
+    "passTime": "Time",
+    "passWpm": "Speed",
+    "passAccuracy": "Accuracy",
+    "retryHint": "Meet all three bars to unlock the next lesson."
   },
   "speed": {
     "title": "Speed Test",

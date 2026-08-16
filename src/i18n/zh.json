@@ -81,7 +81,13 @@
     "shiftLeft": "左 Shift",
     "shiftRight": "右 Shift",
     "hideKeyboard": "隐藏键盘",
-    "showKeyboard": "显示键盘"
+    "showKeyboard": "显示键盘",
+    "passed": "课程通过！",
+    "notPassed": "尚未通过",
+    "passTime": "用时",
+    "passWpm": "速度",
+    "passAccuracy": "正确率",
+    "retryHint": "三项都达标后才能解锁下一节。"
   },
   "speed": {
     "title": "打字测试",

@@ -3,10 +3,11 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useTypingEngine } from './useTypingEngine'
 import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from './layouts'
 import type { EngineResult } from './metrics'
-import { formatClock } from './metrics'
+import { evaluatePass, formatClock, type PassVerdict } from './metrics'
 import { Keyboard } from '../../components/Keyboard'
 import { Numpad } from '../../components/Numpad'
 import { KeyboardToggle } from '../../components/KeyboardToggle'
+import { PassBanner } from '../../components/PassBanner'
 import { ResultSummary } from '../../components/ResultSummary'
 import { FingerGuide } from '../../components/FingerGuide'
 import { LayoutPicker } from '../../components/LayoutPicker'
@@ -20,6 +21,7 @@ export interface TypingSessionProps {
   text: string
   numpad?: boolean
   hints?: Bi[]
+  graded?: boolean
   onFinish?: (result: EngineResult) => void
   onNext?: () => void
   onPrev?: () => void
@@ -29,7 +31,7 @@ interface EngineProps extends TypingSessionProps {
   onRestart: () => void
 }
 
-function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onRestart }: EngineProps) {
+function Engine({ text, numpad = false, hints, graded = false, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   const { t } = useTranslation()
   const layout = useLayout((s) => s.layout)
   const lang = useLang((s) => s.lang)
@@ -45,6 +47,8 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
       onFinish?.(r)
     },
   })
+
+  const verdict: PassVerdict | null = result && graded ? evaluatePass(result, text.length) : null
 
   const currentChar = engine.finished ? null : text[engine.index]
   const activeKey = numpad ? currentChar : currentChar ? keyForChar(currentChar, layout) : null
@@ -141,6 +145,7 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
             title={t('practice.done')}
             footer={
               <>
+                {verdict && <PassBanner verdict={verdict} />}
                 <button type="button" className="btn btn-ghost" onClick={onRestart}>
                   ↺ {t('practice.again')}
                 </button>
@@ -149,12 +154,12 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
                     ← {t('practice.prev')}
                   </button>
                 )}
-                {onNext && (
+                {onNext && (!verdict || verdict.passed) && (
                   <button type="button" className="btn btn-primary" onClick={onNext}>
                     {t('practice.next')} →
                   </button>
                 )}
-                {onNext && (
+                {onNext && (!verdict || verdict.passed) && (
                   <p className="kbd-hint">
                     <Trans i18nKey="practice.enterNext" components={{ kbd: <kbd>Enter</kbd> }} />
                   </p>
@@ -168,7 +173,7 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
   )
 }
 
-export function TypingSession({ text, numpad, hints, onFinish, onNext, onPrev }: TypingSessionProps) {
+export function TypingSession({ text, numpad, hints, graded, onFinish, onNext, onPrev }: TypingSessionProps) {
   const [seed, setSeed] = useState(0)
   const restart = () => setSeed((s) => s + 1)
   return (
@@ -177,6 +182,7 @@ export function TypingSession({ text, numpad, hints, onFinish, onNext, onPrev }:
       text={text}
       numpad={numpad}
       hints={hints}
+      graded={graded}
       onFinish={onFinish}
       onNext={onNext}
       onPrev={onPrev}

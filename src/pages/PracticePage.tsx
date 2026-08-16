@@ -4,6 +4,7 @@ import { courseLabel, getCourse } from '../features/courses'
 import { firstIncompleteLesson, isLessonUnlocked } from '../features/courses/lessonLock'
 import { TypingSession } from '../features/typing/TypingSession'
 import type { EngineResult } from '../features/typing/metrics'
+import { evaluatePass } from '../features/typing/metrics'
 import { useLocalStats } from '../features/stats/useLocalStats'
 import { useProgress } from '../features/progress/useProgress'
 import { maybeUnlock } from '../features/achievements/achievements'
@@ -57,7 +58,11 @@ export function PracticePage() {
       maxCombo: result.maxCombo,
     })
     if (lesson) {
-      useProgress.getState().markDone(course.id, lesson.id, result.wpm, result.accuracy)
+      // Only a passing run counts as done and unlocks the next lesson.
+      const verdict = evaluatePass(result, lesson.text.length)
+      if (verdict.passed) {
+        useProgress.getState().markDone(course.id, lesson.id, result.wpm, result.accuracy)
+      }
       maybeUnlock()
       void syncStats()
     }
@@ -97,15 +102,16 @@ export function PracticePage() {
               </Link>
             </div>
           ) : (
-            <TypingSession
-              key={`${course.id}-${lesson.id}`}
-              text={lesson.text}
-              numpad={course.type === 'numpad'}
-              hints={course.type === 'vocab' ? lesson.hints : undefined}
-              onFinish={onFinish}
-              onNext={next}
-              onPrev={prev}
-            />
+              <TypingSession
+                key={`${course.id}-${lesson.id}`}
+                text={lesson.text}
+                numpad={course.type === 'numpad'}
+                hints={course.type === 'vocab' ? lesson.hints : undefined}
+                graded
+                onFinish={onFinish}
+                onNext={next}
+                onPrev={prev}
+              />
           )}
         </div>
         {course.type === 'vim' && (

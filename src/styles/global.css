@@ -1522,6 +1522,68 @@ a {
   gap: 0.6rem;
   justify-content: center;
   flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pass-banner {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.9rem;
+  text-align: center;
+}
+
+.pass-banner.pass {
+  background: var(--soft-green);
+  border: 1px solid rgba(18, 183, 106, 0.35);
+}
+
+.pass-banner.fail {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.pass-verdict {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.pass-banner.pass .pass-verdict {
+  color: var(--good);
+}
+
+.pass-banner.fail .pass-verdict {
+  color: var(--bad);
+}
+
+.pass-criteria {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pass-criterion {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-faint);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.pass-criterion.ok {
+  color: var(--good);
+  border-color: rgba(18, 183, 106, 0.4);
+}
+
+.pass-hint {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
 }
 
 .result-actions .kbd-hint {
