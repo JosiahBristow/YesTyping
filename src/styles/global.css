@@ -526,9 +526,16 @@ a {
 .course-card.type-finger .course-ic { background: var(--amber-soft); }
 .course-card.type-english .course-ic { background: var(--brand-soft); }
 .course-card.type-numbers .course-ic { background: var(--soft-rose); }
+.course-card.type-code .course-ic { background: var(--soft-violet); }
+.course-card.type-numpad .course-ic { background: var(--soft-mint); }
 .course-card.type-vim .course-ic { background: var(--soft-green); }
 .course-card.type-pinyin .course-ic { background: var(--soft-violet); }
 .course-card.type-chinese .course-ic { background: var(--soft-rose); }
+.course-card.type-vocab .course-ic { background: var(--amber-soft); }
+
+.custom-card .custom-ic {
+  background: var(--brand-soft);
+}
 
 .course-card h3 {
   margin-top: 1rem;
@@ -973,6 +980,88 @@ a {
   width: 9px;
   height: 9px;
   border-radius: 3px;
+}
+
+/* ---------- Numpad ---------- */
+
+.numpad {
+  margin-top: 1.6rem;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-width: 260px;
+  margin-inline: auto;
+}
+
+.numpad-row {
+  display: flex;
+  gap: 7px;
+}
+
+.numpad-key {
+  flex: 1;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 3px 0 var(--line);
+  transition: transform 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+}
+
+.numpad-key.is-active {
+  background: var(--brand);
+  color: var(--canvas);
+  border-color: transparent;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 5px 0 rgba(46, 91, 255, 0.3);
+}
+
+.numpad-key.is-pressed {
+  animation: keypress 0.16s ease;
+}
+
+.numpad-enter {
+  font-size: 0.72rem;
+}
+
+.kb-toolbar-note {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- Custom text ---------- */
+
+.custom-textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+}
+
+.custom-textarea:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: -1px;
+}
+
+.custom-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 /* ---------- Lesson sidebar ---------- */

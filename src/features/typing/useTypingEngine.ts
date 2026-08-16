@@ -16,6 +16,7 @@ export interface EngineOptions {
   mode?: EngineMode
   durationSec?: number
   extend?: () => string
+  requireNumpad?: boolean
   onFinish?: (result: EngineResult) => void
 }
 
@@ -169,6 +170,9 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     }
 
     if (e.key.length !== 1) return
+    if (optsRef.current.requireNumpad && /[0-9.+\-*/]/.test(e.key) && !e.code.startsWith('Numpad')) {
+      return
+    }
     commitText(e.key)
   }
 

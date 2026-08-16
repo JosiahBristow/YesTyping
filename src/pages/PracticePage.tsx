@@ -103,6 +103,7 @@ export function PracticePage() {
             <TypingSession
               key={`${course.id}-${lesson.id}`}
               text={lesson.text}
+              numpad={course.type === 'numpad'}
               onFinish={onFinish}
               onNext={next}
               onPrev={prev}

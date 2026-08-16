@@ -4,12 +4,16 @@ import { numbersCourse } from './numbers'
 import { vimCourse } from './vim'
 import { pinyinCourse } from './pinyin'
 import { chineseCourse } from './chinese'
+import { codeCourse } from './code'
+import { numpadCourse } from './numpad'
 import type { Course } from './courseData'
 
 export const COURSES: Course[] = [
   fingerBasics,
   englishCourse,
   numbersCourse,
+  codeCourse,
+  numpadCourse,
   vimCourse,
   pinyinCourse,
   chineseCourse,

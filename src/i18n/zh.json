@@ -40,11 +40,14 @@
     "done": "已完成",
     "progress": "已完成 {{done}}/{{total}}",
     "finger": "指法基础",
-    "english": "英文",
+    "english": "英文练习",
     "numbers": "数字键位",
+    "code": "代码练习",
+    "numpad": "数字小键盘",
     "vim": "Vim 键位",
     "pinyin": "拼音练习",
-    "chinese": "中文输入"
+    "chinese": "中文输入",
+    "vocab": "单词记忆"
   },
   "practice": {
     "back": "全部课程",
@@ -61,7 +64,8 @@
     "again": "再练一次",
     "enterNext": "按 <kbd>Enter</kbd> 进入下一课",
     "combo": "连击",
-    "choseLesson": "选择课程"
+    "choseLesson": "选择课程",
+    "numpadHint": "请使用数字小键盘——数字行不会被识别。"
   },
   "speed": {
     "title": "打字测试",
@@ -146,6 +150,15 @@
     "visual": "可视模式",
     "search": "搜索",
     "commands": "命令"
+  },
+  "custom": {
+    "title": "自定义文本",
+    "subtitle": "粘贴你自己的文本进行练习——演讲稿、歌词或任何即将真实输入的内容。",
+    "placeholder": "在这里粘贴或输入要练习的文本…",
+    "start": "开始练习",
+    "back": "返回课程",
+    "new": "更换文本",
+    "paste": "粘贴自定义文本"
   },
   "settings": {
     "title": "设置",

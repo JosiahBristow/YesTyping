@@ -42,9 +42,12 @@
     "finger": "Finger basics",
     "english": "English",
     "numbers": "Numbers row",
+    "code": "Code typing",
+    "numpad": "Numpad",
     "vim": "Vim",
     "pinyin": "Pinyin",
-    "chinese": "Chinese"
+    "chinese": "Chinese",
+    "vocab": "Vocabulary"
   },
   "practice": {
     "back": "All courses",
@@ -61,7 +64,8 @@
     "again": "Try again",
     "enterNext": "Press <kbd>Enter</kbd> for the next lesson",
     "combo": "Combo",
-    "choseLesson": "Choose a lesson"
+    "choseLesson": "Choose a lesson",
+    "numpadHint": "Use the numeric keypad — the top row won't register."
   },
   "speed": {
     "title": "Speed Test",
@@ -146,6 +150,15 @@
     "visual": "visual",
     "search": "search",
     "commands": "commands"
+  },
+  "custom": {
+    "title": "Custom text",
+    "subtitle": "Paste your own text and practice it — great for speeches, lyrics or anything you're about to type for real.",
+    "placeholder": "Paste or type the text you want to practice here…",
+    "start": "Start practicing",
+    "back": "Back to courses",
+    "new": "New text",
+    "paste": "Paste your own text"
   },
   "settings": {
     "title": "Settings",

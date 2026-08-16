@@ -5,6 +5,7 @@ import { fingerForChar, keyForChar } from './layouts'
 import type { EngineResult } from './metrics'
 import { formatClock } from './metrics'
 import { Keyboard } from '../../components/Keyboard'
+import { Numpad } from '../../components/Numpad'
 import { ResultSummary } from '../../components/ResultSummary'
 import { FingerGuide } from '../../components/FingerGuide'
 import { LayoutPicker } from '../../components/LayoutPicker'
@@ -15,6 +16,7 @@ import { useSettings } from '../../lib/settings'
 
 export interface TypingSessionProps {
   text: string
+  numpad?: boolean
   onFinish?: (result: EngineResult) => void
   onNext?: () => void
   onPrev?: () => void
@@ -24,13 +26,14 @@ interface EngineProps extends TypingSessionProps {
   onRestart: () => void
 }
 
-function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
+function Engine({ text, numpad = false, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   const { t } = useTranslation()
   const layout = useLayout((s) => s.layout)
   const showKeyboard = useSettings((s) => s.showKeyboard)
   const [result, setResult] = useState<EngineResult | null>(null)
   const engine = useTypingEngine({
     text,
+    requireNumpad: numpad,
     onFinish: (r) => {
       setResult(r)
       onFinish?.(r)
@@ -38,8 +41,8 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   })
 
   const currentChar = engine.finished ? null : text[engine.index]
-  const activeKey = currentChar ? keyForChar(currentChar, layout) : null
-  const finger = currentChar ? fingerForChar(currentChar, layout) : null
+  const activeKey = numpad ? currentChar : currentChar ? keyForChar(currentChar, layout) : null
+  const finger = numpad ? null : currentChar ? fingerForChar(currentChar, layout) : null
 
   useEffect(() => {
     if (!result) return
@@ -82,7 +85,7 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
 
       <TypeArea text={text} states={engine.states} index={engine.index} />
 
-      {finger && (
+      {!numpad && finger && (
         <div className="type-hint">
           {t('practice.fingerHint')}
           <span className="finger-chip">
@@ -93,14 +96,17 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
       )}
 
       <div className="kb-toolbar">
-        <LayoutPicker />
+        {numpad ? <span className="kb-toolbar-note">{t('practice.numpadHint')}</span> : <LayoutPicker />}
       </div>
-      {showKeyboard && (
-        <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
-      )}
+      {showKeyboard &&
+        (numpad ? (
+          <Numpad activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
+        ) : (
+          <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
+        ))}
       </div>
 
-      <FingerGuide finger={finger} />
+      {!numpad && <FingerGuide finger={finger} />}
 
       {result && (
         <div className="result-overlay">
@@ -136,13 +142,14 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   )
 }
 
-export function TypingSession({ text, onFinish, onNext, onPrev }: TypingSessionProps) {
+export function TypingSession({ text, numpad, onFinish, onNext, onPrev }: TypingSessionProps) {
   const [seed, setSeed] = useState(0)
   const restart = () => setSeed((s) => s + 1)
   return (
     <Engine
       key={seed}
       text={text}
+      numpad={numpad}
       onFinish={onFinish}
       onNext={onNext}
       onPrev={onPrev}
