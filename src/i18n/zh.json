@@ -12,8 +12,8 @@
     "subtitle": "用轻松有趣的方式学会盲打。先掌握标准指法，速度自然跟上。无需注册，没有广告。",
     "cta": "开始练习",
     "ctaCourses": "浏览课程",
-    "stat1": "指法课程",
-    "stat2": "英文练习",
+    "stat1": "课程",
+    "stat2": "课时",
     "stat3": "实时反馈"
   },
   "features": {
@@ -36,7 +36,8 @@
     "start": "开始",
     "practice": "练习",
     "finger": "指法基础",
-    "english": "英文"
+    "english": "英文",
+    "numbers": "数字键位"
   },
   "practice": {
     "back": "全部课程",

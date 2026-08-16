@@ -12,8 +12,8 @@
     "subtitle": "Learn touch typing the playful way. Master the finger positions, then let speed follow. No account, no ads, no fuss.",
     "cta": "Start practicing",
     "ctaCourses": "Browse courses",
-    "stat1": "Finger courses",
-    "stat2": "English lessons",
+    "stat1": "Courses",
+    "stat2": "Lessons",
     "stat3": "Live feedback"
   },
   "features": {
@@ -36,7 +36,8 @@
     "start": "Start",
     "practice": "Practice",
     "finger": "Finger basics",
-    "english": "English"
+    "english": "English",
+    "numbers": "Numbers row"
   },
   "practice": {
     "back": "All courses",

@@ -8,6 +8,8 @@ const TOP_ROW = 'qwertyuiop'.split('')
 const HOME_ROW = 'asdfghjkl'.split('')
 const BOTTOM_ROW = 'zxcvbnm'.split('')
 
+const LESSON_COUNT = COURSES.reduce((acc, c) => acc + c.lessons.length, 0)
+
 export function HomePage() {
   const { t } = useTranslation()
 
@@ -31,11 +33,11 @@ export function HomePage() {
             </div>
             <div className="hero-stats">
               <div className="hero-stat">
-                <b>2</b>
+                <b>{COURSES.length}</b>
                 <span>{t('hero.stat1')}</span>
               </div>
               <div className="hero-stat">
-                <b>8</b>
+                <b>{LESSON_COUNT}</b>
                 <span>{t('hero.stat2')}</span>
               </div>
               <div className="hero-stat">

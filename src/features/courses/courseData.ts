@@ -1,6 +1,6 @@
 import type { Bi } from '../../lib/lang'
 
-export type CourseType = 'finger' | 'english'
+export type CourseType = 'finger' | 'english' | 'numbers'
 
 export interface Lesson {
   id: string
