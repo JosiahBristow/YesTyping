@@ -37,6 +37,42 @@ function getCtx(): AudioContext | null {
 }
 
 let keyAudio: HTMLAudioElement | null = null
+let unlocked = false
+
+/**
+ * Browsers block audio playback until a user gesture. Run this once on the
+ * first real interaction (pointer/key) so later key sounds are allowed —
+ * especially important on freshly-deployed sites with a low media-engagement
+ * index, where an untrusted `audio.play()` is rejected.
+ */
+function unlockAudio(): void {
+  if (unlocked) return
+  unlocked = true
+  try {
+    if (!keyAudio) {
+      keyAudio = new Audio(keySoundUrl)
+      keyAudio.volume = 0.9
+    }
+    keyAudio.volume = 0
+    keyAudio.currentTime = 0
+    void keyAudio.play().then(() => {
+      keyAudio?.pause()
+      if (keyAudio) keyAudio.volume = 0.9
+    }).catch(() => {
+      if (keyAudio) keyAudio.volume = 0.9
+    })
+  } catch {
+    /* ignore */
+  }
+  const ac = getCtx()
+  if (ac && ac.state === 'suspended') void ac.resume()
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('pointerdown', unlockAudio, { once: true })
+  window.addEventListener('keydown', unlockAudio, { once: true })
+  window.addEventListener('touchstart', unlockAudio, { once: true })
+}
 
 export function playKey(): void {
   if (!useSound.getState().enabled) return
