@@ -1188,6 +1188,100 @@ a {
   flex-wrap: wrap;
 }
 
+/* ---------- Lesson list ---------- */
+
+.lesson-list-continue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.lesson-list-continue .course-progress {
+  margin-top: 0;
+  flex: 1;
+}
+
+.lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lesson-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  cursor: default;
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+
+.lesson-card.unlocked {
+  cursor: pointer;
+}
+
+.lesson-card.unlocked:hover {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  transform: translateY(-1px);
+}
+
+.lesson-card.done {
+  opacity: 0.75;
+}
+
+.lesson-card.next .lesson-card-title {
+  color: var(--brand-ink);
+  font-weight: 600;
+}
+
+.lesson-card-num {
+  flex: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--canvas);
+  color: var(--ink-soft);
+}
+
+.lesson-card.done .lesson-card-num {
+  background: var(--soft-green);
+  color: var(--good);
+}
+
+.lesson-card.next .lesson-card-num {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.lesson-card-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lesson-card-lock {
+  flex: none;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+
 /* ---------- Result overlay ---------- */
 
 .result-overlay {
