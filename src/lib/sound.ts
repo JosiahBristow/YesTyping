@@ -35,42 +35,57 @@ function getCtx(): AudioContext | null {
   }
 }
 
-export function playKey(): void {
-  if (!useSound.getState().enabled) return
-  const ac = getCtx()
-  if (!ac) return
-  const now = ac.currentTime
-
-  const len = Math.max(1, Math.floor(ac.sampleRate * 0.045))
+function playNoiseClick(
+  ac: AudioContext,
+  start: number,
+  dur: number,
+  freq: number,
+  q: number,
+  vol: number,
+): void {
+  const len = Math.max(1, Math.floor(ac.sampleRate * dur))
   const buffer = ac.createBuffer(1, len, ac.sampleRate)
   const data = buffer.getChannelData(0)
   for (let i = 0; i < len; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5)
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3)
   }
   const src = ac.createBufferSource()
   src.buffer = buffer
   const bp = ac.createBiquadFilter()
   bp.type = 'bandpass'
-  bp.frequency.value = 2200
-  bp.Q.value = 0.9
+  bp.frequency.value = freq
+  bp.Q.value = q
   const gain = ac.createGain()
-  gain.gain.setValueAtTime(0.4, now)
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045)
+  gain.gain.setValueAtTime(vol, start)
+  gain.gain.exponentialRampToValueAtTime(0.001, start + dur)
   src.connect(bp)
   bp.connect(gain)
   gain.connect(ac.destination)
-  src.start(now)
+  src.start(start)
+  src.stop(start + dur + 0.01)
+}
 
+function playThock(ac: AudioContext, start: number, freq: number, dur: number, vol: number): void {
   const osc = ac.createOscillator()
   osc.type = 'sine'
-  osc.frequency.setValueAtTime(180, now)
-  osc.frequency.exponentialRampToValueAtTime(90, now + 0.04)
-  const og = ac.createGain()
-  og.gain.setValueAtTime(0.22, now)
-  og.gain.exponentialRampToValueAtTime(0.001, now + 0.05)
-  osc.connect(og)
-  og.connect(ac.destination)
-  osc.start(now)
+  osc.frequency.value = freq
+  const gain = ac.createGain()
+  gain.gain.setValueAtTime(vol, start)
+  gain.gain.exponentialRampToValueAtTime(0.001, start + dur)
+  osc.connect(gain)
+  gain.connect(ac.destination)
+  osc.start(start)
+  osc.stop(start + dur + 0.01)
+}
+
+export function playKey(): void {
+  if (!useSound.getState().enabled) return
+  const ac = getCtx()
+  if (!ac) return
+  const now = ac.currentTime
+  playNoiseClick(ac, now, 0.012, 3800, 2.2, 0.45)
+  playNoiseClick(ac, now, 0.02, 1700, 1.4, 0.3)
+  playThock(ac, now, 210, 0.03, 0.25)
 }
 
 export function playError(): void {
