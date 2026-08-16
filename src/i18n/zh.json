@@ -37,7 +37,8 @@
     "practice": "练习",
     "finger": "指法基础",
     "english": "英文",
-    "numbers": "数字键位"
+    "numbers": "数字键位",
+    "vim": "Vim 键位"
   },
   "practice": {
     "back": "全部课程",

@@ -506,6 +506,8 @@ a {
 
 .course-card.type-finger .course-ic { background: var(--amber-soft); }
 .course-card.type-english .course-ic { background: var(--brand-soft); }
+.course-card.type-numbers .course-ic { background: #ffe9e6; }
+.course-card.type-vim .course-ic { background: #e2f6e9; }
 
 .course-card h3 {
   margin-top: 1rem;

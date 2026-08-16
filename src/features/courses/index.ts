@@ -1,9 +1,10 @@
 import { fingerBasics } from './fingerBasics'
 import { englishCourse } from './english'
 import { numbersCourse } from './numbers'
+import { vimCourse } from './vim'
 import type { Course } from './courseData'
 
-export const COURSES: Course[] = [fingerBasics, englishCourse, numbersCourse]
+export const COURSES: Course[] = [fingerBasics, englishCourse, numbersCourse, vimCourse]
 
 export function getCourse(id: string | undefined): Course | undefined {
   return COURSES.find((c) => c.id === id)

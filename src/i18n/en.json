@@ -37,7 +37,8 @@
     "practice": "Practice",
     "finger": "Finger basics",
     "english": "English",
-    "numbers": "Numbers row"
+    "numbers": "Numbers row",
+    "vim": "Vim"
   },
   "practice": {
     "back": "All courses",
