@@ -10,7 +10,7 @@ import {
   type EngineResult,
 } from './metrics'
 
-export type CharState = 'pending' | 'correct' | 'wrong'
+export type CharState = 'pending' | 'correct' | 'corrected' | 'wrong'
 
 export interface EngineOptions {
   text: string
@@ -62,6 +62,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
 
   const textRef = useRef(text)
   const statesRef = useRef(states)
+  const wasWrongRef = useRef<boolean[]>(Array.from({ length: options.text.length }, () => false))
   const indexRef = useRef(index)
   const startRef = useRef<number | null>(null)
   const finishedRef = useRef(false)
@@ -89,7 +90,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     if (finishedRef.current) return
     finishedRef.current = true
     const st = statesRef.current
-    const correct = st.filter((s) => s === 'correct').length
+    const correct = st.filter((s) => s === 'correct' || s === 'corrected').length
     const wrong = st.filter((s) => s === 'wrong').length
     const secs = startRef.current ? (performance.now() - startRef.current) / 1000 : 0
     const result: EngineResult = {
@@ -127,16 +128,19 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
             ...statesRef.current,
             ...Array.from({ length: more.length }, () => 'pending' as CharState),
           ]
+          wasWrongRef.current = [...wasWrongRef.current, ...Array.from({ length: more.length }, () => false)]
           setText(textRef.current)
         }
       }
       const expected = textRef.current[i]
       const ok = ch === expected
-      statesRef.current[i] = ok ? 'correct' : 'wrong'
       if (ok) {
+        statesRef.current[i] = wasWrongRef.current[i] ? 'corrected' : 'correct'
         comboRef.current += 1
         if (comboRef.current > maxComboRef.current) maxComboRef.current = comboRef.current
       } else {
+        statesRef.current[i] = 'wrong'
+        wasWrongRef.current[i] = true
         comboRef.current = 0
         const key = keyForChar(ch, optsRef.current.layout ?? 'qwerty')
         keyErrorsRef.current[key] = (keyErrorsRef.current[key] ?? 0) + 1
@@ -236,7 +240,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
       const whole = Math.floor(secs)
       if (whole > lastSampleRef.current) {
         lastSampleRef.current = whole
-        const correct = statesRef.current.filter((s) => s === 'correct').length
+        const correct = statesRef.current.filter((s) => s === 'correct' || s === 'corrected').length
         samplesRef.current = [...samplesRef.current, wpm(correct, secs)]
         setSamples(samplesRef.current)
       }
@@ -246,7 +250,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const correctChars = states.filter((s) => s === 'correct').length
+  const correctChars = states.filter((s) => s === 'correct' || s === 'corrected').length
   const wrongChars = states.filter((s) => s === 'wrong').length
 
   return {

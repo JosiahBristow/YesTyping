@@ -915,6 +915,12 @@ a {
 
 .char.correct {
   color: var(--ink);
+  background: var(--soft-green);
+}
+
+.char.corrected {
+  color: var(--ink);
+  background: var(--amber-soft);
 }
 
 .char.wrong {

@@ -55,6 +55,7 @@ export function TypeArea({ text, states, index, hints }: TypeAreaProps) {
                   className={cn(
                     'char',
                     st === 'correct' && 'correct',
+                    st === 'corrected' && 'corrected',
                     st === 'wrong' && 'wrong',
                     ghost && 'ghost',
                     pos === index && 'current',
