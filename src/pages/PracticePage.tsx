@@ -6,6 +6,8 @@ import type { Lesson } from '../features/courses/courseData'
 import { TypingSession } from '../features/typing/TypingSession'
 import type { EngineResult } from '../features/typing/metrics'
 import { useLocalStats } from '../features/stats/useLocalStats'
+import { useProgress, progressKey } from '../features/progress/useProgress'
+import { maybeUnlock } from '../features/achievements/achievements'
 import { useBi } from '../lib/lang'
 import { cn } from '../lib/cn'
 
@@ -15,11 +17,13 @@ function LessonItem({
   lesson,
   index,
   active,
+  completed,
   onClick,
 }: {
   lesson: Lesson
   index: number
   active: boolean
+  completed: boolean
   onClick: () => void
 }) {
   const label = useBi(lesson.title)
@@ -29,7 +33,7 @@ function LessonItem({
       className={cn('lesson-item', active && 'active')}
       onClick={onClick}
     >
-      <span className="num">{String(index + 1).padStart(2, '0')}</span>
+      <span className="num">{completed ? '✓' : String(index + 1).padStart(2, '0')}</span>
       <span>{label}</span>
     </button>
   )
@@ -42,6 +46,7 @@ export function PracticePage() {
   const title = useBi(course?.title ?? EMPTY)
   const [lessonIndex, setLessonIndex] = useState(0)
   const { add } = useLocalStats()
+  const done = useProgress((s) => s.done)
 
   if (!course) {
     return (
@@ -69,6 +74,11 @@ export function PracticePage() {
       elapsedSec: result.elapsedSec,
       correctChars: result.correctChars,
     })
+    const lesson = course.lessons[clampedIndex]
+    if (lesson) {
+      useProgress.getState().markDone(course.id, lesson.id, result.wpm, result.accuracy)
+      maybeUnlock(result)
+    }
   }
 
   const next = () => setLessonIndex((i) => Math.min(i + 1, course.lessons.length - 1))
@@ -106,6 +116,7 @@ export function PracticePage() {
               lesson={l}
               index={i}
               active={i === clampedIndex}
+              completed={Boolean(done[progressKey(course.id, l.id)])}
               onClick={() => setLessonIndex(i)}
             />
           ))}

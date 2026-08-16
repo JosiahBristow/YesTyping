@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLang } from '../lib/lang'
 import { useSound } from '../lib/sound'
+import { AchievementToasts } from './AchievementToasts'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
@@ -30,6 +31,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </NavLink>
             <NavLink to="/stats" className={navLink}>
               {t('nav.stats')}
+            </NavLink>
+            <NavLink to="/achievements" className={navLink}>
+              {t('nav.achievements')}
             </NavLink>
           </nav>
           <div className="nav-spacer" />
@@ -62,6 +66,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </header>
 
       <main style={{ flex: 1 }}>{children}</main>
+      <AchievementToasts />
 
       <footer className="site-footer">
         <div className="container">

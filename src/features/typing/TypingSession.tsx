@@ -67,6 +67,11 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
           <b>{formatClock(engine.elapsed)}</b>
           <span>{t('practice.time')}</span>
         </div>
+        {engine.combo >= 10 && (
+          <span className="combo-badge" key={engine.combo} aria-label={`${t('practice.combo')} ${engine.combo}`}>
+            🔥 {engine.combo}
+          </span>
+        )}
         <div className="spacer" />
         <button type="button" className="btn btn-ghost btn-sm" onClick={onRestart}>
           ↺ {t('practice.restart')}

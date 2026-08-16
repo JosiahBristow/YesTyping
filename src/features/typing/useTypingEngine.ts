@@ -31,6 +31,8 @@ export interface TypingEngine {
   pressCount: number
   correctChars: number
   wrongChars: number
+  combo: number
+  maxCombo: number
   wpm: number
   cpm: number
   accuracy: number
@@ -52,6 +54,8 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
   const [samples, setSamples] = useState<number[]>([])
   const [lastKey, setLastKey] = useState<string | null>(null)
   const [pressCount, setPressCount] = useState(0)
+  const [combo, setCombo] = useState(0)
+  const [maxCombo, setMaxCombo] = useState(0)
 
   const textRef = useRef(text)
   const statesRef = useRef(states)
@@ -60,6 +64,8 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
   const finishedRef = useRef(false)
   const lastSampleRef = useRef(0)
   const samplesRef = useRef<number[]>([])
+  const comboRef = useRef(0)
+  const maxComboRef = useRef(0)
   const optsRef = useRef(options)
   optsRef.current = options
 
@@ -92,6 +98,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
       wrongChars: wrong,
       elapsedSec: Math.round(secs),
       samples: samplesRef.current,
+      maxCombo: maxComboRef.current,
     }
     setFinished(true)
     optsRef.current.onFinish?.(result)
@@ -121,6 +128,12 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
       const expected = textRef.current[i]
       const ok = ch === expected
       statesRef.current[i] = ok ? 'correct' : 'wrong'
+      if (ok) {
+        comboRef.current += 1
+        if (comboRef.current > maxComboRef.current) maxComboRef.current = comboRef.current
+      } else {
+        comboRef.current = 0
+      }
       if (ok) playKey()
       else playError()
       i++
@@ -130,6 +143,8 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     setIndex(i)
     setLastKey(str)
     setPressCount((c) => c + 1)
+    setCombo(comboRef.current)
+    setMaxCombo(maxComboRef.current)
 
     if (indexRef.current >= textRef.current.length && mode === 'lesson') {
       finish()
@@ -236,6 +251,8 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     pressCount,
     correctChars,
     wrongChars,
+    combo,
+    maxCombo,
     wpm: wpm(correctChars, elapsed),
     cpm: cpm(correctChars, elapsed),
     accuracy: accuracy(correctChars, wrongChars),

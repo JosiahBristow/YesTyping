@@ -3,7 +3,8 @@
     "home": "Home",
     "courses": "Courses",
     "speedTest": "Speed Test",
-    "stats": "My Stats"
+    "stats": "My Stats",
+    "achievements": "Achievements"
   },
   "hero": {
     "kicker": "Free typing practice",
@@ -35,6 +36,8 @@
     "lessons": "{{count}} lessons",
     "start": "Start",
     "practice": "Practice",
+    "done": "Completed",
+    "progress": "{{done}}/{{total}} done",
     "finger": "Finger basics",
     "english": "English",
     "numbers": "Numbers row",
@@ -56,6 +59,7 @@
     "consistency": "Consistency",
     "again": "Try again",
     "enterNext": "Press <kbd>Enter</kbd> for the next lesson",
+    "combo": "Combo",
     "choseLesson": "Choose a lesson"
   },
   "speed": {
@@ -90,6 +94,12 @@
     "result": "Result",
     "speed": "WPM",
     "acc": "Acc"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "subtitle": "Unlock badges as you practice — it all stays on your device.",
+    "count": "{{count}} unlocked",
+    "toast": "New achievement!"
   },
   "finger": {
     "lp": "Left pinky",

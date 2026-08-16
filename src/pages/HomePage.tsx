@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { COURSES } from '../features/courses'
 import { CourseCard } from '../components/CourseCard'
+import { keyForChar } from '../features/typing/layouts'
+import { playKey } from '../lib/sound'
 import { cn } from '../lib/cn'
 
 const TOP_ROW = 'qwertyuiop'.split('')
@@ -12,6 +15,23 @@ const LESSON_COUNT = COURSES.reduce((acc, c) => acc + c.lessons.length, 0)
 
 export function HomePage() {
   const { t } = useTranslation()
+  const [pressed, setPressed] = useState<string | null>(null)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.isComposing || e.key.length !== 1) return
+      setPressed(keyForChar(e.key))
+      window.setTimeout(() => setPressed(null), 140)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  const press = (key: string) => {
+    setPressed(key)
+    playKey()
+    window.setTimeout(() => setPressed(null), 140)
+  }
 
   return (
     <>
@@ -50,28 +70,38 @@ export function HomePage() {
           <div className="hero-kb" aria-hidden>
             <div className="hero-kb-row">
               {TOP_ROW.map((k) => (
-                <span key={k} className={cn('hero-key', k === 'e' && 'focus', k === 'r' && 'focus')}>
+                <span
+                  key={k}
+                  className={cn('hero-key', k === 'e' && 'focus', k === 'r' && 'focus', pressed === k && 'press')}
+                  onClick={() => press(k)}
+                >
                   {k}
                 </span>
               ))}
             </div>
             <div className="hero-kb-row">
               {HOME_ROW.map((k) => (
-                <span key={k} className={cn('hero-key', (k === 'f' || k === 'j') && 'focus')}>
+                <span
+                  key={k}
+                  className={cn('hero-key', (k === 'f' || k === 'j') && 'focus', pressed === k && 'press')}
+                  onClick={() => press(k)}
+                >
                   {k}
                 </span>
               ))}
             </div>
             <div className="hero-kb-row">
               {BOTTOM_ROW.map((k) => (
-                <span key={k} className="hero-key">
+                <span key={k} className={cn('hero-key', pressed === k && 'press')} onClick={() => press(k)}>
                   {k}
                 </span>
               ))}
               <span className="hero-key brand">⌫</span>
             </div>
             <div className="hero-kb-row">
-              <span className="hero-key space">space</span>
+              <span className={cn('hero-key space', pressed === 'space' && 'press')} onClick={() => press('space')}>
+                space
+              </span>
             </div>
           </div>
         </div>

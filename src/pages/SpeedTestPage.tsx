@@ -6,6 +6,7 @@ import type { EngineResult } from '../features/typing/metrics'
 import { formatClock } from '../features/typing/metrics'
 import { generateWords } from '../features/typing/words'
 import { useLocalStats } from '../features/stats/useLocalStats'
+import { maybeUnlock } from '../features/achievements/achievements'
 import { Keyboard } from '../components/Keyboard'
 import { TrendChart } from '../components/TrendChart'
 import { FingerGuide } from '../components/FingerGuide'
@@ -46,6 +47,7 @@ function SpeedEngine({
         elapsedSec: r.elapsedSec,
         correctChars: r.correctChars,
       })
+      maybeUnlock(r)
     },
   })
 
@@ -88,6 +90,11 @@ function SpeedEngine({
           <b>{formatClock(engine.elapsed)}</b>
           <span>{t('speed.time')}</span>
         </div>
+        {engine.combo >= 10 && (
+          <span className="combo-badge" key={engine.combo} aria-label={`${t('practice.combo')} ${engine.combo}`}>
+            🔥 {engine.combo}
+          </span>
+        )}
         <div className="spacer" />
         <button type="button" className="btn btn-ghost btn-sm" onClick={onRestart}>
           ↺ {t('practice.restart')}

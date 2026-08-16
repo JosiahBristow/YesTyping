@@ -3,7 +3,8 @@
     "home": "首页",
     "courses": "课程",
     "speedTest": "打字测试",
-    "stats": "我的数据"
+    "stats": "我的数据",
+    "achievements": "成就"
   },
   "hero": {
     "kicker": "免费打字练习",
@@ -35,6 +36,8 @@
     "lessons": "{{count}} 节课",
     "start": "开始",
     "practice": "练习",
+    "done": "已完成",
+    "progress": "已完成 {{done}}/{{total}}",
     "finger": "指法基础",
     "english": "英文",
     "numbers": "数字键位",
@@ -56,6 +59,7 @@
     "consistency": "稳定性",
     "again": "再练一次",
     "enterNext": "按 <kbd>Enter</kbd> 进入下一课",
+    "combo": "连击",
     "choseLesson": "选择课程"
   },
   "speed": {
@@ -90,6 +94,12 @@
     "result": "结果",
     "speed": "速度",
     "acc": "正确率"
+  },
+  "achievements": {
+    "title": "成就",
+    "subtitle": "练习越多，解锁越多徽章 —— 数据仅保存在本地。",
+    "count": "已解锁 {{count}}",
+    "toast": "解锁新成就！"
   },
   "finger": {
     "lp": "左手小指",

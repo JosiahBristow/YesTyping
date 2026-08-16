@@ -10,6 +10,7 @@ export interface EngineResult {
   wrongChars: number
   elapsedSec: number
   samples: number[]
+  maxCombo: number
 }
 
 export function wpm(correctChars: number, seconds: number): number {

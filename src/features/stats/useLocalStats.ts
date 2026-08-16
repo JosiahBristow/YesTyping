@@ -48,7 +48,9 @@ export function useLocalStats() {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       at: Date.now(),
     }
-    setSessions((prev) => [full, ...prev].slice(0, MAX_SESSIONS))
+    const next = [full, ...loadSessions()].slice(0, MAX_SESSIONS)
+    saveAll(next)
+    setSessions(next)
   }
 
   return { sessions, add }

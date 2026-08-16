@@ -5,6 +5,7 @@ import { CoursesPage } from './pages/CoursesPage'
 import { PracticePage } from './pages/PracticePage'
 import { SpeedTestPage } from './pages/SpeedTestPage'
 import { StatsPage } from './pages/StatsPage'
+import { AchievementsPage } from './pages/AchievementsPage'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/courses/:id" element={<PracticePage />} />
         <Route path="/speed-test" element={<SpeedTestPage />} />
         <Route path="/stats" element={<StatsPage />} />
+        <Route path="/achievements" element={<AchievementsPage />} />
       </Routes>
     </Layout>
   )
