@@ -37,6 +37,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </NavLink>
           </nav>
           <div className="nav-spacer" />
+          <Link to="/settings" className="nav-icon-btn" aria-label={t('nav.settings')} title={t('nav.settings')}>
+            ⚙️
+          </Link>
           <button
             type="button"
             className="sound-toggle"

@@ -14,6 +14,7 @@ import { LayoutPicker } from '../components/LayoutPicker'
 import { TypeArea } from '../features/typing/TypeArea'
 import { cn } from '../lib/cn'
 import { useLayout } from '../lib/layout'
+import { useSettings } from '../lib/settings'
 
 const DURATIONS = [15, 30, 60]
 
@@ -28,6 +29,7 @@ function SpeedEngine({
 }) {
   const { t } = useTranslation()
   const layout = useLayout((s) => s.layout)
+  const showKeyboard = useSettings((s) => s.showKeyboard)
   const [result, setResult] = useState<EngineResult | null>(null)
   const { add } = useLocalStats()
   const initialText = useMemo(() => generateWords(80), [])
@@ -116,7 +118,9 @@ function SpeedEngine({
       <div className="kb-toolbar">
         <LayoutPicker />
       </div>
-      <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
+      {showKeyboard && (
+        <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
+      )}
         </div>
 
         <FingerGuide finger={engine.finished ? null : finger} />

@@ -51,7 +51,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(238, 241, 247, 0.85);
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
@@ -80,7 +80,7 @@ a {
   height: 30px;
   border-radius: 9px;
   background: var(--ink);
-  color: #fff;
+  color: var(--canvas);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 0.95rem;
@@ -104,7 +104,7 @@ a {
 
 .nav a:hover {
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--panel);
 }
 
 .nav a.active {
@@ -123,7 +123,7 @@ a {
   height: 34px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--panel);
   font-size: 0.95rem;
   line-height: 1;
   margin-right: 0.5rem;
@@ -134,7 +134,7 @@ a {
   gap: 2px;
   padding: 3px;
   border-radius: 999px;
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
 }
 
@@ -150,7 +150,7 @@ a {
 
 .lang-switch button.active {
   background: var(--ink);
-  color: #fff;
+  color: var(--canvas);
 }
 
 /* ---------- Buttons ---------- */
@@ -183,7 +183,7 @@ a {
 }
 
 .btn-ghost {
-  background: #fff;
+  background: var(--panel);
   color: var(--ink);
   border: 1px solid var(--line);
 }
@@ -364,7 +364,7 @@ a {
   flex-direction: column;
   gap: 10px;
   padding: 26px;
-  background: var(--ink);
+  background: #18202e;
   border-radius: var(--radius-lg);
   box-shadow: 0 24px 60px rgba(24, 32, 46, 0.35);
   transform: rotate(-2deg);
@@ -395,7 +395,7 @@ a {
 
 .hero-key.focus {
   background: var(--amber);
-  color: var(--ink);
+  color: #18202e;
   box-shadow: 0 0 0 5px rgba(255, 178, 36, 0.25);
   animation: bob 3.2s ease-in-out infinite;
 }
@@ -457,8 +457,8 @@ a {
 }
 
 .feature-card:nth-child(2) .feature-ic { background: var(--amber-soft); }
-.feature-card:nth-child(3) .feature-ic { background: #e3fbf0; }
-.feature-card:nth-child(4) .feature-ic { background: #ffe9e6; }
+.feature-card:nth-child(3) .feature-ic { background: var(--soft-mint); }
+.feature-card:nth-child(4) .feature-ic { background: var(--soft-rose); }
 
 .feature-card h3 {
   font-size: 1rem;
@@ -481,7 +481,7 @@ a {
   font-weight: 600;
   padding: 0.35rem 0.8rem;
   border-radius: 999px;
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
 }
 
@@ -525,10 +525,10 @@ a {
 
 .course-card.type-finger .course-ic { background: var(--amber-soft); }
 .course-card.type-english .course-ic { background: var(--brand-soft); }
-.course-card.type-numbers .course-ic { background: #ffe9e6; }
-.course-card.type-vim .course-ic { background: #e2f6e9; }
-.course-card.type-pinyin .course-ic { background: #f0e9ff; }
-.course-card.type-chinese .course-ic { background: #ffe9e6; }
+.course-card.type-numbers .course-ic { background: var(--soft-rose); }
+.course-card.type-vim .course-ic { background: var(--soft-green); }
+.course-card.type-pinyin .course-ic { background: var(--soft-violet); }
+.course-card.type-chinese .course-ic { background: var(--soft-rose); }
 
 .course-card h3 {
   margin-top: 1rem;
@@ -867,7 +867,7 @@ a {
 
 .layout-switch button.active {
   background: var(--ink);
-  color: #fff;
+  color: var(--canvas);
 }
 
 .kb-row {
@@ -889,7 +889,7 @@ a {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink-soft);
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 10px;
   box-shadow: 0 3px 0 var(--line);
@@ -920,7 +920,7 @@ a {
 
 .keycap.is-active {
   background: var(--kc);
-  color: var(--ink);
+  color: #18202e;
   border-color: transparent;
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 5px 0 rgba(24, 32, 46, 0.25);
@@ -1032,7 +1032,7 @@ a {
   z-index: 50;
   display: grid;
   place-items: center;
-  background: rgba(238, 241, 247, 0.6);
+  background: var(--overlay);
   backdrop-filter: blur(6px);
 }
 
@@ -1224,7 +1224,7 @@ a {
 
 .mode-tabs button.active {
   background: var(--ink);
-  color: #fff;
+  color: var(--canvas);
 }
 
 .trend {
@@ -1303,7 +1303,7 @@ a {
 
 .badge.timed {
   background: var(--amber-soft);
-  color: #8a5a00;
+  color: var(--amber-ink);
 }
 
 .empty-state {
@@ -1492,6 +1492,109 @@ a {
 
 .vim-term-link {
   align-self: flex-start;
+}
+
+/* ---------- Settings ---------- */
+
+.nav-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-size: 0.95rem;
+  line-height: 1;
+  margin-right: 0.5rem;
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.nav-icon-btn:hover {
+  background: var(--canvas);
+  transform: rotate(18deg);
+}
+
+.settings-panel {
+  padding: 1.75rem;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.9rem 0;
+}
+
+.settings-row + .settings-row {
+  border-top: 1px solid var(--line);
+}
+
+.settings-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.settings-control {
+  flex: none;
+}
+
+.seg-group {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+}
+
+.seg-group button {
+  border: 0;
+  background: transparent;
+  padding: 0.38rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.seg-group button.active {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.toggle {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  transition: background 0.15s ease;
+}
+
+.toggle.on {
+  background: var(--brand);
+  border-color: transparent;
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(24, 32, 46, 0.3);
+  transition: transform 0.15s ease;
+}
+
+.toggle.on .toggle-knob {
+  transform: translateX(20px);
 }
 
 /* ---------- Footer ---------- */

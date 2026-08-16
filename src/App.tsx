@@ -6,6 +6,7 @@ import { PracticePage } from './pages/PracticePage'
 import { SpeedTestPage } from './pages/SpeedTestPage'
 import { StatsPage } from './pages/StatsPage'
 import { AchievementsPage } from './pages/AchievementsPage'
+import { SettingsPage } from './pages/SettingsPage'
 import { VimTerminalPage } from './pages/VimTerminalPage'
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/speed-test" element={<SpeedTestPage />} />
         <Route path="/stats" element={<StatsPage />} />
         <Route path="/achievements" element={<AchievementsPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/vim-terminal" element={<VimTerminalPage />} />
       </Routes>
     </Layout>

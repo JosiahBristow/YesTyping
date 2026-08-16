@@ -4,7 +4,8 @@
     "courses": "课程",
     "speedTest": "打字测试",
     "stats": "我的数据",
-    "achievements": "成就"
+    "achievements": "成就",
+    "settings": "设置"
   },
   "hero": {
     "kicker": "免费打字练习",
@@ -145,6 +146,18 @@
     "visual": "可视模式",
     "search": "搜索",
     "commands": "命令"
+  },
+  "settings": {
+    "title": "设置",
+    "heading": "设置",
+    "subtitle": "按你的喜好调整界面——所有设置仅保存在本设备。",
+    "theme": "主题",
+    "themeOption": {
+      "system": "跟随系统",
+      "light": "浅色",
+      "dark": "深色"
+    },
+    "showKeyboard": "显示屏幕键盘"
   },
   "footer": {
     "tagline": "快乐学习打字"

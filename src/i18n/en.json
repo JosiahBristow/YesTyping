@@ -4,7 +4,8 @@
     "courses": "Courses",
     "speedTest": "Speed Test",
     "stats": "My Stats",
-    "achievements": "Achievements"
+    "achievements": "Achievements",
+    "settings": "Settings"
   },
   "hero": {
     "kicker": "Free typing practice",
@@ -145,6 +146,18 @@
     "visual": "visual",
     "search": "search",
     "commands": "commands"
+  },
+  "settings": {
+    "title": "Settings",
+    "heading": "Settings",
+    "subtitle": "Tune the look and feel to your liking — everything stays on this device.",
+    "theme": "Theme",
+    "themeOption": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "showKeyboard": "Show on-screen keyboard"
   },
   "footer": {
     "tagline": "Learn typing, have fun."
