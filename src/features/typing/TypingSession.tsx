@@ -6,7 +6,6 @@ import type { EngineResult } from './metrics'
 import { formatClock } from './metrics'
 import { Keyboard } from '../../components/Keyboard'
 import { ResultSummary } from '../../components/ResultSummary'
-import { FingerGuide } from '../../components/FingerGuide'
 import { TypeArea } from './TypeArea'
 import { cn } from '../../lib/cn'
 
@@ -70,10 +69,11 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
         </div>
       )}
 
-      <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
+      <Keyboard
+        activeKey={activeKey}
+        finger={finger}
+      />
       </div>
-
-      <FingerGuide finger={finger} />
 
       {result && (
         <div className="result-overlay">

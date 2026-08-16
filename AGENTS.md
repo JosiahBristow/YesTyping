@@ -25,6 +25,11 @@ Verify with `npm run lint && npm run build` after changes.
 - `src/features/typing/fingerMap.ts` — key→finger map + keyboard rows. Keys are
   single lowercase letters/punctuation; `keyForChar` normalizes input (spaces →
   `space`, uppercase → lowercase, shift symbols → base key).
+- `src/components/Keyboard.tsx` — fixed-geometry keyboard (775×262px) with an
+  SVG **hands overlay** that highlights the finger for the current key. The
+  `HandsOverlay` fingertip coordinates are hardcoded to match the keycap
+  geometry constants (`CAP_W`/`CAP_H`/`GAP`/`ROW_BASE`) and `FINGER_BY_KEY`;
+  if you change key sizes/stagger you must update both.
 - `src/features/courses/` — course data as typed `Course`/`Lesson` objects with
   bilingual `{en, zh}` titles.
 - `src/features/stats/useLocalStats.ts` — session persistence (localStorage key

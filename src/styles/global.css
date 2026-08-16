@@ -532,52 +532,17 @@ a {
   font-weight: 600;
 }
 
-/* ---------- Session layout + finger guide ---------- */
+/* ---------- Session layout ---------- */
 
 .session-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 132px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.25rem;
   align-items: start;
 }
 
 .session-main {
   min-width: 0;
-}
-
-.finger-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  position: sticky;
-  top: 82px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 1rem 0.75rem 0.9rem;
-}
-
-.finger-panel .hand {
-  width: 100%;
-  max-width: 92px;
-}
-
-.hand-finger {
-  transition: fill 0.12s ease, filter 0.12s ease;
-}
-
-.hand-finger.active {
-  filter: drop-shadow(0 2px 6px rgba(24, 32, 46, 0.3));
-}
-
-.finger-panel-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-align: center;
 }
 
 /* ---------- Practice screen ---------- */
@@ -717,89 +682,47 @@ a {
 .kb {
   margin-top: 1.6rem;
   user-select: none;
-}
-
-.kb-row {
-  display: flex;
-  gap: 7px;
-  justify-content: center;
-  margin-bottom: 7px;
-}
-
-.keycap {
-  --kc: var(--line);
   position: relative;
-  flex: 1;
-  max-width: 56px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--ink-soft);
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  box-shadow: 0 3px 0 var(--line);
-  transition: transform 0.1s ease, background 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
 }
 
-.keycap::after {
-  content: '';
+.kb-svg {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.kb-hands {
   position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: 4px;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--kc);
-  opacity: 0.65;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.finger-lp { --kc: #7aa2f7; }
-.finger-lr { --kc: #2dd4bf; }
-.finger-lm { --kc: #4ade80; }
-.finger-li { --kc: #fbbf24; }
-.finger-ri { --kc: #fbbf24; }
-.finger-rm { --kc: #4ade80; }
-.finger-rr { --kc: #2dd4bf; }
-.finger-rp { --kc: #7aa2f7; }
-.finger-th { --kc: #fb923c; }
-
-.keycap.is-active {
-  background: var(--kc);
-  color: var(--ink);
-  border-color: transparent;
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 5px 0 rgba(24, 32, 46, 0.25);
+.kb-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
 }
 
-.keycap.is-active::after {
-  background: rgba(255, 255, 255, 0.55);
+.hand-finger {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 0.12s ease, stroke 0.12s ease, filter 0.12s ease;
 }
 
-.keycap.is-pressed {
-  animation: keypress 0.16s ease;
+.hand-finger.active {
+  filter: drop-shadow(0 3px 7px rgba(64, 120, 240, 0.45));
+  animation: fingerdip 0.18s ease;
 }
 
-@keyframes keypress {
-  0% { transform: translateY(0); }
-  45% { transform: translateY(3px) scale(0.96); }
-  100% { transform: translateY(0); }
-}
-
-.kb-row.space-row .keycap {
-  max-width: 360px;
-  height: 42px;
-}
-
-.kb-space-label {
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+@keyframes fingerdip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
 }
 
 .kb-legend {
@@ -1113,13 +1036,19 @@ a {
   .session-grid {
     grid-template-columns: 1fr;
   }
-  .finger-panel {
-    flex-direction: row;
-    position: static;
-    justify-content: center;
+}
+
+@media (max-width: 780px) {
+  .kb {
+    overflow: hidden;
   }
-  .finger-panel .hand {
-    width: 56px;
+  .kb > svg {
+    transform: scale(0.72);
+    transform-origin: top left;
+  }
+  .kb-line {
+    transform: scale(0.72);
+    transform-origin: top left;
   }
 }
 
@@ -1143,13 +1072,13 @@ a {
   .type-area {
     font-size: 1.2rem;
   }
-  .keycap {
-    height: 42px;
-    font-size: 0.8rem;
-    border-radius: 8px;
+  .kb > svg {
+    transform: scale(0.54);
+    transform-origin: top left;
   }
-  .kb-row {
-    gap: 5px;
+  .kb-line {
+    transform: scale(0.54);
+    transform-origin: top left;
   }
 }
 
