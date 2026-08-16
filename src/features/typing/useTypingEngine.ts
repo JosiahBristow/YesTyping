@@ -18,6 +18,8 @@ export interface EngineOptions {
   durationSec?: number
   extend?: () => string
   requireNumpad?: boolean
+  /** Spaces are shown but not typed — the engine skips them automatically. */
+  autoSpace?: boolean
   layout?: LayoutId
   onFinish?: (result: EngineResult) => void
 }
@@ -132,6 +134,11 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
           setText(textRef.current)
         }
       }
+      if (optsRef.current.autoSpace) {
+        while (i < textRef.current.length && textRef.current[i] === ' ') i++
+        if (ch === ' ') continue
+        if (i >= textRef.current.length) break
+      }
       const expected = textRef.current[i]
       const ok = ch === expected
       if (ok) {
@@ -170,7 +177,10 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     if (e.key === 'Backspace') {
       const i = indexRef.current
       if (i > 0) {
-        const ni = i - 1
+        let ni = i - 1
+        if (optsRef.current.autoSpace) {
+          while (ni > 0 && textRef.current[ni] === ' ') ni--
+        }
         statesRef.current[ni] = 'pending'
         indexRef.current = ni
         setStates([...statesRef.current])

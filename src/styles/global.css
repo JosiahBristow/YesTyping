@@ -896,6 +896,34 @@ a {
   align-items: center;
 }
 
+.hanzi-block {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
+.hanzi-cell {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.syllable-card {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+.block-hanzi {
+  font-size: 1.1rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin-top: 0.15rem;
+}
+
 .word-hint {
   font-size: 1rem;
   line-height: 1.45;
@@ -3197,6 +3225,9 @@ body {
     gap: 0.5rem;
   }
   .type-area.with-hints {
+    font-size: 1rem;
+  }
+  .type-area.with-hanzi {
     font-size: 1rem;
   }
   .word-hint {

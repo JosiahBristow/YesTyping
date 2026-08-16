@@ -7,6 +7,8 @@ export interface Lesson {
   title: Bi
   text: string
   hints?: Bi[]
+  /** Hanzi grouped by word, space-separated (e.g. "ni hao" → "你好"); total chars match the syllable count of `text`. */
+  hanzi?: string
 }
 
 export interface Course {

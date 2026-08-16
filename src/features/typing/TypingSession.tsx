@@ -20,7 +20,9 @@ import { useLang, type Bi } from '../../lib/lang'
 export interface TypingSessionProps {
   text: string
   numpad?: boolean
+  autoSpace?: boolean
   hints?: Bi[]
+  hanzi?: string[]
   graded?: boolean
   onFinish?: (result: EngineResult) => void
   onNext?: () => void
@@ -31,7 +33,7 @@ interface EngineProps extends TypingSessionProps {
   onRestart: () => void
 }
 
-function Engine({ text, numpad = false, hints, graded = false, onFinish, onNext, onPrev, onRestart }: EngineProps) {
+function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded = false, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   const { t } = useTranslation()
   const layout = useLayout((s) => s.layout)
   const lang = useLang((s) => s.lang)
@@ -41,6 +43,7 @@ function Engine({ text, numpad = false, hints, graded = false, onFinish, onNext,
   const engine = useTypingEngine({
     text,
     requireNumpad: numpad,
+    autoSpace,
     layout,
     onFinish: (r) => {
       setResult(r)
@@ -97,7 +100,7 @@ function Engine({ text, numpad = false, hints, graded = false, onFinish, onNext,
         </button>
       </div>
 
-      <TypeArea text={text} states={engine.states} index={engine.index} hints={hintTexts} />
+      <TypeArea text={text} states={engine.states} index={engine.index} hints={hintTexts} hanzi={hanzi} />
 
       {!numpad && finger && currentChar && (
         <div className="type-hint">
@@ -119,6 +122,7 @@ function Engine({ text, numpad = false, hints, graded = false, onFinish, onNext,
 
       <div className="kb-toolbar">
         {numpad ? <span className="kb-toolbar-note">{t('practice.numpadHint')}</span> : <LayoutPicker />}
+        {autoSpace && <span className="kb-toolbar-note">{t('practice.spaceAutoHint')}</span>}
         <KeyboardToggle />
       </div>
       {showKeyboard &&
@@ -173,7 +177,7 @@ function Engine({ text, numpad = false, hints, graded = false, onFinish, onNext,
   )
 }
 
-export function TypingSession({ text, numpad, hints, graded, onFinish, onNext, onPrev }: TypingSessionProps) {
+export function TypingSession({ text, numpad, autoSpace, hints, hanzi, graded, onFinish, onNext, onPrev }: TypingSessionProps) {
   const [seed, setSeed] = useState(0)
   const restart = () => setSeed((s) => s + 1)
   return (
@@ -181,7 +185,9 @@ export function TypingSession({ text, numpad, hints, graded, onFinish, onNext, o
       key={seed}
       text={text}
       numpad={numpad}
+      autoSpace={autoSpace}
       hints={hints}
+      hanzi={hanzi}
       graded={graded}
       onFinish={onFinish}
       onNext={onNext}

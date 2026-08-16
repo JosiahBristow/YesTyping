@@ -71,6 +71,7 @@
     "combo": "连击",
     "choseLesson": "选择课程",
     "numpadHint": "请使用数字小键盘——数字行不会被识别。",
+    "spaceAutoHint": "空格会自动添加——直接输入字母即可。",
     "locked": "本节已锁定——完成前一节即可解锁。",
     "unlockNext": "前往下一节已解锁课程",
     "lockedShort": "已锁定",

@@ -106,7 +106,9 @@ export function PracticePage() {
                 key={`${course.id}-${lesson.id}`}
                 text={lesson.text}
                 numpad={course.type === 'numpad'}
+                autoSpace={course.type === 'pinyin'}
                 hints={course.type === 'vocab' ? lesson.hints : undefined}
+                hanzi={course.type === 'pinyin' ? lesson.hanzi?.split(' ') : undefined}
                 graded
                 onFinish={onFinish}
                 onNext={next}

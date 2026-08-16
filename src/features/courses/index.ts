@@ -30,11 +30,12 @@ const EXPAND = 3
 function expandLesson(lesson: Lesson): Lesson {
   const text = Array.from({ length: EXPAND }, () => lesson.text).join(' ')
   const hints = lesson.hints
+  const hanzi = lesson.hanzi ? Array.from({ length: EXPAND }, () => lesson.hanzi).join(' ') : lesson.hanzi
   if (hints) {
     const expanded = Array.from({ length: EXPAND }, () => hints).flat()
-    return { ...lesson, text, hints: expanded }
+    return { ...lesson, text, hints: expanded, hanzi }
   }
-  return { ...lesson, text }
+  return { ...lesson, text, hanzi }
 }
 
 function expandCourse(course: Course): Course {

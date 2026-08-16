@@ -71,6 +71,7 @@
     "combo": "Combo",
     "choseLesson": "Choose a lesson",
     "numpadHint": "Use the numeric keypad — the top row won't register.",
+    "spaceAutoHint": "Spaces are added automatically — just type the letters.",
     "locked": "This lesson is locked — complete the previous one to unlock it.",
     "unlockNext": "Go to the next unlocked lesson",
     "lockedShort": "Locked",
