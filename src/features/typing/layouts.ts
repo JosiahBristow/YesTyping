@@ -101,6 +101,35 @@ export function needsShift(ch: string): boolean {
   return /[A-Z]/.test(ch) || SHIFT_CHARS.has(ch)
 }
 
+/** The shift symbol printed on a physical key (e.g. '!' on the '1' key). */
+const SHIFT_SYMBOL_BY_KEY: Record<string, string> = {
+  '1': '!',
+  '2': '@',
+  '3': '#',
+  '4': '$',
+  '5': '%',
+  '6': '^',
+  '7': '&',
+  '8': '*',
+  '9': '(',
+  '0': ')',
+  '-': '_',
+  '=': '+',
+  '[': '{',
+  ']': '}',
+  '\\': '|',
+  '`': '~',
+  ';': ':',
+  "'": '"',
+  ',': '<',
+  '.': '>',
+  '/': '?',
+}
+
+export function shiftSymbolFor(key: string): string | null {
+  return SHIFT_SYMBOL_BY_KEY[key] ?? null
+}
+
 /**
  * Which Shift key to hold for a key: keys typed with the left hand need the
  * right Shift and vice versa. Returns null for thumb/unknown keys.

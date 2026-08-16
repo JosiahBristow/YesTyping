@@ -1,6 +1,6 @@
 import { cn } from '../lib/cn'
 import { FINGER_BY_KEY, KEYBOARD_ROWS, type Finger } from '../features/typing/fingerMap'
-import { charAtKey, keyForChar, type LayoutId } from '../features/typing/layouts'
+import { charAtKey, keyForChar, shiftSymbolFor, type LayoutId } from '../features/typing/layouts'
 
 export interface KeyboardProps {
   activeKey?: string | null
@@ -57,6 +57,16 @@ export function Keyboard({
       err > 0 && !isActive
         ? ({ background: `rgba(239, 68, 68, ${0.1 + 0.4 * (err / maxErr)})` } as const)
         : undefined
+    const label = isShift ? 'Shift' : charAtKey(key, layout)
+    const shiftSym = shiftSymbolFor(key)
+    const content = shiftSym ? (
+      <span className="keycap-dual">
+        <span className="keycap-top">{shiftSym}</span>
+        <span className="keycap-main">{label}</span>
+      </span>
+    ) : (
+      label
+    )
     return (
       <div
         key={isPressed ? `p-${pressCount}-${key}` : key}
@@ -65,7 +75,7 @@ export function Keyboard({
         style={style}
         aria-hidden
       >
-        {isShift ? 'Shift' : charAtKey(key, layout)}
+        {content}
       </div>
     )
   }
