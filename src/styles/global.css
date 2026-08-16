@@ -1067,23 +1067,7 @@ a {
   margin-bottom: 7px;
 }
 
-/* Stagger each row like a real keyboard */
-.kb-row-1 {
-  padding-left: 4.2%;
-}
-
-.kb-row-2 {
-  padding-left: 11.5%;
-}
-
-.kb-row-3 {
-  padding-left: 4.2%;
-}
-
-.kb-row-4 {
-  padding-left: 2.8%;
-  padding-right: 2.8%;
-}
+/* All rows align to the same rectangle (no stagger) */
 
 .keycap.tab {
   flex: 1.5;
@@ -1094,6 +1078,20 @@ a {
 
 .keycap.caps {
   flex: 1.8;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.keycap.backspace {
+  flex: 2;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.keycap.enter {
+  flex: 2;
   font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 600;

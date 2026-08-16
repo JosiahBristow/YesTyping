@@ -23,9 +23,9 @@ const RAW_COURSES: Course[] = [
   vocabCourse,
 ]
 
-const EXPAND = 5
+const EXPAND = 3
 
-/** Repeat a lesson's drill text 5x (and its vocab hints alongside) so there is
+/** Repeat a lesson's drill text (and its vocab hints alongside) so there is
  *  more material to build muscle memory on. Lesson ids/lengths are unchanged. */
 function expandLesson(lesson: Lesson): Lesson {
   const text = Array.from({ length: EXPAND }, () => lesson.text).join(' ')

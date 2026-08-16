@@ -41,6 +41,8 @@ export function Keyboard({
       capClass(finger),
       key === 'Tab' && 'tab',
       key === 'Caps' && 'caps',
+      key === 'Backspace' && 'backspace',
+      key === 'Enter' && 'enter',
       (key === 'Ctrl' || key === 'Win' || key === 'Alt' || key === 'Menu') && 'mod',
       key === 'space' && 'space',
       isShift && 'shift',
