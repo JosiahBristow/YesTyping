@@ -45,7 +45,7 @@ export function Keyboard({
       capClass(finger),
       key === 'Tab' && 'tab',
       key === 'Caps' && 'caps',
-      (key === 'Ctrl' || key === 'Win' || key === 'Alt') && 'mod',
+      (key === 'Ctrl' || key === 'Win' || key === 'Alt' || key === 'Menu') && 'mod',
       key === 'space' && 'space',
       isShift && 'shift',
       shiftOn && 'shift-on',

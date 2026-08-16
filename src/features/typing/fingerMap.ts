@@ -37,5 +37,5 @@ export const KEYBOARD_ROWS: string[][] = [
   ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
   ['Caps', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'"],
   ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', 'space', 'Alt', 'Win', 'Ctrl'],
+  ['Ctrl', 'Win', 'Alt', 'space', 'Alt', 'Win', 'Menu', 'Ctrl'],
 ]
