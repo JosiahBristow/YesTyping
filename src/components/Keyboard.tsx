@@ -70,11 +70,11 @@ export function Keyboard({
   return (
     <div className="kb" aria-hidden>
       {KEYBOARD_ROWS.map((row, r) => (
-        <div className="kb-row" key={r}>
+        <div className={cn('kb-row', `kb-row-${r}`)} key={r}>
           {row.map((k, i) => renderCap(k, k === 'Shift' && i === 0))}
         </div>
       ))}
-      <div className="kb-row space-row">{renderCap('space', false, 'kb-space-label')}</div>
+      <div className="kb-row space-row kb-row-4">{renderCap('space', false, 'kb-space-label')}</div>
       {showLegend && (
         <div className="kb-legend">
           {FINGERS.map((f) => (

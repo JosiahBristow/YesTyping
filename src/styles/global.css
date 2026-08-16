@@ -1023,6 +1023,9 @@ a {
 .kb {
   margin-top: 1.6rem;
   user-select: none;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .kb-toolbar {
@@ -1060,15 +1063,33 @@ a {
 .kb-row {
   display: flex;
   gap: 7px;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 7px;
+}
+
+/* Stagger each row like a real keyboard */
+.kb-row-1 {
+  padding-left: 4.2%;
+}
+
+.kb-row-2 {
+  padding-left: 11.5%;
+}
+
+.kb-row-3 {
+  padding-left: 4.2%;
+}
+
+.kb-row-4 {
+  padding-left: 17%;
+  padding-right: 17%;
 }
 
 .keycap {
   --kc: var(--line);
   position: relative;
-  flex: 1;
-  max-width: 56px;
+  flex: 1 1 0;
+  min-width: 0;
   height: 48px;
   display: grid;
   place-items: center;
@@ -1142,7 +1163,7 @@ a {
 
 .keycap.shift {
   max-width: none;
-  flex: 2.2;
+  flex: 2.4;
   font-size: 0.68rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1175,7 +1196,7 @@ a {
 }
 
 .kb-row.space-row .keycap {
-  max-width: 360px;
+  max-width: none;
   height: 42px;
 }
 
