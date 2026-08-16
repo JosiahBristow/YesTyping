@@ -139,6 +139,7 @@ a {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .nav-burger {
@@ -2585,15 +2586,18 @@ a {
 .user-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.22rem 0.55rem 0.22rem 0.25rem;
+  gap: 0.4rem;
+  padding: 0.2rem 0.5rem 0.2rem 0.2rem;
   border-radius: 999px;
   background: var(--panel);
   border: 1px solid var(--line);
   font-size: 0.85rem;
   font-weight: 600;
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
   cursor: pointer;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .user-caret {
@@ -2673,7 +2677,8 @@ a {
 }
 
 .user-name {
-  max-width: 20ch;
+  min-width: 0;
+  max-width: 18ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2995,6 +3000,21 @@ a {
 
 body {
   overflow-x: hidden;
+}
+
+/* Keep the desktop nav visible when signed in: drop the secondary header
+   controls on narrower desktop widths (they live in Settings + the mobile
+   menu anyway). */
+@media (max-width: 1320px) {
+  .header-actions .lang-switch {
+    display: none;
+  }
+}
+
+@media (max-width: 1040px) {
+  .header-actions .sound-toggle {
+    display: none;
+  }
 }
 
 @media (max-width: 900px) {
