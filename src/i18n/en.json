@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "home": "Home",
+    "courses": "Courses",
+    "speedTest": "Speed Test",
+    "stats": "My Stats"
+  },
+  "hero": {
+    "kicker": "Free typing practice",
+    "title1": "Type like you",
+    "title2": "mean it",
+    "subtitle": "Learn touch typing the playful way. Master the finger positions, then let speed follow. No account, no ads, no fuss.",
+    "cta": "Start practicing",
+    "ctaCourses": "Browse courses",
+    "stat1": "Finger courses",
+    "stat2": "English lessons",
+    "stat3": "Live feedback"
+  },
+  "features": {
+    "title": "Everything you need to learn typing",
+    "subtitle": "A focused set of tools built around one idea: practice, get measured, improve.",
+    "fingerTitle": "Finger drills",
+    "fingerDesc": "Progressive lessons that teach the home row, top row and bottom row with clear finger hints.",
+    "englishTitle": "English courses",
+    "englishDesc": "Words, sentences and short paragraphs to build rhythm and muscle memory.",
+    "speedTitle": "Speed tests",
+    "speedDesc": "Timed 15 / 30 / 60-second rounds with WPM, accuracy and consistency charts.",
+    "statsTitle": "Local stats",
+    "statsDesc": "Every session is saved on your device so you can watch yourself improve.",
+    "courseTypes": "Course types"
+  },
+  "courses": {
+    "title": "Courses",
+    "subtitle": "Pick a course and start with the first lesson.",
+    "lessons": "{{count}} lessons",
+    "start": "Start",
+    "practice": "Practice",
+    "finger": "Finger basics",
+    "english": "English"
+  },
+  "practice": {
+    "back": "All courses",
+    "lesson": "Lesson {{index}} of {{total}}",
+    "next": "Next lesson",
+    "prev": "Previous lesson",
+    "restart": "Restart",
+    "fingerHint": "Press with",
+    "done": "Lesson complete!",
+    "wpm": "WPM",
+    "accuracy": "Accuracy",
+    "time": "Time",
+    "consistency": "Consistency",
+    "again": "Try again",
+    "choseLesson": "Choose a lesson"
+  },
+  "speed": {
+    "title": "Speed Test",
+    "subtitle": "Type as much as you can before the clock runs out.",
+    "time": "Time",
+    "done": "Time's up!",
+    "again": "Test again",
+    "wpm": "WPM",
+    "accuracy": "Accuracy",
+    "consistency": "Consistency",
+    "summary": "Your score",
+    "trend": "WPM over the run",
+    "chars": "Characters"
+  },
+  "stats": {
+    "title": "My Stats",
+    "subtitle": "Your practice history, stored on this device only.",
+    "bestWpm": "Best WPM",
+    "bestAccuracy": "Best accuracy",
+    "totalTime": "Total time",
+    "sessions": "Sessions",
+    "avgWpm": "Average WPM",
+    "trend": "WPM trend",
+    "recent": "Recent sessions",
+    "empty": "No sessions yet — go take a lesson or a speed test.",
+    "startPracticing": "Start practicing",
+    "modeLesson": "Lesson",
+    "modeTimed": "Speed test",
+    "date": "Date",
+    "type": "Type",
+    "result": "Result",
+    "speed": "WPM",
+    "acc": "Acc"
+  },
+  "finger": {
+    "lp": "Left pinky",
+    "lr": "Left ring",
+    "lm": "Left middle",
+    "li": "Left index",
+    "ri": "Right index",
+    "rm": "Right middle",
+    "rr": "Right ring",
+    "rp": "Right pinky",
+    "th": "Thumb"
+  },
+  "lang": {
+    "label": "Language",
+    "en": "English",
+    "zh": "中文"
+  },
+  "footer": {
+    "tagline": "Learn typing, have fun."
+  }
+}

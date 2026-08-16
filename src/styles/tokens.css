@@ -1,0 +1,25 @@
+:root {
+  --canvas: #eef1f7;
+  --panel: #ffffff;
+  --ink: #18202e;
+  --ink-soft: #5b6472;
+  --ink-faint: #9aa3b2;
+  --line: #e0e5f0;
+  --brand: #2e5bff;
+  --brand-ink: #1d3fbd;
+  --brand-soft: #e9eeff;
+  --amber: #ffb224;
+  --amber-soft: #fff3d6;
+  --good: #12b76a;
+  --bad: #ef4444;
+
+  --radius-lg: 20px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 12px 34px rgba(24, 32, 46, 0.08);
+  --shadow-sm: 0 4px 14px rgba(24, 32, 46, 0.06);
+
+  --font-display: 'Space Grotesk', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Courier New', monospace;
+}
