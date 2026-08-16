@@ -782,7 +782,7 @@ a {
 
 .practice-wrap {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
   align-items: start;
 }
@@ -1186,64 +1186,6 @@ a {
   justify-content: flex-end;
   margin-top: 1rem;
   flex-wrap: wrap;
-}
-
-/* ---------- Lesson sidebar ---------- */
-
-.lesson-side {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 1rem;
-  position: sticky;
-  top: 82px;
-}
-
-.lesson-side h4 {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink-faint);
-  margin-bottom: 0.6rem;
-}
-
-.lesson-item {
-  display: flex;
-  gap: 0.6rem;
-  align-items: baseline;
-  width: 100%;
-  text-align: left;
-  padding: 0.55rem 0.7rem;
-  border-radius: var(--radius-sm);
-  border: 0;
-  background: transparent;
-  font-size: 0.88rem;
-  color: var(--ink-soft);
-}
-
-.lesson-item:hover {
-  background: var(--canvas);
-}
-
-.lesson-item.active {
-  background: var(--brand-soft);
-  color: var(--brand-ink);
-  font-weight: 600;
-}
-
-.lesson-item.locked {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.lesson-item.locked:hover {
-  background: transparent;
-}
-
-.lesson-item .num {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--ink-faint);
 }
 
 /* ---------- Result overlay ---------- */
@@ -2590,9 +2532,6 @@ body {
   }
   .practice-wrap {
     grid-template-columns: 1fr;
-  }
-  .lesson-side {
-    position: static;
   }
   .session-grid {
     grid-template-columns: 1fr;
