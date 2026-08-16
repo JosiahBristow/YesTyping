@@ -2793,6 +2793,15 @@ a {
   color: var(--ink);
 }
 
+.race-rooms-warn {
+  font-size: 0.85rem;
+  color: var(--amber-ink);
+  background: var(--amber-soft);
+  border: 1px solid rgba(255, 178, 36, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.8rem;
+}
+
 .race-rooms-list {
   list-style: none;
   display: flex;

@@ -54,6 +54,7 @@ export function useRace(roomId: string, name: string) {
   phaseRef.current = phase
   const nameRef = useRef(name)
   nameRef.current = name
+  const presenceReadyRef = useRef(false)
 
   useEffect(() => {
     if (!roomId || !supabase || !supabaseConfigured) return
@@ -64,11 +65,13 @@ export function useRace(roomId: string, name: string) {
     const presenceCount = () => Object.keys(channel.presenceState()).length
     const syncRoom = () => {
       const count = presenceCount()
+      if (!presenceReadyRef.current) return
       if (count === 0) void deleteRoom(roomId)
       else void upsertRoom(roomId, count)
     }
 
     const applyPresence = () => {
+      presenceReadyRef.current = true
       setPlayers(fromPresence(channel))
       syncRoom()
     }
@@ -109,7 +112,11 @@ export function useRace(roomId: string, name: string) {
 
     return () => {
       window.clearInterval(keepAlive)
-      void deleteRoom(roomId)
+      // Only delete the room when I'm the last player still in it; otherwise
+      // the remaining players' presence sync keeps the count correct.
+      if (presenceReadyRef.current && Object.keys(channel.presenceState()).length <= 1) {
+        void deleteRoom(roomId)
+      }
       void client.removeChannel(channel)
       channelRef.current = null
       setConnected(false)

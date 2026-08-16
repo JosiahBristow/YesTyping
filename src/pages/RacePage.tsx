@@ -135,14 +135,17 @@ export function RacePage() {
   const [joined, setJoined] = useState(false)
   const [myResult, setMyResult] = useState<{ wpm: number; accuracy: number; won: boolean } | null>(null)
   const [chatDraft, setChatDraft] = useState('')
-  const [rooms, setRooms] = useState<RoomInfo[]>([])
+  const [rooms, setRooms] = useState<RoomInfo[] | null>(null)
 
   const refreshRooms = () => {
     void fetchRooms().then(setRooms)
   }
 
   useEffect(() => {
-    if (supabaseConfigured && !joined) refreshRooms()
+    if (!supabaseConfigured || joined) return
+    refreshRooms()
+    const id = window.setInterval(refreshRooms, 8000)
+    return () => window.clearInterval(id)
   }, [joined])
 
   const race = useRace(joined ? roomId : '', name)
@@ -220,7 +223,9 @@ export function RacePage() {
                 ↺ {t('race.refresh')}
               </button>
             </div>
-            {rooms.length === 0 ? (
+            {rooms === null ? (
+              <p className="race-rooms-warn">{t('race.roomsMissing')}</p>
+            ) : rooms.length === 0 ? (
               <p className="section-sub" style={{ fontSize: '0.88rem' }}>{t('race.roomsEmpty')}</p>
             ) : (
               <ul className="race-rooms-list">

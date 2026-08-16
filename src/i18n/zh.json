@@ -290,6 +290,7 @@
     "nameCol": "玩家",
     "roomsTitle": "可用房间",
     "roomsEmpty": "当前没有可用房间——创建一个或快速匹配吧。",
+    "roomsMissing": "房间列表暂不可用——请先在 Supabase SQL Editor 运行 supabase/schema.sql（会创建 rooms 表）。",
     "refresh": "刷新",
     "players": "人",
     "chatTitle": "房间聊天",

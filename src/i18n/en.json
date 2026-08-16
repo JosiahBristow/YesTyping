@@ -290,6 +290,7 @@
     "nameCol": "Player",
     "roomsTitle": "Open rooms",
     "roomsEmpty": "No open rooms right now — create one or quick-match.",
+    "roomsMissing": "The room list isn't available yet — run supabase/schema.sql (adds the rooms table) in your Supabase SQL editor.",
     "refresh": "Refresh",
     "players": "players",
     "chatTitle": "Room chat",
