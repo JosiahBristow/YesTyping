@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTypingEngine } from './useTypingEngine'
-import { fingerForChar, keyForChar } from './fingerMap'
+import { fingerForChar, keyForChar } from './layouts'
 import type { EngineResult } from './metrics'
 import { formatClock } from './metrics'
 import { Keyboard } from '../../components/Keyboard'
 import { ResultSummary } from '../../components/ResultSummary'
 import { FingerGuide } from '../../components/FingerGuide'
+import { LayoutPicker } from '../../components/LayoutPicker'
 import { TypeArea } from './TypeArea'
 import { cn } from '../../lib/cn'
+import { useLayout } from '../../lib/layout'
 
 export interface TypingSessionProps {
   text: string
@@ -23,6 +25,7 @@ interface EngineProps extends TypingSessionProps {
 
 function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   const { t } = useTranslation()
+  const layout = useLayout((s) => s.layout)
   const [result, setResult] = useState<EngineResult | null>(null)
   const engine = useTypingEngine({
     text,
@@ -33,8 +36,8 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   })
 
   const currentChar = engine.finished ? null : text[engine.index]
-  const activeKey = currentChar ? keyForChar(currentChar) : null
-  const finger = currentChar ? fingerForChar(currentChar) : null
+  const activeKey = currentChar ? keyForChar(currentChar, layout) : null
+  const finger = currentChar ? fingerForChar(currentChar, layout) : null
 
   return (
     <div className="session-grid">
@@ -70,7 +73,10 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
         </div>
       )}
 
-      <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
+      <div className="kb-toolbar">
+        <LayoutPicker />
+      </div>
+      <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
       </div>
 
       <FingerGuide finger={finger} />

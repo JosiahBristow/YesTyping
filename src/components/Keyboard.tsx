@@ -1,27 +1,29 @@
 import { useTranslation } from 'react-i18next'
 import { cn } from '../lib/cn'
-import {
-  FINGER_BY_KEY,
-  FINGERS,
-  KEYBOARD_ROWS,
-  keyForChar,
-  type Finger,
-} from '../features/typing/fingerMap'
+import { FINGER_BY_KEY, FINGERS, KEYBOARD_ROWS, type Finger } from '../features/typing/fingerMap'
+import { charAtKey, keyForChar, type LayoutId } from '../features/typing/layouts'
 
 export interface KeyboardProps {
   activeKey?: string | null
   pressedKey?: string | null
   pressCount?: number
   showLegend?: boolean
+  layout?: LayoutId
 }
 
 function capClass(finger: Finger | undefined): string {
   return finger ? `finger-${finger}` : ''
 }
 
-export function Keyboard({ activeKey, pressedKey, pressCount = 0, showLegend = true }: KeyboardProps) {
+export function Keyboard({
+  activeKey,
+  pressedKey,
+  pressCount = 0,
+  showLegend = true,
+  layout = 'qwerty',
+}: KeyboardProps) {
   const { t } = useTranslation()
-  const pressed = pressedKey ? keyForChar(pressedKey) : null
+  const pressed = pressedKey ? keyForChar(pressedKey, layout) : null
 
   const renderCap = (key: string, extraClass = '') => {
     const finger = FINGER_BY_KEY[key]
@@ -35,7 +37,7 @@ export function Keyboard({ activeKey, pressedKey, pressCount = 0, showLegend = t
         data-finger={finger ?? undefined}
         aria-hidden
       >
-        {key}
+        {charAtKey(key, layout)}
       </div>
     )
   }

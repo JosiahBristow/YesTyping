@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useMemo, useState } from 'react'
 import { useTypingEngine } from '../features/typing/useTypingEngine'
-import { fingerForChar, keyForChar } from '../features/typing/fingerMap'
+import { fingerForChar, keyForChar } from '../features/typing/layouts'
 import type { EngineResult } from '../features/typing/metrics'
 import { formatClock } from '../features/typing/metrics'
 import { generateWords } from '../features/typing/words'
@@ -9,8 +9,10 @@ import { useLocalStats } from '../features/stats/useLocalStats'
 import { Keyboard } from '../components/Keyboard'
 import { TrendChart } from '../components/TrendChart'
 import { FingerGuide } from '../components/FingerGuide'
+import { LayoutPicker } from '../components/LayoutPicker'
 import { TypeArea } from '../features/typing/TypeArea'
 import { cn } from '../lib/cn'
+import { useLayout } from '../lib/layout'
 
 const DURATIONS = [15, 30, 60]
 
@@ -24,6 +26,7 @@ function SpeedEngine({
   onRestart: () => void
 }) {
   const { t } = useTranslation()
+  const layout = useLayout((s) => s.layout)
   const [result, setResult] = useState<EngineResult | null>(null)
   const { add } = useLocalStats()
   const initialText = useMemo(() => generateWords(80), [])
@@ -48,8 +51,8 @@ function SpeedEngine({
 
   const progress = Math.min(1, engine.elapsed / duration)
   const currentChar = engine.finished ? null : engine.text[engine.index]
-  const activeKey = currentChar ? keyForChar(currentChar) : null
-  const finger = currentChar ? fingerForChar(currentChar) : null
+  const activeKey = currentChar ? keyForChar(currentChar, layout) : null
+  const finger = currentChar ? fingerForChar(currentChar, layout) : null
 
   return (
     <>
@@ -103,7 +106,10 @@ function SpeedEngine({
         </div>
       )}
 
-      <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
+      <div className="kb-toolbar">
+        <LayoutPicker />
+      </div>
+      <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
         </div>
 
         <FingerGuide finger={engine.finished ? null : finger} />

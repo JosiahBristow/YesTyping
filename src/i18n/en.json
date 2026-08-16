@@ -103,6 +103,12 @@
     "en": "English",
     "zh": "中文"
   },
+  "layout": {
+    "label": "Keyboard layout",
+    "qwerty": "QWERTY",
+    "dvorak": "Dvorak",
+    "colemak": "Colemak"
+  },
   "footer": {
     "tagline": "Learn typing, have fun."
   }

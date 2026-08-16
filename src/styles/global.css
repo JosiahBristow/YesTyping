@@ -719,6 +719,36 @@ a {
   user-select: none;
 }
 
+.kb-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.3rem;
+}
+
+.layout-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+}
+
+.layout-switch button {
+  border: 0;
+  background: transparent;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.layout-switch button.active {
+  background: var(--ink);
+  color: #fff;
+}
+
 .kb-row {
   display: flex;
   gap: 7px;

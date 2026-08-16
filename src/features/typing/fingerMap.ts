@@ -32,24 +32,6 @@ export const FINGER_BY_KEY: Record<string, Finger> = {
   ' ': 'th',
 }
 
-const SHIFT_KEYS: Record<string, string> = {
-  '!': '1', '@': '2', '#': '3', '$': '4', '%': '5',
-  '^': '6', '&': '7', '*': '8', '(': '9', ')': '0',
-  _: '-', '+': '=', '{': '[', '}': ']', ':': ';',
-  '"': "'", '<': ',', '>': '.', '?': '/',
-}
-
-export function keyForChar(ch: string): string {
-  if (ch === ' ') return 'space'
-  const lower = ch.toLowerCase()
-  if (SHIFT_KEYS[ch]) return SHIFT_KEYS[ch]
-  return lower
-}
-
-export function fingerForChar(ch: string): Finger | null {
-  return FINGER_BY_KEY[keyForChar(ch)] ?? null
-}
-
 export const KEYBOARD_ROWS: string[][] = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],

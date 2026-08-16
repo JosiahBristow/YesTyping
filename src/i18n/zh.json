@@ -103,6 +103,12 @@
     "en": "English",
     "zh": "中文"
   },
+  "layout": {
+    "label": "键盘配列",
+    "qwerty": "QWERTY",
+    "dvorak": "Dvorak",
+    "colemak": "Colemak"
+  },
   "footer": {
     "tagline": "快乐学习打字"
   }
