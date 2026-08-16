@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTypingEngine } from './useTypingEngine'
 import { fingerForChar, keyForChar } from './layouts'
@@ -38,6 +38,18 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   const currentChar = engine.finished ? null : text[engine.index]
   const activeKey = currentChar ? keyForChar(currentChar, layout) : null
   const finger = currentChar ? fingerForChar(currentChar, layout) : null
+
+  useEffect(() => {
+    if (!result) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter') return
+      const el = document.activeElement
+      if (el instanceof HTMLElement && el.closest('button')) return
+      onNext?.()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [result, onNext])
 
   return (
     <div className="session-grid">
