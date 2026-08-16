@@ -85,5 +85,20 @@ export const englishCourse: Course = {
       title: { en: 'Mixed review', zh: '综合练习' },
       text: 'Every expert was once a beginner. Start slow and stay steady. Practice every day, and your speed will grow. What is your name? Where are you from? Nice to meet you. Home sweet home. Time is money. Practice makes perfect.',
     },
+    {
+      id: 'proverbs',
+      title: { en: 'Proverbs', zh: '谚语' },
+      text: 'A journey of a thousand miles begins with a single step. Actions speak louder than words. A friend in need is a friend indeed.',
+    },
+    {
+      id: 'compound-words',
+      title: { en: 'Compound words', zh: '复合词' },
+      text: 'somebody anything everyone somewhere sometimes everything nothing something nobody anywhere',
+    },
+    {
+      id: 'phrasal-verbs',
+      title: { en: 'Phrasal verbs', zh: '短语动词' },
+      text: 'get up turn off look after come back give up pick up put on turn on wake up find out',
+    },
   ],
 }

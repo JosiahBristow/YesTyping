@@ -87,5 +87,29 @@ export const vocabCourse: Course = {
       text: 'apple water happy read book teacher cat ten time go',
       hints: [h('苹果', 'a round red fruit'), h('水', 'life-giving liquid'), h('开心', 'feeling good'), h('读', 'look at words'), h('书', 'you read it'), h('老师', 'teaches you'), h('猫', 'a furry pet'), h('十', 'two hands'), h('时间', 'measured by clocks'), h('去', 'move away')],
     },
+    {
+      id: 'vocab-family',
+      title: { en: 'Family', zh: '家人' },
+      text: 'mother father brother sister uncle aunt cousin grandma grandpa baby',
+      hints: [h('妈妈', 'female parent'), h('爸爸', 'male parent'), h('哥哥', 'male sibling'), h('姐姐', 'female sibling'), h('叔叔', 'your parent\u2019s brother'), h('阿姨', 'your parent\u2019s sister'), h('表亲', 'an extended relative'), h('奶奶', 'your mother\u2019s mother'), h('爷爷', 'your father\u2019s father'), h('婴儿', 'a very young child')],
+    },
+    {
+      id: 'vocab-home',
+      title: { en: 'Home', zh: '家居' },
+      text: 'house room kitchen bedroom bathroom window door table chair bed',
+      hints: [h('房子', 'where you live'), h('房间', 'a part of a building'), h('厨房', 'where you cook'), h('卧室', 'where you sleep'), h('浴室', 'where you wash'), h('窗户', 'glass you see through'), h('门', 'you open it to enter'), h('桌子', 'you eat at it'), h('椅子', 'you sit on it'), h('床', 'you sleep in it')],
+    },
+    {
+      id: 'vocab-nature',
+      title: { en: 'Nature', zh: '自然' },
+      text: 'tree flower river mountain ocean sun moon star cloud rain',
+      hints: [h('树', 'a tall plant'), h('花', 'a colorful bloom'), h('河流', 'flowing water'), h('山', 'tall land'), h('海洋', 'a huge sea'), h('太阳', 'the day star'), h('月亮', 'the night sky'), h('星星', 'a twinkling light'), h('云', 'floats in the sky'), h('雨', 'water from clouds')],
+    },
+    {
+      id: 'vocab-clothes',
+      title: { en: 'Clothes', zh: '衣物' },
+      text: 'shirt pants dress hat shoe sock coat scarf glove sweater',
+      hints: [h('衬衫', 'upper body wear'), h('裤子', 'lower body wear'), h('连衣裙', 'a one-piece outfit'), h('帽子', 'worn on the head'), h('鞋子', 'worn on the foot'), h('袜子', 'worn inside shoes'), h('外套', 'worn in winter'), h('围巾', 'worn around the neck'), h('手套', 'worn on hands'), h('毛衣', 'a knitted top')],
+    },
   ],
 }

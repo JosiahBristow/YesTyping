@@ -85,5 +85,20 @@ export const vimCourse: Course = {
       title: { en: 'Vim review', zh: '综合练习' },
       text: 'gg G 0 $ w b e /word n dd yy p u gg G :wq dd 3j 2dw ciw',
     },
+    {
+      id: 'motions-mixed',
+      title: { en: 'Motions: mixed', zh: '移动键：混合' },
+      text: 'w b e ge 0 $ ^ gg G 2w 3b 4e gg G 0 $ w b e ge 3j 2k G gg 5w 3e',
+    },
+    {
+      id: 'yank-paste',
+      title: { en: 'Yank & paste', zh: '复制与粘贴' },
+      text: 'yy p yw p yy p yw p dd p ddp yyp yiw p viw y y$ p y0 p',
+    },
+    {
+      id: 'insert-combos',
+      title: { en: 'Insert combos', zh: '插入组合' },
+      text: 'i a I A o O iw aw ia io a I O A i o a i a I cw cc ciw c$ c0',
+    },
   ],
 }

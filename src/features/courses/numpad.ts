@@ -70,5 +70,25 @@ export const numpadCourse: Course = {
       title: { en: 'Numpad review', zh: '综合练习' },
       text: '7*8+6 9/3-1 45+67 89-12 3.14*2 100/4 8888-7777 12.5+7.5',
     },
+    {
+      id: 'numpad-sequential',
+      title: { en: 'Sequences', zh: '顺序练习' },
+      text: '1234 5678 9012 3456 7890 1357 2468 3690 1470 2580 1234567890',
+    },
+    {
+      id: 'numpad-jumps',
+      title: { en: 'Jumps', zh: '跳跃练习' },
+      text: '1 3 7 9 2 8 4 6 0 5 13 79 24 68 159 357 951 753 123 789',
+    },
+    {
+      id: 'numpad-tax',
+      title: { en: 'Prices', zh: '价格' },
+      text: '19.99 9.99 4.99 14.99 29.99 49.99 99.99 199.99 5.5 15.5 75.75',
+    },
+    {
+      id: 'numpad-tables',
+      title: { en: 'Times tables', zh: '乘法表' },
+      text: '2*2 3*3 4*4 5*5 6*6 7*7 8*8 9*9 12*12 15*15 20*5 100/4',
+    },
   ],
 }

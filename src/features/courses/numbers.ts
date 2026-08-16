@@ -70,5 +70,25 @@ export const numbersCourse: Course = {
       title: { en: 'Numbers in words', zh: '数字与单词' },
       text: 'the year is 2026 call at 10 30 number 555 1234 code 7890',
     },
+    {
+      id: 'num-dates',
+      title: { en: 'Dates', zh: '日期' },
+      text: '2026 08 16 1998 2001 0101 1225 2020 0714 0910 2400 0606 1999 1231',
+    },
+    {
+      id: 'num-phone',
+      title: { en: 'Phone numbers', zh: '电话号码' },
+      text: '138 0013 8000 010 8888 6666 9527 10086 12306 110 120 119 114 400 800',
+    },
+    {
+      id: 'num-decimals',
+      title: { en: 'Decimals', zh: '小数' },
+      text: '3.14 2.718 1.618 0.618 9.99 42.0 100.5 7.77 0.25 1.5 3.14159 2.71828',
+    },
+    {
+      id: 'num-money',
+      title: { en: 'Money', zh: '金额' },
+      text: '$19.99 $5.50 $100 $1,000 2026.01.01 ¥88.00 10.5% 3.5% $9,999.99',
+    },
   ],
 }

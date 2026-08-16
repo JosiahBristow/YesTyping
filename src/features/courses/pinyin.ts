@@ -85,5 +85,20 @@ export const pinyinCourse: Course = {
       title: { en: 'A pinyin proverb', zh: '谚语拼音' },
       text: 'zhi yao gong fu shen tie chu mo cheng zhen du shu po wan juan xia bi ru you shen',
     },
+    {
+      id: 'time-pinyin',
+      title: { en: 'Time pinyin', zh: '时间拼音' },
+      text: 'ji dian le xian zai ji dian zhou yi xing qi yi shi er dian ban shang wu jiu dian',
+    },
+    {
+      id: 'weather-pinyin',
+      title: { en: 'Weather pinyin', zh: '天气拼音' },
+      text: 'jin tian tian qi zen me yang wai mian xia yu le tian qi hen hao ming tian you yu',
+    },
+    {
+      id: 'shopping-pinyin',
+      title: { en: 'Shopping pinyin', zh: '购物拼音' },
+      text: 'duo shao qian tai gui le pian yi dian mai dan xian sheng yuan qing gei wo jian pan',
+    },
   ],
 }

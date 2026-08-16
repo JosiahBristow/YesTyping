@@ -135,5 +135,30 @@ export const fingerBasics: Course = {
       title: { en: 'Pangrams', zh: '字母全句' },
       text: 'The quick brown fox jumps over the lazy dog. The five boxing wizards jump quickly. Sphinx of black quartz, judge my vow.',
     },
+    {
+      id: 'digraph-th',
+      title: { en: 'Digraph: th', zh: '组合键：th' },
+      text: 'th th th th th the that this them then with think thing three though through thank both month earth',
+    },
+    {
+      id: 'digraph-he',
+      title: { en: 'Digraph: he', zh: '组合键：he' },
+      text: 'he he he he he he here her have head help when where which what whom whose health heavy heart',
+    },
+    {
+      id: 'common-words',
+      title: { en: 'Common words', zh: '高频单词' },
+      text: 'and for are but not you all can had her was one our out day get from time like just know take',
+    },
+    {
+      id: 'shift-words',
+      title: { en: 'Shift practice', zh: '大写单词' },
+      text: 'The This That These Those There Then Than Which What When Where Who How Every Great Day Today',
+    },
+    {
+      id: 'number-shift',
+      title: { en: 'Numbers & symbols', zh: '数字与符号' },
+      text: '1! 2@ 3# 4$ 5% 6^ 7& 8* 9( 0) 1! 2@ 3# 4$ 5% 6^ 7& 8* 9( 0) !@ #$ %^ &* () !@#$',
+    },
   ],
 }

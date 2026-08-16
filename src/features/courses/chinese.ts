@@ -85,5 +85,20 @@ export const chineseCourse: Course = {
       title: { en: 'Mixed review', zh: '综合练习' },
       text: '今天天气很好 我和朋友一起学习中文 熟能生巧 学无止境 床前明月光 疑是地上霜 大家好 明天见 祝你成功',
     },
+    {
+      id: 'places',
+      title: { en: 'Places', zh: '地点' },
+      text: '学校 医院 图书馆 公园 车站 机场 商场 饭店 电影院 银行 邮局 药店',
+    },
+    {
+      id: 'shopping',
+      title: { en: 'Shopping', zh: '购物' },
+      text: '多少钱 太贵了 便宜一点 买单 收据 打折 购物 商店 付款 发票 售货员',
+    },
+    {
+      id: 'occupations',
+      title: { en: 'Occupations', zh: '职业' },
+      text: '医生 老师 学生 警察 厨师 司机 工程师 画家 歌手 作家 记者 农民',
+    },
   ],
 }

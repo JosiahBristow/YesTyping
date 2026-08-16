@@ -85,5 +85,20 @@ export const codeCourse: Course = {
       title: { en: 'Code review', zh: '综合练习' },
       text: 'print("hello") console.log("ok") cd /home/user && ls -la body { color: #333; }',
     },
+    {
+      id: 'js-arrays',
+      title: { en: 'JavaScript: arrays', zh: 'JavaScript：数组' },
+      text: 'const list = [1, 2, 3]; list.push(4); console.log(list.length); list.pop();',
+    },
+    {
+      id: 'python-dicts',
+      title: { en: 'Python: dicts', zh: 'Python：字典' },
+      text: 'user = {"name": "alice", "age": 30} print(user["name"]) user["city"] = "beijing"',
+    },
+    {
+      id: 'css-layout',
+      title: { en: 'CSS: layout', zh: 'CSS：布局' },
+      text: '.row { display: flex; gap: 16px; } @media (max-width: 600px) { .row { flex-direction: column; } }',
+    },
   ],
 }
