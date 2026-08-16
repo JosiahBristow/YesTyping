@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { displayName, useAuth } from '../lib/auth'
+import { displayName, isValidUsername, useAuth } from '../lib/auth'
 import { supabaseConfigured } from '../lib/supabase'
 import { cn } from '../lib/cn'
 
 export function LoginPage() {
   const { t } = useTranslation()
-  const { user, loading, error, signIn, signUp, signInOAuth, signOut, clearError } = useAuth()
+  const { user, loading, error, signIn, signUp, signOut, clearError } = useAuth()
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
@@ -52,18 +52,11 @@ export function LoginPage() {
           <div className="big">👋</div>
           <h1 className="auth-title">{t('auth.signedInAs')}</h1>
           <p className="section-sub">{displayName(user)}</p>
-          <p className="section-sub" style={{ fontSize: '0.85rem' }}>
-            {user.email}
-          </p>
           <div className="auth-actions">
             <Link to="/" className="btn btn-primary">
               {t('auth.backHome')}
             </Link>
-            <button
-              type="button"
-              className="btn btn-ghost"
-              onClick={() => void signOut()}
-            >
+            <button type="button" className="btn btn-ghost" onClick={() => void signOut()}>
               {t('auth.signOut')}
             </button>
           </div>
@@ -74,14 +67,18 @@ export function LoginPage() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email.trim() || password.length < 6) {
+    if (!isValidUsername(username.trim())) {
+      setNotice(t('auth.usernameInvalid'))
+      return
+    }
+    if (password.length < 6) {
       setNotice(t('auth.validation'))
       return
     }
     setBusy(true)
     setNotice(null)
     clearError()
-    const res = mode === 'signin' ? await signIn(email.trim(), password) : await signUp(email.trim(), password)
+    const res = mode === 'signin' ? await signIn(username.trim(), password) : await signUp(username.trim(), password)
     setBusy(false)
     if (!res.ok) {
       setNotice(res.error ?? t('auth.genericError'))
@@ -106,8 +103,8 @@ export function LoginPage() {
 
         <form className="auth-form" onSubmit={(e) => void submit(e)}>
           <label className="auth-field">
-            <span>{t('auth.email')}</span>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required />
+            <span>{t('auth.username')}</span>
+            <input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" maxLength={20} required />
           </label>
           <label className="auth-field">
             <span>{t('auth.password')}</span>
@@ -118,19 +115,6 @@ export function LoginPage() {
             {busy ? '…' : mode === 'signin' ? t('auth.signIn') : t('auth.signUp')}
           </button>
         </form>
-
-        <div className="auth-divider">
-          <span>{t('auth.or')}</span>
-        </div>
-
-        <div className="auth-oauth">
-          <button type="button" className="btn btn-ghost" onClick={() => void signInOAuth('github')}>
-            GitHub
-          </button>
-          <button type="button" className="btn btn-ghost" onClick={() => void signInOAuth('google')}>
-            Google
-          </button>
-        </div>
 
         <p className="section-sub" style={{ fontSize: '0.82rem', marginTop: '1rem' }}>
           {t('auth.privacyNote')}

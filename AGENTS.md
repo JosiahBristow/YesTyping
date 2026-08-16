@@ -14,6 +14,10 @@ multiplayer (gracefully disabled when unconfigured).
   is `false` and auth/multiplayer surfaces show a setup notice.
 - `src/lib/supabase.ts` — client + `supabaseConfigured` flag.
 - `src/lib/auth.ts` — zustand auth store (`useAuth`), `displayName()`.
+  Sign-up/login use a **username + password** (no email/OAuth): accounts store
+  an internal email `<username>@yestyping.local`, and the security-definer RPC
+  `public.get_auth_email` (in `supabase/schema.sql`) resolves the username back
+  to it. **Email confirmation must be OFF** in Supabase Auth settings.
 - `src/features/race/useRace.ts` — realtime room (presence + broadcast).
   All players type the same text via `generateSeededWords(count, seed)`.
 - `src/features/race/leaderboard.ts` — `saveRaceResult` / `fetchLeaderboard`.

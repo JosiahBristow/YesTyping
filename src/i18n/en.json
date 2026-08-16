@@ -220,10 +220,10 @@
     "signOut": "Sign out",
     "signIn": "Sign in",
     "signUp": "Create account",
-    "email": "Email",
+    "username": "Username",
     "password": "Password",
-    "or": "or continue with",
-    "validation": "Enter a valid email and a password of at least 6 characters.",
+    "usernameInvalid": "Username must be 3–20 letters, digits or underscores.",
+    "validation": "Enter a valid username and a password of at least 6 characters.",
     "genericError": "Something went wrong. Please try again.",
     "privacyNote": "Your progress and achievements stay on this device. Signing in adds your race results to the leaderboard."
   },

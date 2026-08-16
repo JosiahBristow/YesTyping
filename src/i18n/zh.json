@@ -220,10 +220,10 @@
     "signOut": "退出登录",
     "signIn": "登录",
     "signUp": "注册",
-    "email": "邮箱",
+    "username": "用户名",
     "password": "密码",
-    "or": "或使用以下方式",
-    "validation": "请输入有效的邮箱和至少 6 位的密码。",
+    "usernameInvalid": "用户名需为 3–20 位的字母、数字或下划线。",
+    "validation": "请输入有效的用户名和至少 6 位的密码。",
     "genericError": "出错了，请重试。",
     "privacyNote": "进度和成就会保留在本设备。登录后对战成绩可进入排行榜。"
   },
