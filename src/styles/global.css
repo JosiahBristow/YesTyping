@@ -1485,6 +1485,51 @@ a {
   color: var(--canvas);
 }
 
+/* Speed test custom text */
+
+.speed-custom-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.speed-custom-toggle:hover {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.speed-custom-toggle.active {
+  border-color: var(--brand);
+  color: var(--brand-ink);
+  background: var(--brand-soft);
+}
+
+.speed-custom-on {
+  color: var(--good);
+  font-weight: 700;
+}
+
+.speed-custom-body {
+  margin-bottom: 1.25rem;
+}
+
+.speed-custom-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 0.8rem;
+  flex-wrap: wrap;
+}
+
 .mode-tabs {
   display: inline-flex;
   gap: 2px;

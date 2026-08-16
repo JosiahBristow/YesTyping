@@ -18,17 +18,36 @@ import { useSettings } from '../lib/settings'
 
 const DURATIONS = [15, 30, 60]
 const OPPONENTS = [20, 40, 60, 80]
+const CUSTOM_KEY = 'yestyping.customText'
+
+function loadCustomText(): string {
+  try {
+    return localStorage.getItem(CUSTOM_KEY) ?? ''
+  } catch {
+    return ''
+  }
+}
+
+function saveCustomText(value: string): void {
+  try {
+    localStorage.setItem(CUSTOM_KEY, value)
+  } catch {
+    // storage unavailable — ignore
+  }
+}
 
 function SpeedEngine({
   duration,
   race,
   opponent,
+  customText,
   onPick,
   onRestart,
 }: {
   duration: number
   race: boolean
   opponent: number
+  customText: string
   onPick: (d: number) => void
   onRestart: () => void
 }) {
@@ -38,7 +57,8 @@ function SpeedEngine({
   const [result, setResult] = useState<EngineResult | null>(null)
   const [raceResult, setRaceResult] = useState<'win' | 'lose' | null>(null)
   const { add } = useLocalStats()
-  const initialText = useMemo(() => generateWords(80), [])
+  const hasCustom = Boolean(customText.trim())
+  const initialText = useMemo(() => (hasCustom ? customText : generateWords(80)), [hasCustom, customText])
 
   const goalChars = race ? Math.round((opponent * 5) / 60) * duration : 0
 
@@ -46,14 +66,14 @@ function SpeedEngine({
     text: initialText,
     mode: 'timed',
     durationSec: duration,
-    extend: () => generateWords(40),
+    extend: hasCustom ? undefined : () => generateWords(40),
     layout,
     onFinish: (r) => {
       setResult(r)
       const won = race ? r.correctChars >= goalChars : false
       if (race) setRaceResult(won ? 'win' : 'lose')
       add({
-        label: `Speed test ${duration}s`,
+        label: `${hasCustom ? 'Custom' : 'Speed test'} ${duration}s`,
         mode: r.mode,
         wpm: r.wpm,
         accuracy: r.accuracy,
@@ -207,6 +227,8 @@ export function SpeedTestPage() {
   const [duration, setDuration] = useState(30)
   const [race, setRace] = useState(false)
   const [opponent, setOpponent] = useState(40)
+  const [customText, setCustomText] = useState(loadCustomText)
+  const [customOpen, setCustomOpen] = useState(false)
   const [seed, setSeed] = useState(0)
   const restart = () => setSeed((s) => s + 1)
   const pick = (d: number) => {
@@ -252,14 +274,69 @@ export function SpeedTestPage() {
             </div>
           )}
         </div>
-        <SpeedEngine
-          key={seed}
-          duration={duration}
-          race={race}
-          opponent={opponent}
-          onPick={pick}
-          onRestart={restart}
-        />
+
+        {!race && (
+          <button
+            type="button"
+            className={cn('speed-custom-toggle', customText.trim() && 'active')}
+            onClick={() => setCustomOpen((o) => !o)}
+          >
+            ✏️ {t('speed.customTitle')}
+            {customText.trim() && <span className="speed-custom-on">✓</span>}
+          </button>
+        )}
+
+        {!race && customOpen ? (
+          <div className="speed-custom-body">
+            <textarea
+              className="custom-textarea"
+              rows={5}
+              value={customText}
+              onChange={(e) => {
+                setCustomText(e.target.value)
+                saveCustomText(e.target.value)
+              }}
+              placeholder={t('speed.customPlaceholder')}
+            />
+            <div className="speed-custom-actions">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                disabled={!customText.trim()}
+                onClick={() => {
+                  setCustomOpen(false)
+                  restart()
+                }}
+              >
+                {t('speed.customStart')} →
+              </button>
+              {customText.trim() && (
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => {
+                    setCustomText('')
+                    saveCustomText('')
+                    setCustomOpen(false)
+                    restart()
+                  }}
+                >
+                  {t('speed.customClear')}
+                </button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <SpeedEngine
+            key={seed}
+            duration={duration}
+            race={race}
+            opponent={opponent}
+            customText={customText}
+            onPick={pick}
+            onRestart={restart}
+          />
+        )}
       </div>
     </div>
   )

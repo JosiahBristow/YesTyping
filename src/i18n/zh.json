@@ -88,7 +88,11 @@
     "you": "你",
     "bot": "机器人 {{wpm}} WPM",
     "won": "你赢了！",
-    "lost": "机器人赢了…"
+    "lost": "机器人赢了…",
+    "customTitle": "自定义文章",
+    "customPlaceholder": "粘贴或输入你的测试文本…",
+    "customStart": "开始测试",
+    "customClear": "改用随机单词"
   },
   "stats": {
     "title": "我的数据",

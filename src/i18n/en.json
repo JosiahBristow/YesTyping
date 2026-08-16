@@ -88,7 +88,11 @@
     "you": "You",
     "bot": "Bot {{wpm}} WPM",
     "won": "You win!",
-    "lost": "The bot wins…"
+    "lost": "The bot wins…",
+    "customTitle": "Custom text",
+    "customPlaceholder": "Paste or type your own text for the test…",
+    "customStart": "Start test",
+    "customClear": "Use random words"
   },
   "stats": {
     "title": "My Stats",
