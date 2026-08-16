@@ -8,7 +8,6 @@ import { generateWords } from '../features/typing/words'
 import { useLocalStats } from '../features/stats/useLocalStats'
 import { Keyboard } from '../components/Keyboard'
 import { TrendChart } from '../components/TrendChart'
-import { FingerGuide } from '../components/FingerGuide'
 import { TypeArea } from '../features/typing/TypeArea'
 import { cn } from '../lib/cn'
 
@@ -103,11 +102,13 @@ function SpeedEngine({
         </div>
       )}
 
-      <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
+      <Keyboard
+          activeKey={activeKey}
+          pressedKey={engine.lastKey}
+          pressCount={engine.pressCount}
+          finger={finger}
+        />
         </div>
-
-        <FingerGuide finger={engine.finished ? null : finger} />
-
       </div>
 
       {result && (

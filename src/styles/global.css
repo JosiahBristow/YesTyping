@@ -532,52 +532,17 @@ a {
   font-weight: 600;
 }
 
-/* ---------- Session layout + finger guide ---------- */
+/* ---------- Session layout ---------- */
 
 .session-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 132px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.25rem;
   align-items: start;
 }
 
 .session-main {
   min-width: 0;
-}
-
-.finger-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  position: sticky;
-  top: 82px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 1rem 0.75rem 0.9rem;
-}
-
-.finger-panel .hand {
-  width: 100%;
-  max-width: 92px;
-}
-
-.hand-finger {
-  transition: fill 0.12s ease, filter 0.12s ease;
-}
-
-.hand-finger.active {
-  filter: drop-shadow(0 2px 6px rgba(24, 32, 46, 0.3));
-}
-
-.finger-panel-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-align: center;
 }
 
 /* ---------- Practice screen ---------- */
@@ -719,19 +684,22 @@ a {
   user-select: none;
 }
 
+.kb-keys {
+  position: relative;
+  width: 775px;
+  height: 262px;
+}
+
 .kb-row {
   display: flex;
-  gap: 7px;
-  justify-content: center;
-  margin-bottom: 7px;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .keycap {
   --kc: var(--line);
   position: relative;
-  flex: 1;
-  max-width: 56px;
-  height: 48px;
+  flex: none;
   display: grid;
   place-items: center;
   font-family: var(--font-mono);
@@ -789,9 +757,29 @@ a {
   100% { transform: translateY(0); }
 }
 
-.kb-row.space-row .keycap {
-  max-width: 360px;
-  height: 42px;
+.kb-hands {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hand-finger {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: stroke 0.12s ease, filter 0.12s ease;
+}
+
+.hand-finger.active {
+  filter: drop-shadow(0 3px 7px rgba(24, 32, 46, 0.35));
+  animation: fingerdip 0.18s ease;
+}
+
+@keyframes fingerdip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
 }
 
 .kb-space-label {
@@ -1113,13 +1101,16 @@ a {
   .session-grid {
     grid-template-columns: 1fr;
   }
-  .finger-panel {
-    flex-direction: row;
-    position: static;
-    justify-content: center;
+}
+
+@media (max-width: 780px) {
+  .kb {
+    overflow: hidden;
   }
-  .finger-panel .hand {
-    width: 56px;
+  .kb-keys {
+    transform: scale(0.78);
+    transform-origin: top left;
+    margin-bottom: -58px;
   }
 }
 
@@ -1143,13 +1134,10 @@ a {
   .type-area {
     font-size: 1.2rem;
   }
-  .keycap {
-    height: 42px;
-    font-size: 0.8rem;
-    border-radius: 8px;
-  }
-  .kb-row {
-    gap: 5px;
+  .kb-keys {
+    transform: scale(0.58);
+    transform-origin: top left;
+    margin-bottom: -110px;
   }
 }
 
