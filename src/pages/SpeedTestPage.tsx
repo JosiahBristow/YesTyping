@@ -104,8 +104,6 @@ function SpeedEngine({
 
       <Keyboard
           activeKey={activeKey}
-          pressedKey={engine.lastKey}
-          pressCount={engine.pressCount}
           finger={finger}
         />
         </div>

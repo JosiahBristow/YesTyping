@@ -71,8 +71,6 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
 
       <Keyboard
         activeKey={activeKey}
-        pressedKey={engine.lastKey}
-        pressCount={engine.pressCount}
         finger={finger}
       />
       </div>
