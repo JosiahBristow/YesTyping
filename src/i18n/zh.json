@@ -107,6 +107,11 @@
     "en": "English",
     "zh": "中文"
   },
+  "sound": {
+    "label": "音效",
+    "on": "开启音效",
+    "off": "关闭音效"
+  },
   "layout": {
     "label": "键盘配列",
     "qwerty": "QWERTY",

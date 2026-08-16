@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { playError, playKey } from '../../lib/sound'
 import {
   accuracy,
   consistencyOf,
@@ -118,7 +119,10 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
         }
       }
       const expected = textRef.current[i]
-      statesRef.current[i] = ch === expected ? 'correct' : 'wrong'
+      const ok = ch === expected
+      statesRef.current[i] = ok ? 'correct' : 'wrong'
+      if (ok) playKey()
+      else playError()
       i++
     }
     indexRef.current = i

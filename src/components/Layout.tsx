@@ -1,10 +1,12 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLang } from '../lib/lang'
+import { useSound } from '../lib/sound'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
   const { lang, setLang } = useLang()
+  const sound = useSound((s) => s.enabled)
 
   const navLink = ({ isActive }: { isActive: boolean }) => (isActive ? 'active' : '')
 
@@ -31,6 +33,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </NavLink>
           </nav>
           <div className="nav-spacer" />
+          <button
+            type="button"
+            className="sound-toggle"
+            aria-label={sound ? t('sound.off') : t('sound.on')}
+            title={sound ? t('sound.off') : t('sound.on')}
+            onClick={() => useSound.getState().setEnabled(!sound)}
+          >
+            {sound ? '🔊' : '🔇'}
+          </button>
           <div className="lang-switch" role="group" aria-label={t('lang.label')}>
             <button
               type="button"

@@ -107,6 +107,11 @@
     "en": "English",
     "zh": "中文"
   },
+  "sound": {
+    "label": "Sound effects",
+    "on": "Sound on",
+    "off": "Sound off"
+  },
   "layout": {
     "label": "Keyboard layout",
     "qwerty": "QWERTY",
