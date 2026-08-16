@@ -58,7 +58,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <header className="site-header">
         <div className="container">
           <Link to="/" className="logo">
-            <span className="logo-mark">Y</span>
+            <span className="logo-mark" aria-hidden>
+              ⌨️
+            </span>
             YesTyping
           </Link>
           <nav className="nav" aria-label="main">

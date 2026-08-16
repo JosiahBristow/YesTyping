@@ -76,14 +76,12 @@ a {
 .logo-mark {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 9px;
   background: var(--ink);
-  color: var(--canvas);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
+  line-height: 1;
 }
 
 .nav {
