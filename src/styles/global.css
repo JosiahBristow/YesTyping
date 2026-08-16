@@ -568,6 +568,7 @@ a {
 .course-card.type-finger .course-ic { background: var(--amber-soft); }
 .course-card.type-english .course-ic { background: var(--brand-soft); }
 .course-card.type-numbers .course-ic { background: var(--soft-rose); }
+.course-card.type-symbols .course-ic { background: var(--soft-violet); }
 .course-card.type-code .course-ic { background: var(--soft-violet); }
 .course-card.type-numpad .course-ic { background: var(--soft-mint); }
 .course-card.type-vim .course-ic { background: var(--soft-green); }

@@ -7,12 +7,14 @@ import { chineseCourse } from './chinese'
 import { codeCourse } from './code'
 import { numpadCourse } from './numpad'
 import { vocabCourse } from './vocab'
+import { symbolsCourse } from './symbols'
 import type { Course } from './courseData'
 
 export const COURSES: Course[] = [
   fingerBasics,
   englishCourse,
   numbersCourse,
+  symbolsCourse,
   codeCourse,
   numpadCourse,
   vimCourse,
