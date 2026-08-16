@@ -863,7 +863,7 @@ a {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 0 0.9rem;
+  gap: 0 1.2rem;
 }
 
 .type-area.with-hints .word-cell {
@@ -873,14 +873,14 @@ a {
 }
 
 .word-hint {
-  font-size: 0.66rem;
-  line-height: 1.4;
-  color: var(--ink-faint);
-  max-width: 9ch;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 14ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.15rem;
 }
 
 .type-area.with-hints .tok-space,
@@ -2628,10 +2628,10 @@ body {
     gap: 0.5rem;
   }
   .type-area.with-hints {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
   .word-hint {
-    max-width: 7ch;
+    max-width: 10ch;
   }
   .hero h1 {
     font-size: 2rem;
