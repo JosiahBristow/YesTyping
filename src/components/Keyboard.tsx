@@ -1,13 +1,11 @@
-import { useTranslation } from 'react-i18next'
 import { cn } from '../lib/cn'
-import { FINGER_BY_KEY, FINGERS, KEYBOARD_ROWS, type Finger } from '../features/typing/fingerMap'
+import { FINGER_BY_KEY, KEYBOARD_ROWS, type Finger } from '../features/typing/fingerMap'
 import { charAtKey, keyForChar, type LayoutId } from '../features/typing/layouts'
 
 export interface KeyboardProps {
   activeKey?: string | null
   pressedKey?: string | null
   pressCount?: number
-  showLegend?: boolean
   layout?: LayoutId
   errorKeys?: Record<string, number>
   lastWasWrong?: boolean
@@ -22,13 +20,11 @@ export function Keyboard({
   activeKey,
   pressedKey,
   pressCount = 0,
-  showLegend = true,
   layout = 'qwerty',
   errorKeys,
   lastWasWrong = false,
   shiftSide = null,
 }: KeyboardProps) {
-  const { t } = useTranslation()
   const pressed = pressedKey ? keyForChar(pressedKey, layout) : null
   const maxErr = errorKeys ? Math.max(1, ...Object.values(errorKeys)) : 0
 
@@ -79,16 +75,6 @@ export function Keyboard({
           {row.map((k, i) => renderCap(k, k === 'Shift' && i === 0))}
         </div>
       ))}
-      {showLegend && (
-        <div className="kb-legend">
-          {FINGERS.map((f) => (
-            <span key={f}>
-              <i className={cn('legend-dot', `finger-${f}`)} />
-              {t(`finger.${f}`)}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   )
 }

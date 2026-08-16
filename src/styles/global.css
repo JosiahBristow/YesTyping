@@ -1228,28 +1228,6 @@ a {
   color: var(--ink-faint);
 }
 
-.kb-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  justify-content: center;
-  margin-top: 0.9rem;
-  font-size: 0.74rem;
-  color: var(--ink-soft);
-}
-
-.kb-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.legend-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 3px;
-}
-
 /* ---------- Numpad ---------- */
 
 .numpad {

@@ -128,7 +128,7 @@ export function StatsPage() {
             </h2>
             {hasErrors ? (
               <>
-                <Keyboard errorKeys={errorKeys} showLegend={false} />
+                <Keyboard errorKeys={errorKeys} />
                 <div className="top-errors">
                   {topErrors.map(([k, n]) => (
                     <span className="error-chip" key={k}>
