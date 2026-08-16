@@ -1385,6 +1385,55 @@ a {
   color: var(--ink-faint);
 }
 
+.lesson-skip {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.lesson-skip:hover {
+  background: var(--amber-soft);
+  color: var(--amber-ink);
+  border-color: rgba(255, 178, 36, 0.4);
+}
+
+.unlock-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.1rem;
+}
+
+.unlock-banner.pending {
+  background: var(--brand-soft);
+  border: 1px solid var(--brand);
+  color: var(--brand-ink);
+  font-size: 0.9rem;
+}
+
+.unlock-banner.passed {
+  background: var(--soft-green);
+  border: 1px solid rgba(18, 183, 106, 0.4);
+  color: var(--good);
+}
+
+.unlock-banner.failed {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--bad);
+}
+
 /* ---------- Result overlay ---------- */
 
 .result-overlay {

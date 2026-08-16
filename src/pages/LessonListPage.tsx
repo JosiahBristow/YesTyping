@@ -73,18 +73,31 @@ export function LessonListPage() {
           const unlocked = isLessonUnlocked(course, done, i)
           const isDone = Boolean(done[progressKey(course.id, lesson.id)])
           const label = lang === 'zh' ? lesson.title.zh : lesson.title.en
+          if (unlocked) {
+            return (
+              <button
+                key={lesson.id}
+                type="button"
+                className={cn('lesson-card', 'unlocked', isDone && 'done', i === nextIndex && 'next')}
+                onClick={() => navigate(`/practice/${course.id}/${lesson.id}`)}
+              >
+                <span className="lesson-card-num">{isDone ? '✓' : String(i + 1).padStart(2, '0')}</span>
+                <span className="lesson-card-title">{label}</span>
+              </button>
+            )
+          }
           return (
-            <button
-              key={lesson.id}
-              type="button"
-              disabled={!unlocked}
-              className={cn('lesson-card', unlocked && 'unlocked', isDone && 'done', i === nextIndex && 'next')}
-              onClick={() => navigate(`/practice/${course.id}/${lesson.id}`)}
-            >
-              <span className="lesson-card-num">{unlocked ? (isDone ? '✓' : String(i + 1).padStart(2, '0')) : '🔒'}</span>
+            <div key={lesson.id} className="lesson-card locked">
+              <span className="lesson-card-num">🔒</span>
               <span className="lesson-card-title">{label}</span>
-              {!unlocked && <span className="lesson-card-lock">{t('practice.lockedShort')}</span>}
-            </button>
+              <button
+                type="button"
+                className="lesson-skip"
+                onClick={() => navigate(`/speed-test?unlock=${course.id}:${lesson.id}`)}
+              >
+                ⏭ {t('practice.skip')}
+              </button>
+            </div>
           )
         })}
       </div>

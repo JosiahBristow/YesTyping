@@ -82,6 +82,7 @@
     "shiftRight": "右 Shift",
     "hideKeyboard": "隐藏键盘",
     "showKeyboard": "显示键盘",
+    "skip": "跳过",
     "passed": "课程通过！",
     "notPassed": "尚未通过",
     "passTime": "用时",
@@ -111,7 +112,11 @@
     "customTitle": "自定义文章",
     "customPlaceholder": "粘贴或输入你的测试文本…",
     "customStart": "开始测试",
-    "customClear": "改用随机单词"
+    "customClear": "改用随机单词",
+    "unlockHint": "跳关挑战：速度超过 {{wpm}} WPM（英文）或 {{cpm}} 汉字/分钟（中文），即可解锁直到「{{lesson}}」的所有小节。",
+    "unlockPassed": "速度达标——已解锁直到「{{lesson}}」的所有小节！",
+    "unlockFailed": "速度还不够——需要超过 {{wpm}} WPM 或 {{cpm}} 汉字/分钟。",
+    "backToCourse": "返回小节列表"
   },
   "stats": {
     "title": "我的数据",

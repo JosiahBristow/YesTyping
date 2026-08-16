@@ -82,6 +82,7 @@
     "shiftRight": "Right Shift",
     "hideKeyboard": "Hide keyboard",
     "showKeyboard": "Show keyboard",
+    "skip": "Skip",
     "passed": "Lesson passed!",
     "notPassed": "Not passed yet",
     "passTime": "Time",
@@ -111,7 +112,11 @@
     "customTitle": "Custom text",
     "customPlaceholder": "Paste or type your own text for the test…",
     "customStart": "Start test",
-    "customClear": "Use random words"
+    "customClear": "Use random words",
+    "unlockHint": "Skip challenge: reach over {{wpm}} WPM (English) or {{cpm}} chars/min (Chinese) to unlock lessons up to \"{{lesson}}\".",
+    "unlockPassed": "Speed unlocked — every lesson up to \"{{lesson}}\" is now open!",
+    "unlockFailed": "Not fast enough yet — you need over {{wpm}} WPM or {{cpm}} chars/min.",
+    "backToCourse": "Back to lessons"
   },
   "stats": {
     "title": "My Stats",

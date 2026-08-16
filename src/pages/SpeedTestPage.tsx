@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useMemo, useState } from 'react'
 import { useTypingEngine } from '../features/typing/useTypingEngine'
 import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from '../features/typing/layouts'
@@ -7,6 +8,8 @@ import { formatClock } from '../features/typing/metrics'
 import { generateWords } from '../features/typing/words'
 import { useLocalStats } from '../features/stats/useLocalStats'
 import { maybeUnlock, winRace } from '../features/achievements/achievements'
+import { getCourse } from '../features/courses'
+import { useProgress } from '../features/progress/useProgress'
 import { Keyboard } from '../components/Keyboard'
 import { KeyboardToggle } from '../components/KeyboardToggle'
 import { TrendChart } from '../components/TrendChart'
@@ -21,6 +24,9 @@ import { syncStats } from '../features/stats/remoteStats'
 const DURATIONS = [15, 30, 60]
 const OPPONENTS = [20, 40, 60, 80]
 const CUSTOM_KEY = 'yestyping.customText'
+// Skip-challenge thresholds: >100 English WPM or >60 Chinese chars/min.
+const UNLOCK_WPM = 100
+const UNLOCK_CPM = 60
 
 function loadCustomText(): string {
   try {
@@ -43,6 +49,7 @@ function SpeedEngine({
   race,
   opponent,
   customText,
+  unlockTarget,
   onPick,
   onRestart,
 }: {
@@ -50,6 +57,7 @@ function SpeedEngine({
   race: boolean
   opponent: number
   customText: string
+  unlockTarget?: string
   onPick: (d: number) => void
   onRestart: () => void
 }) {
@@ -58,11 +66,19 @@ function SpeedEngine({
   const showKeyboard = useSettings((s) => s.showKeyboard)
   const [result, setResult] = useState<EngineResult | null>(null)
   const [raceResult, setRaceResult] = useState<'win' | 'lose' | null>(null)
+  const [unlockResult, setUnlockResult] = useState<'passed' | 'failed' | null>(null)
   const { add } = useLocalStats()
   const hasCustom = Boolean(customText.trim())
   const initialText = useMemo(() => (hasCustom ? customText : generateWords(80)), [hasCustom, customText])
 
   const goalChars = race ? Math.round((opponent * 5) / 60) * duration : 0
+  const unlockParts = unlockTarget?.split(':') ?? []
+  const unlockCourseId = unlockParts[0]
+  const unlockLessonId = unlockParts[1]
+  const unlockCourse = unlockCourseId ? getCourse(unlockCourseId) : undefined
+  const unlockLessonName = unlockLessonId
+    ? unlockCourse?.lessons.find((l) => l.id === unlockLessonId)?.title.en ?? ''
+    : ''
 
   const engine = useTypingEngine({
     text: initialText,
@@ -88,6 +104,22 @@ function SpeedEngine({
       maybeUnlock()
       winRace(won)
       void syncStats()
+
+      // Skip challenge: meeting the speed bar unlocks every lesson up to
+      // and including the target one.
+      if (unlockCourseId && unlockLessonId && unlockCourse) {
+        const fastEnough = r.wpm > UNLOCK_WPM || r.cpm > UNLOCK_CPM
+        setUnlockResult(fastEnough ? 'passed' : 'failed')
+        if (fastEnough) {
+          const idx = unlockCourse.lessons.findIndex((l) => l.id === unlockLessonId)
+          const end = idx === -1 ? unlockCourse.lessons.length - 1 : idx
+          for (let i = 0; i <= end; i++) {
+            useProgress.getState().markDone(unlockCourseId, unlockCourse.lessons[i].id, r.wpm, r.accuracy)
+          }
+          maybeUnlock()
+          void syncStats()
+        }
+      }
     },
   })
 
@@ -103,6 +135,11 @@ function SpeedEngine({
 
   return (
     <>
+      {unlockTarget && !result && (
+        <div className="unlock-banner pending">
+          <b>⏭ {t('speed.unlockHint', { wpm: UNLOCK_WPM, cpm: UNLOCK_CPM, lesson: unlockLessonName })}</b>
+        </div>
+      )}
       <div className="session-grid">
         <div className="session-main">
       <div className="mode-tabs">
@@ -210,6 +247,22 @@ function SpeedEngine({
               {raceResult === 'win' ? `🏆 ${t('speed.won')}` : `💔 ${t('speed.lost')}`}
             </div>
           )}
+          {unlockTarget && unlockResult && (
+            <div className={cn('unlock-banner', unlockResult)}>
+              {unlockResult === 'passed' ? (
+                <>
+                  <b>🎉 {t('speed.unlockPassed', { lesson: unlockLessonName })}</b>
+                  {unlockCourseId && (
+                    <Link to={`/courses/${unlockCourseId}`} className="btn btn-primary btn-sm" style={{ marginTop: '0.6rem' }}>
+                      {t('speed.backToCourse')} →
+                    </Link>
+                  )}
+                </>
+              ) : (
+                <b>💪 {t('speed.unlockFailed', { wpm: UNLOCK_WPM, cpm: UNLOCK_CPM })}</b>
+              )}
+            </div>
+          )}
           <h2>{t('speed.done')}</h2>
           <p className="sub">{t('speed.summary')}</p>
           <div className="result-stats">
@@ -247,6 +300,8 @@ function SpeedEngine({
 
 export function SpeedTestPage() {
   const { t } = useTranslation()
+  const [searchParams] = useSearchParams()
+  const unlockTarget = searchParams.get('unlock') ?? undefined
   const [duration, setDuration] = useState(30)
   const [race, setRace] = useState(false)
   const [opponent, setOpponent] = useState(40)
@@ -350,15 +405,16 @@ export function SpeedTestPage() {
             </div>
           </div>
         ) : (
-          <SpeedEngine
-            key={seed}
-            duration={duration}
-            race={race}
-            opponent={opponent}
-            customText={customText}
-            onPick={pick}
-            onRestart={restart}
-          />
+        <SpeedEngine
+          key={seed}
+          duration={duration}
+          race={race}
+          opponent={opponent}
+          customText={customText}
+          unlockTarget={unlockTarget}
+          onPick={pick}
+          onRestart={restart}
+        />
         )}
       </div>
     </div>
