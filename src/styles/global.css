@@ -2470,6 +2470,76 @@ a {
   color: var(--ink-soft);
 }
 
+/* ---------- Leaderboard ---------- */
+
+.leaderboard-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.leaderboard-tabs button {
+  border: 0;
+  background: transparent;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.leaderboard-tabs button.active {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.leaderboard-guest {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.75rem;
+}
+
+.leaderboard-link {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.leaderboard-table td:first-child {
+  width: 3rem;
+}
+
+.leaderboard-table tr.mine td {
+  background: var(--brand-soft);
+}
+
+.rank {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.leaderboard-me {
+  font-style: normal;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-soft);
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+  margin-left: 0.4rem;
+}
+
+.leaderboard-value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {

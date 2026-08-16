@@ -4,6 +4,7 @@
     "courses": "课程",
     "speedTest": "打字测试",
     "race": "多人对战",
+    "leaderboard": "排行榜",
     "game": "游戏",
     "stats": "我的数据",
     "achievements": "成就",
@@ -264,6 +265,22 @@
     "again": "再战一局",
     "leaderboard": "排行榜",
     "nameCol": "玩家"
+  },
+  "leaderboard": {
+    "title": "排行榜",
+    "subtitle": "看看你在所有玩家中的排名：最高速度、平均速度、累计时长或练习次数。",
+    "loading": "加载中…",
+    "empty": "榜单还是空的——快去练习，抢占榜首。",
+    "join": "登录加入排行",
+    "guest": "你正以游客身份浏览。",
+    "name": "玩家",
+    "metric": {
+      "max_wpm": "最高速度",
+      "avg_wpm": "平均速度",
+      "total_seconds": "累计时长",
+      "sessions": "练习次数"
+    },
+    "synced": "每次练习后会自动同步统计数据：{{name}}。"
   },
   "footer": {
     "tagline": "快乐学习打字"

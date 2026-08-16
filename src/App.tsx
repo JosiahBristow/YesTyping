@@ -12,13 +12,22 @@ import { CustomTextPage } from './pages/CustomTextPage'
 import { GamePage } from './pages/GamePage'
 import { LoginPage } from './pages/LoginPage'
 import { RacePage } from './pages/RacePage'
+import { LeaderboardPage } from './pages/LeaderboardPage'
 import { VimTerminalPage } from './pages/VimTerminalPage'
 import { syncAchievements } from './features/achievements/achievements'
+import { syncStats } from './features/stats/remoteStats'
+import { useAuth } from './lib/auth'
 
 export default function App() {
+  const userId = useAuth((s) => s.user?.id)
+
   useEffect(() => {
     syncAchievements()
   }, [])
+
+  useEffect(() => {
+    if (userId) void syncStats()
+  }, [userId])
 
   return (
     <Layout>
@@ -28,6 +37,7 @@ export default function App() {
         <Route path="/courses/:id" element={<PracticePage />} />
         <Route path="/speed-test" element={<SpeedTestPage />} />
         <Route path="/race" element={<RacePage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/stats" element={<StatsPage />} />
         <Route path="/achievements" element={<AchievementsPage />} />
         <Route path="/settings" element={<SettingsPage />} />

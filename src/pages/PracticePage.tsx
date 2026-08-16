@@ -10,6 +10,7 @@ import { useProgress, progressKey } from '../features/progress/useProgress'
 import { maybeUnlock } from '../features/achievements/achievements'
 import { useBi } from '../lib/lang'
 import { cn } from '../lib/cn'
+import { syncStats } from '../features/stats/remoteStats'
 
 const EMPTY = { en: '', zh: '' }
 
@@ -80,6 +81,7 @@ export function PracticePage() {
     if (lesson) {
       useProgress.getState().markDone(course.id, lesson.id, result.wpm, result.accuracy)
       maybeUnlock()
+      void syncStats()
     }
   }
 

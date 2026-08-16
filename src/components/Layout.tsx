@@ -37,6 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { to: '/courses', label: t('nav.courses') },
     { to: '/speed-test', label: t('nav.speedTest') },
     { to: '/race', label: t('nav.race') },
+    { to: '/leaderboard', label: t('nav.leaderboard') },
     { to: '/game', label: t('nav.game') },
     { to: '/stats', label: t('nav.stats') },
     { to: '/achievements', label: t('nav.achievements') },

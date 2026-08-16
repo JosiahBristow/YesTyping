@@ -21,6 +21,10 @@ multiplayer (gracefully disabled when unconfigured).
 - `src/features/race/useRace.ts` — realtime room (presence + broadcast).
   All players type the same text via `generateSeededWords(count, seed)`.
 - `src/features/race/leaderboard.ts` — `saveRaceResult` / `fetchLeaderboard`.
+- `src/features/stats/remoteStats.ts` — practice leaderboard: `syncStats()`
+  aggregates the signed-in user's local sessions (max/avg WPM, total seconds,
+  session count, chars) into the public `stats` table, upserted after each
+  session and on login; `fetchLeaderboard(metric)` reads it for `/leaderboard`.
 - DB table + RLS policies live in `supabase/schema.sql`; run it in the
   Supabase SQL Editor. CI passes the env vars from GitHub secrets
   (`.github/workflows/deploy.yml`).

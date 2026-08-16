@@ -4,6 +4,7 @@
     "courses": "Courses",
     "speedTest": "Speed Test",
     "race": "Race",
+    "leaderboard": "Leaderboard",
     "game": "Game",
     "stats": "My Stats",
     "achievements": "Achievements",
@@ -264,6 +265,22 @@
     "again": "Race again",
     "leaderboard": "Top players",
     "nameCol": "Player"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "subtitle": "How you stack up against every player, by best speed, average speed, total practice time or session count.",
+    "loading": "Loading…",
+    "empty": "Nobody's on the board yet — go practice and claim the top spot.",
+    "join": "Sign in to join",
+    "guest": "You're browsing as a guest.",
+    "name": "Player",
+    "metric": {
+      "max_wpm": "Best WPM",
+      "avg_wpm": "Average WPM",
+      "total_seconds": "Total time",
+      "sessions": "Sessions"
+    },
+    "synced": "Stats are synced automatically after each session as {{name}}."
   },
   "footer": {
     "tagline": "Learn typing, have fun."

@@ -15,6 +15,7 @@ import { TypeArea } from '../features/typing/TypeArea'
 import { cn } from '../lib/cn'
 import { useLayout } from '../lib/layout'
 import { useSettings } from '../lib/settings'
+import { syncStats } from '../features/stats/remoteStats'
 
 const DURATIONS = [15, 30, 60]
 const OPPONENTS = [20, 40, 60, 80]
@@ -85,6 +86,7 @@ function SpeedEngine({
       })
       maybeUnlock()
       winRace(won)
+      void syncStats()
     },
   })
 
