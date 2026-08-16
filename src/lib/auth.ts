@@ -20,13 +20,27 @@ export function isValidUsername(username: string): boolean {
   return /^[a-zA-Z0-9_]{3,20}$/.test(username)
 }
 
+interface AuthResult {
+  ok: boolean
+  error?: string
+  code?: 'rate_limit' | 'confirm_email'
+}
+
+/** Turn a raw Supabase error into something actionable. */
+function classifyAuthError(error: { message: string }): { error: string; code?: AuthResult['code'] } {
+  if (/rate limit/i.test(error.message)) {
+    return { error: error.message, code: 'rate_limit' }
+  }
+  return { error: error.message }
+}
+
 interface AuthState {
   user: User | null
   loading: boolean
   initialized: boolean
   error: string | null
-  signUp: (username: string, password: string) => Promise<{ ok: boolean; error?: string }>
-  signIn: (username: string, password: string) => Promise<{ ok: boolean; error?: string }>
+  signUp: (username: string, password: string) => Promise<AuthResult>
+  signIn: (username: string, password: string) => Promise<AuthResult>
   signOut: () => Promise<void>
   clearError: () => void
 }
@@ -46,12 +60,9 @@ export const useAuth = create<AuthState>((set) => ({
       password,
       options: { data: { username } },
     })
-    if (error) return { ok: false, error: error.message }
+    if (error) return { ok: false, ...classifyAuthError(error) }
     if (!data.session) {
-      return {
-        ok: true,
-        error: 'Please disable "Confirm email" in Supabase → Authentication → Providers → Email.',
-      }
+      return { ok: true, error: 'Email confirmation is on — please disable it in Supabase.', code: 'confirm_email' }
     }
     set({ error: null })
     return { ok: true }
@@ -62,7 +73,7 @@ export const useAuth = create<AuthState>((set) => ({
     const email = await resolveUsernameEmail(username)
     if (!email) return { ok: false, error: 'User not found.' }
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) return { ok: false, error: error.message }
+    if (error) return { ok: false, ...classifyAuthError(error) }
     set({ error: null })
     return { ok: true }
   },

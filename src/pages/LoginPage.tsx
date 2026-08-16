@@ -80,7 +80,11 @@ export function LoginPage() {
     clearError()
     const res = mode === 'signin' ? await signIn(username.trim(), password) : await signUp(username.trim(), password)
     setBusy(false)
-    if (!res.ok) {
+    if (res.code === 'rate_limit') {
+      setNotice(t('auth.rateLimit'))
+    } else if (res.code === 'confirm_email') {
+      setNotice(t('auth.confirmEmail'))
+    } else if (!res.ok) {
       setNotice(res.error ?? t('auth.genericError'))
     } else if (res.error) {
       setNotice(res.error)
