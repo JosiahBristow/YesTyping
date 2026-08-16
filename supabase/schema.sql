@@ -15,9 +15,11 @@ create table if not exists public.races (
 
 alter table public.races enable row level security;
 
+drop policy if exists "races_public_insert" on public.races;
 create policy "races_public_insert" on public.races
   for insert with check (true);
 
+drop policy if exists "races_public_select" on public.races;
 create policy "races_public_select" on public.races
   for select using (true);
 
@@ -58,11 +60,14 @@ create table if not exists public.stats (
 
 alter table public.stats enable row level security;
 
+drop policy if exists "stats_public_select" on public.stats;
 create policy "stats_public_select" on public.stats
   for select using (true);
 
+drop policy if exists "stats_own_insert" on public.stats;
 create policy "stats_own_insert" on public.stats
   for insert with check (auth.uid() = user_id);
 
+drop policy if exists "stats_own_update" on public.stats;
 create policy "stats_own_update" on public.stats
   for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
