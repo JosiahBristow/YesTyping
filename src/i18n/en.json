@@ -74,7 +74,8 @@
     "unlockNext": "Go to the next unlocked lesson",
     "lockedShort": "Locked",
     "resume": "Continue",
-    "backToLessons": "All lessons"
+    "backToLessons": "All lessons",
+    "nextKey": "Next key"
   },
   "speed": {
     "title": "Speed Test",

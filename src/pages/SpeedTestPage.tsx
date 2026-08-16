@@ -95,6 +95,8 @@ function SpeedEngine({
   const currentChar = engine.finished ? null : engine.text[engine.index]
   const activeKey = currentChar ? keyForChar(currentChar, layout) : null
   const finger = currentChar ? fingerForChar(currentChar, layout) : null
+  const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
+  const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
 
   return (
     <>
@@ -160,9 +162,12 @@ function SpeedEngine({
 
       <TypeArea text={engine.text} states={engine.states} index={engine.index} />
 
-      {finger && !engine.finished && (
+      {finger && !engine.finished && currentChar && (
         <div className="type-hint">
-          {t('practice.fingerHint')}
+          <span className="next-key" title={t('practice.nextKey')}>
+            {nextKeyLabel}
+          </span>
+          <span className="type-hint-text">{t('practice.fingerHint')}</span>
           <span className="finger-chip">
             <i className={cn('finger-dot', `finger-${finger}`)} />
             {t(`finger.${finger}`)}
@@ -174,7 +179,13 @@ function SpeedEngine({
         <LayoutPicker />
       </div>
       {showKeyboard && (
-        <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
+        <Keyboard
+          activeKey={activeKey}
+          pressedKey={engine.lastKey}
+          pressCount={engine.pressCount}
+          layout={layout}
+          lastWasWrong={lastWasWrong}
+        />
       )}
         </div>
 

@@ -946,6 +946,28 @@ a {
   color: var(--ink-soft);
 }
 
+.next-key {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.6rem;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  border-bottom-width: 3px;
+  background: var(--panel);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-soft);
+  text-transform: uppercase;
+}
+
+.type-hint-text {
+  color: var(--ink-soft);
+}
+
 .finger-chip {
   display: inline-flex;
   align-items: center;
@@ -1053,8 +1075,31 @@ a {
   background: var(--kc);
   color: #18202e;
   border-color: transparent;
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 5px 0 rgba(24, 32, 46, 0.25);
+  transform: translateY(-2px) scale(1.08);
+  box-shadow:
+     0 5px 0 rgba(24, 32, 46, 0.25),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+    0 0 18px var(--kc);
+  z-index: 1;
+}
+
+.keycap.is-wrong {
+  background: var(--bad);
+  color: #fff;
+  border-color: transparent;
+  animation: key-wrong 0.35s ease;
+}
+
+.keycap.is-wrong::after {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes key-wrong {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
 }
 
 .keycap.is-active::after {

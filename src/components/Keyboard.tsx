@@ -10,6 +10,7 @@ export interface KeyboardProps {
   showLegend?: boolean
   layout?: LayoutId
   errorKeys?: Record<string, number>
+  lastWasWrong?: boolean
 }
 
 function capClass(finger: Finger | undefined): string {
@@ -23,6 +24,7 @@ export function Keyboard({
   showLegend = true,
   layout = 'qwerty',
   errorKeys,
+  lastWasWrong = false,
 }: KeyboardProps) {
   const { t } = useTranslation()
   const pressed = pressedKey ? keyForChar(pressedKey, layout) : null
@@ -33,7 +35,14 @@ export function Keyboard({
     const isActive = activeKey === key
     const isPressed = pressed === key
     const err = errorKeys?.[key] ?? 0
-    const classes = cn('keycap', capClass(finger), isActive && 'is-active', isPressed && 'is-pressed', extraClass)
+    const classes = cn(
+      'keycap',
+      capClass(finger),
+      isActive && 'is-active',
+      isPressed && 'is-pressed',
+      isPressed && lastWasWrong && 'is-wrong',
+      extraClass,
+    )
     const style =
       err > 0 && !isActive
         ? ({ background: `rgba(239, 68, 68, ${0.1 + 0.4 * (err / maxErr)})` } as const)

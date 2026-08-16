@@ -48,6 +48,8 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
   const currentChar = engine.finished ? null : text[engine.index]
   const activeKey = numpad ? currentChar : currentChar ? keyForChar(currentChar, layout) : null
   const finger = numpad ? null : currentChar ? fingerForChar(currentChar, layout) : null
+  const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
+  const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
 
   useEffect(() => {
     if (!result) return
@@ -90,9 +92,12 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
 
       <TypeArea text={text} states={engine.states} index={engine.index} hints={hintTexts} />
 
-      {!numpad && finger && (
+      {!numpad && finger && currentChar && (
         <div className="type-hint">
-          {t('practice.fingerHint')}
+          <span className="next-key" title={t('practice.nextKey')}>
+            {nextKeyLabel}
+          </span>
+          <span className="type-hint-text">{t('practice.fingerHint')}</span>
           <span className="finger-chip">
             <i className={cn('finger-dot', `finger-${finger}`)} />
             {t(`finger.${finger}`)}
@@ -107,7 +112,13 @@ function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onResta
         (numpad ? (
           <Numpad activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
         ) : (
-          <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
+          <Keyboard
+            activeKey={activeKey}
+            pressedKey={engine.lastKey}
+            pressCount={engine.pressCount}
+            layout={layout}
+            lastWasWrong={lastWasWrong}
+          />
         ))}
       </div>
 

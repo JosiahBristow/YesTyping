@@ -74,7 +74,8 @@
     "unlockNext": "前往下一节已解锁课程",
     "lockedShort": "已锁定",
     "resume": "继续练习",
-    "backToLessons": "返回小节列表"
+    "backToLessons": "返回小节列表",
+    "nextKey": "下一个按键"
   },
   "speed": {
     "title": "打字测试",

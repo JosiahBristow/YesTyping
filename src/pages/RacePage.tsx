@@ -61,6 +61,8 @@ function RaceEngine({
   const currentChar = engine.finished ? null : text[engine.index]
   const activeKey = currentChar ? keyForChar(currentChar, layout) : null
   const finger = currentChar ? fingerForChar(currentChar, layout) : null
+  const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
+  const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
 
   return (
     <div className="session-grid">
@@ -82,9 +84,12 @@ function RaceEngine({
 
         <TypeArea text={text} states={engine.states} index={engine.index} />
 
-        {finger && (
+        {finger && currentChar && (
           <div className="type-hint">
-            {t('practice.fingerHint')}
+            <span className="next-key" title={t('practice.nextKey')}>
+              {nextKeyLabel}
+            </span>
+            <span className="type-hint-text">{t('practice.fingerHint')}</span>
             <span className="finger-chip">
               <i className={cn('finger-dot', `finger-${finger}`)} />
               {t(`finger.${finger}`)}
@@ -96,7 +101,13 @@ function RaceEngine({
           <LayoutPicker />
         </div>
         {showKeyboard && (
-          <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} layout={layout} />
+          <Keyboard
+            activeKey={activeKey}
+            pressedKey={engine.lastKey}
+            pressCount={engine.pressCount}
+            layout={layout}
+            lastWasWrong={lastWasWrong}
+          />
         )}
       </div>
       <FingerGuide finger={finger} />
