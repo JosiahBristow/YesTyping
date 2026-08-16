@@ -3,6 +3,7 @@
     "home": "Home",
     "courses": "Courses",
     "speedTest": "Speed Test",
+    "game": "Game",
     "stats": "My Stats",
     "achievements": "Achievements",
     "settings": "Settings"
@@ -78,7 +79,14 @@
     "consistency": "Consistency",
     "summary": "Your score",
     "trend": "WPM over the run",
-    "chars": "Characters"
+    "chars": "Characters",
+    "solo": "Solo",
+    "race": "Race",
+    "vs": "Versus",
+    "you": "You",
+    "bot": "Bot {{wpm}} WPM",
+    "won": "You win!",
+    "lost": "The bot wins…"
   },
   "stats": {
     "title": "My Stats",
@@ -159,6 +167,20 @@
     "back": "Back to courses",
     "new": "New text",
     "paste": "Paste your own text"
+  },
+  "game": {
+    "title": "Word Rain",
+    "subtitle": "Type the falling words before they hit the ground. Speed up, level up, don't get drenched.",
+    "score": "Score",
+    "level": "Level",
+    "lives": "Lives",
+    "best": "Best",
+    "howto": "Words are falling — type each one to zap it. Missing a word costs a life.",
+    "start": "Start game",
+    "done": "Game over!",
+    "finalScore": "Final score",
+    "newBest": "New personal best!",
+    "again": "Play again"
   },
   "settings": {
     "title": "Settings",

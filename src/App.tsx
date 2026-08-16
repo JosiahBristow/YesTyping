@@ -8,6 +8,7 @@ import { StatsPage } from './pages/StatsPage'
 import { AchievementsPage } from './pages/AchievementsPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { CustomTextPage } from './pages/CustomTextPage'
+import { GamePage } from './pages/GamePage'
 import { VimTerminalPage } from './pages/VimTerminalPage'
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/achievements" element={<AchievementsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/custom" element={<CustomTextPage />} />
+        <Route path="/game" element={<GamePage />} />
         <Route path="/vim-terminal" element={<VimTerminalPage />} />
       </Routes>
     </Layout>

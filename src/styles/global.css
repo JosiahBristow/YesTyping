@@ -1292,6 +1292,84 @@ a {
   transition: width 0.2s linear;
 }
 
+/* Race mode */
+
+.race-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.opponent-pick {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.race-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.race-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.race-label {
+  flex: none;
+  width: 8.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.race-track {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.race-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.2s linear;
+}
+
+.race-fill.you {
+  background: linear-gradient(90deg, var(--brand), var(--amber));
+}
+
+.race-fill.bot {
+  background: var(--ink-faint);
+  opacity: 0.7;
+}
+
+.race-banner {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.race-banner.win {
+  background: var(--good);
+  color: var(--canvas);
+}
+
+.race-banner.lose {
+  background: var(--bad);
+  color: var(--canvas);
+}
+
 .mode-tabs {
   display: inline-flex;
   gap: 2px;
@@ -1684,6 +1762,121 @@ a {
 
 .toggle.on .toggle-knob {
   transform: translateX(20px);
+}
+
+/* ---------- Word rain game ---------- */
+
+.game-panel {
+  padding: 1.5rem;
+}
+
+.game-hud {
+  display: flex;
+  gap: 0.9rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.game-stat {
+  text-align: center;
+  flex: 1;
+}
+
+.game-stat b {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  display: block;
+}
+
+.game-stat span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+.game-field {
+  position: relative;
+  height: 420px;
+  border-radius: var(--radius-sm);
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.game-word {
+  position: absolute;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.game-word.target {
+  color: var(--ink);
+}
+
+.game-word .typed {
+  color: var(--good);
+}
+
+.game-idle,
+.game-over {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.game-idle .big,
+.game-over .big {
+  font-size: 2.6rem;
+}
+
+.game-over h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.game-over p {
+  color: var(--ink-soft);
+}
+
+.game-new-best {
+  color: var(--amber) !important;
+  font-weight: 700;
+}
+
+.game-buffer {
+  position: absolute;
+  bottom: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--brand);
+  letter-spacing: 0.08em;
+}
+
+.game-combo {
+  margin-top: 0.8rem;
+  text-align: center;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--amber);
+  animation: combo-pop 0.25s ease;
+}
+
+@keyframes combo-pop {
+  from { transform: scale(1.4); opacity: 0.4; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 /* ---------- Footer ---------- */

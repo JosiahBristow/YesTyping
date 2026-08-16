@@ -3,6 +3,7 @@
     "home": "首页",
     "courses": "课程",
     "speedTest": "打字测试",
+    "game": "游戏",
     "stats": "我的数据",
     "achievements": "成就",
     "settings": "设置"
@@ -78,7 +79,14 @@
     "consistency": "稳定性",
     "summary": "本次成绩",
     "trend": "速度变化",
-    "chars": "字符数"
+    "chars": "字符数",
+    "solo": "单人模式",
+    "race": "竞速对战",
+    "vs": "对战",
+    "you": "你",
+    "bot": "机器人 {{wpm}} WPM",
+    "won": "你赢了！",
+    "lost": "机器人赢了…"
   },
   "stats": {
     "title": "我的数据",
@@ -159,6 +167,20 @@
     "back": "返回课程",
     "new": "更换文本",
     "paste": "粘贴自定义文本"
+  },
+  "game": {
+    "title": "单词雨",
+    "subtitle": "输入下落的单词将其消灭。速度越来越快，级别不断上升。",
+    "score": "得分",
+    "level": "级别",
+    "lives": "生命",
+    "best": "最佳",
+    "howto": "单词正在下落——输入每个单词将其消灭。漏掉一个单词会损失一条生命。",
+    "start": "开始游戏",
+    "done": "游戏结束！",
+    "finalScore": "最终得分",
+    "newBest": "新的个人最佳！",
+    "again": "再来一局"
   },
   "settings": {
     "title": "设置",
