@@ -19,22 +19,26 @@ function LessonItem({
   index,
   active,
   completed,
+  locked,
   onClick,
 }: {
   lesson: Lesson
   index: number
   active: boolean
   completed: boolean
+  locked: boolean
   onClick: () => void
 }) {
   const label = useBi(lesson.title)
   return (
     <button
       type="button"
-      className={cn('lesson-item', active && 'active')}
+      className={cn('lesson-item', active && 'active', locked && 'locked')}
+      disabled={locked}
+      aria-disabled={locked}
       onClick={onClick}
     >
-      <span className="num">{completed ? '✓' : String(index + 1).padStart(2, '0')}</span>
+      <span className="num">{locked ? '🔒' : completed ? '✓' : String(index + 1).padStart(2, '0')}</span>
       <span>{label}</span>
     </button>
   )
@@ -66,6 +70,16 @@ export function PracticePage() {
   const lesson = course.lessons[lessonIndex] ?? course.lessons[0]
   const clampedIndex = course.lessons.findIndex((l) => l.id === lesson.id)
 
+  // Sequential unlock: lesson 0 is always open; lesson i needs i-1 completed
+  // (already-completed lessons stay accessible for review).
+  const isUnlocked = (i: number): boolean =>
+    i === 0 ||
+    Boolean(done[progressKey(course.id, course.lessons[i - 1].id)]) ||
+    Boolean(done[progressKey(course.id, course.lessons[i].id)])
+
+  const currentLocked = !isUnlocked(clampedIndex)
+  const firstUnlocked = course.lessons.findIndex((_, i) => isUnlocked(i))
+
   const onFinish = (result: EngineResult) => {
     add({
       label: courseLabel(course, clampedIndex),
@@ -85,7 +99,11 @@ export function PracticePage() {
     }
   }
 
-  const next = () => setLessonIndex((i) => Math.min(i + 1, course.lessons.length - 1))
+  const next = () =>
+    setLessonIndex((i) => {
+      const target = Math.min(i + 1, course.lessons.length - 1)
+      return isUnlocked(target) ? target : i
+    })
   const prev = () => setLessonIndex((i) => Math.max(i - 1, 0))
 
   return (
@@ -104,15 +122,29 @@ export function PracticePage() {
       <div className="practice-wrap">
         <div className="practice-main-col">
           <div className="card practice-panel">
-            <TypingSession
-              key={`${course.id}-${lesson.id}`}
-              text={lesson.text}
-              numpad={course.type === 'numpad'}
-              hints={course.type === 'vocab' ? lesson.hints : undefined}
-              onFinish={onFinish}
-              onNext={next}
-              onPrev={prev}
-            />
+            {currentLocked ? (
+              <div className="empty-state">
+                <div className="big">🔒</div>
+                <p>{t('practice.locked')}</p>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setLessonIndex(Math.max(0, firstUnlocked))}
+                >
+                  {t('practice.unlockNext')} →
+                </button>
+              </div>
+            ) : (
+              <TypingSession
+                key={`${course.id}-${lesson.id}`}
+                text={lesson.text}
+                numpad={course.type === 'numpad'}
+                hints={course.type === 'vocab' ? lesson.hints : undefined}
+                onFinish={onFinish}
+                onNext={next}
+                onPrev={prev}
+              />
+            )}
           </div>
           {course.type === 'vim' && (
             <Link to="/vim-terminal" className="btn btn-ghost vim-term-link">
@@ -130,6 +162,7 @@ export function PracticePage() {
               index={i}
               active={i === clampedIndex}
               completed={Boolean(done[progressKey(course.id, l.id)])}
+              locked={!isUnlocked(i)}
               onClick={() => setLessonIndex(i)}
             />
           ))}

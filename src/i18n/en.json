@@ -69,7 +69,9 @@
     "enterNext": "Press <kbd>Enter</kbd> for the next lesson",
     "combo": "Combo",
     "choseLesson": "Choose a lesson",
-    "numpadHint": "Use the numeric keypad — the top row won't register."
+    "numpadHint": "Use the numeric keypad — the top row won't register.",
+    "locked": "This lesson is locked — complete the previous one to unlock it.",
+    "unlockNext": "Go to the next unlocked lesson"
   },
   "speed": {
     "title": "Speed Test",

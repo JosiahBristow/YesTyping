@@ -69,7 +69,9 @@
     "enterNext": "按 <kbd>Enter</kbd> 进入下一课",
     "combo": "连击",
     "choseLesson": "选择课程",
-    "numpadHint": "请使用数字小键盘——数字行不会被识别。"
+    "numpadHint": "请使用数字小键盘——数字行不会被识别。",
+    "locked": "本节已锁定——完成前一节即可解锁。",
+    "unlockNext": "前往下一节已解锁课程"
   },
   "speed": {
     "title": "打字测试",

@@ -1231,6 +1231,15 @@ a {
   font-weight: 600;
 }
 
+.lesson-item.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lesson-item.locked:hover {
+  background: transparent;
+}
+
 .lesson-item .num {
   font-family: var(--font-mono);
   font-size: 0.75rem;
