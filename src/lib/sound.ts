@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import keySoundUrl from '../assets/sounds/key.mp3'
 
 const STORAGE_KEY = 'yestyping.sound'
 
@@ -35,57 +36,20 @@ function getCtx(): AudioContext | null {
   }
 }
 
-function playNoiseClick(
-  ac: AudioContext,
-  start: number,
-  dur: number,
-  freq: number,
-  q: number,
-  vol: number,
-): void {
-  const len = Math.max(1, Math.floor(ac.sampleRate * dur))
-  const buffer = ac.createBuffer(1, len, ac.sampleRate)
-  const data = buffer.getChannelData(0)
-  for (let i = 0; i < len; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3)
-  }
-  const src = ac.createBufferSource()
-  src.buffer = buffer
-  const bp = ac.createBiquadFilter()
-  bp.type = 'bandpass'
-  bp.frequency.value = freq
-  bp.Q.value = q
-  const gain = ac.createGain()
-  gain.gain.setValueAtTime(vol, start)
-  gain.gain.exponentialRampToValueAtTime(0.001, start + dur)
-  src.connect(bp)
-  bp.connect(gain)
-  gain.connect(ac.destination)
-  src.start(start)
-  src.stop(start + dur + 0.01)
-}
-
-function playThock(ac: AudioContext, start: number, freq: number, dur: number, vol: number): void {
-  const osc = ac.createOscillator()
-  osc.type = 'sine'
-  osc.frequency.value = freq
-  const gain = ac.createGain()
-  gain.gain.setValueAtTime(vol, start)
-  gain.gain.exponentialRampToValueAtTime(0.001, start + dur)
-  osc.connect(gain)
-  gain.connect(ac.destination)
-  osc.start(start)
-  osc.stop(start + dur + 0.01)
-}
+let keyAudio: HTMLAudioElement | null = null
 
 export function playKey(): void {
   if (!useSound.getState().enabled) return
-  const ac = getCtx()
-  if (!ac) return
-  const now = ac.currentTime
-  playNoiseClick(ac, now, 0.012, 3800, 2.2, 0.45)
-  playNoiseClick(ac, now, 0.02, 1700, 1.4, 0.3)
-  playThock(ac, now, 210, 0.03, 0.25)
+  try {
+    if (!keyAudio) {
+      keyAudio = new Audio(keySoundUrl)
+      keyAudio.volume = 0.9
+    }
+    keyAudio.currentTime = 0
+    void keyAudio.play()
+  } catch {
+    /* ignore audio errors */
+  }
 }
 
 export function playError(): void {
