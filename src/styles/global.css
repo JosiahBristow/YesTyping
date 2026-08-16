@@ -1081,8 +1081,33 @@ a {
 }
 
 .kb-row-4 {
-  padding-left: 17%;
-  padding-right: 17%;
+  padding-left: 2.8%;
+  padding-right: 2.8%;
+}
+
+.keycap.tab {
+  flex: 1.5;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.keycap.caps {
+  flex: 1.8;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.keycap.mod {
+  flex: 1.2;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.keycap.space {
+  flex: 6;
 }
 
 .keycap {
@@ -1193,11 +1218,6 @@ a {
   0% { transform: translateY(0); }
   45% { transform: translateY(3px) scale(0.96); }
   100% { transform: translateY(0); }
-}
-
-.kb-row.space-row .keycap {
-  max-width: none;
-  height: 42px;
 }
 
 .kb-space-label {

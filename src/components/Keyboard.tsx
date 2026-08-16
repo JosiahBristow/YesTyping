@@ -43,11 +43,16 @@ export function Keyboard({
     const classes = cn(
       'keycap',
       capClass(finger),
+      key === 'Tab' && 'tab',
+      key === 'Caps' && 'caps',
+      (key === 'Ctrl' || key === 'Win' || key === 'Alt') && 'mod',
+      key === 'space' && 'space',
       isShift && 'shift',
       shiftOn && 'shift-on',
       isActive && 'is-active',
       isPressed && 'is-pressed',
       isPressed && lastWasWrong && 'is-wrong',
+      key === 'space' && 'kb-space-label',
       extraClass,
     )
     const style =
@@ -74,7 +79,6 @@ export function Keyboard({
           {row.map((k, i) => renderCap(k, k === 'Shift' && i === 0))}
         </div>
       ))}
-      <div className="kb-row space-row kb-row-4">{renderCap('space', false, 'kb-space-label')}</div>
       {showLegend && (
         <div className="kb-legend">
           {FINGERS.map((f) => (
