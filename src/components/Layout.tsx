@@ -1,8 +1,10 @@
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLang } from '../lib/lang'
 import { useSound } from '../lib/sound'
 import { displayName, useAuth } from '../lib/auth'
+import { cn } from '../lib/cn'
 import { AchievementToasts } from './AchievementToasts'
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -10,8 +12,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const { lang, setLang } = useLang()
   const sound = useSound((s) => s.enabled)
   const user = useAuth((s) => s.user)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [location.pathname])
 
   const navLink = ({ isActive }: { isActive: boolean }) => (isActive ? 'active' : '')
+
+  const links = [
+    { to: '/', label: t('nav.home'), end: true },
+    { to: '/courses', label: t('nav.courses') },
+    { to: '/speed-test', label: t('nav.speedTest') },
+    { to: '/race', label: t('nav.race') },
+    { to: '/game', label: t('nav.game') },
+    { to: '/stats', label: t('nav.stats') },
+    { to: '/achievements', label: t('nav.achievements') },
+  ]
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -22,67 +40,95 @@ export function Layout({ children }: { children: React.ReactNode }) {
             YesTyping
           </Link>
           <nav className="nav" aria-label="main">
-            <NavLink to="/" end className={navLink}>
-              {t('nav.home')}
-            </NavLink>
-            <NavLink to="/courses" className={navLink}>
-              {t('nav.courses')}
-            </NavLink>
-            <NavLink to="/speed-test" className={navLink}>
-              {t('nav.speedTest')}
-            </NavLink>
-            <NavLink to="/race" className={navLink}>
-              {t('nav.race')}
-            </NavLink>
-            <NavLink to="/game" className={navLink}>
-              {t('nav.game')}
-            </NavLink>
-            <NavLink to="/stats" className={navLink}>
-              {t('nav.stats')}
-            </NavLink>
-            <NavLink to="/achievements" className={navLink}>
-              {t('nav.achievements')}
-            </NavLink>
+            {links.map((l) => (
+              <NavLink key={l.to} to={l.to} end={l.end} className={navLink}>
+                {l.label}
+              </NavLink>
+            ))}
           </nav>
           <div className="nav-spacer" />
-          {user ? (
-            <div className="user-chip" title={user.email ?? ''}>
-              <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
-              <span className="user-name">{displayName(user)}</span>
-            </div>
-          ) : (
-            <Link to="/login" className="nav-icon-btn login-btn" title={t('nav.login')}>
-              👤
+          <div className="header-actions">
+            {user ? (
+              <div className="user-chip" title={user.email ?? ''}>
+                <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
+                <span className="user-name">{displayName(user)}</span>
+              </div>
+            ) : (
+              <Link to="/login" className="nav-icon-btn login-btn" title={t('nav.login')}>
+                👤
+              </Link>
+            )}
+            <Link to="/settings" className="nav-icon-btn" aria-label={t('nav.settings')} title={t('nav.settings')}>
+              ⚙️
             </Link>
-          )}
-          <Link to="/settings" className="nav-icon-btn" aria-label={t('nav.settings')} title={t('nav.settings')}>
-            ⚙️
-          </Link>
+            <button
+              type="button"
+              className="sound-toggle"
+              aria-label={sound ? t('sound.off') : t('sound.on')}
+              title={sound ? t('sound.off') : t('sound.on')}
+              onClick={() => useSound.getState().setEnabled(!sound)}
+            >
+              {sound ? '🔊' : '🔇'}
+            </button>
+            <div className="lang-switch" role="group" aria-label={t('lang.label')}>
+              <button type="button" className={lang === 'zh' ? 'active' : ''} onClick={() => setLang('zh')}>
+                中文
+              </button>
+              <button type="button" className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>
+                EN
+              </button>
+            </div>
+          </div>
           <button
             type="button"
-            className="sound-toggle"
-            aria-label={sound ? t('sound.off') : t('sound.on')}
-            title={sound ? t('sound.off') : t('sound.on')}
-            onClick={() => useSound.getState().setEnabled(!sound)}
+            className="nav-burger"
+            aria-label="menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
           >
-            {sound ? '🔊' : '🔇'}
+            {menuOpen ? '✕' : '☰'}
           </button>
-          <div className="lang-switch" role="group" aria-label={t('lang.label')}>
-            <button
-              type="button"
-              className={lang === 'zh' ? 'active' : ''}
-              onClick={() => setLang('zh')}
-            >
-              中文
-            </button>
-            <button
-              type="button"
-              className={lang === 'en' ? 'active' : ''}
-              onClick={() => setLang('en')}
-            >
-              EN
-            </button>
-          </div>
+        </div>
+
+        <div className={cn('mobile-nav', menuOpen && 'open')}>
+          <nav className="mobile-links" aria-label="mobile">
+            {links.map((l) => (
+              <NavLink key={l.to} to={l.to} end={l.end} className={navLink}>
+                {l.label}
+              </NavLink>
+            ))}
+            <div className="mobile-divider" />
+            {user ? (
+              <Link to="/login" className="mobile-account">
+                <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
+                {displayName(user)}
+              </Link>
+            ) : (
+              <Link to="/login" className="mobile-account">
+                👤 {t('nav.login')}
+              </Link>
+            )}
+            <Link to="/settings" className="mobile-account">
+              ⚙️ {t('nav.settings')}
+            </Link>
+            <div className="mobile-actions">
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={() => useSound.getState().setEnabled(!sound)}
+              >
+                {sound ? '🔊' : '🔇'} {t('sound.label')}
+              </button>
+              <div className="lang-switch" role="group" aria-label={t('lang.label')}>
+                <button type="button" className={lang === 'zh' ? 'active' : ''} onClick={() => setLang('zh')}>
+                  中文
+                </button>
+                <button type="button" className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>
+                  EN
+                </button>
+              </div>
+            </div>
+          </nav>
         </div>
       </header>
 
