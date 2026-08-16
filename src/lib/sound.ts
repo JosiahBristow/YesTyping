@@ -70,3 +70,25 @@ export function playError(): void {
   osc.start(now)
   osc.stop(now + 0.18)
 }
+
+export function playAchievement(): void {
+  if (!useSound.getState().enabled) return
+  const ac = getCtx()
+  if (!ac) return
+  const now = ac.currentTime
+  const notes = [523.25, 659.25, 783.99, 1046.5]
+
+  notes.forEach((freq, i) => {
+    const osc = ac.createOscillator()
+    osc.type = 'triangle'
+    osc.frequency.setValueAtTime(freq, now + i * 0.09)
+    const gain = ac.createGain()
+    gain.gain.setValueAtTime(0.0001, now + i * 0.09)
+    gain.gain.exponentialRampToValueAtTime(0.18, now + i * 0.09 + 0.02)
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.28)
+    osc.connect(gain)
+    gain.connect(ac.destination)
+    osc.start(now + i * 0.09)
+    osc.stop(now + i * 0.09 + 0.3)
+  })
+}

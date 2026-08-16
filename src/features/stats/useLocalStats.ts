@@ -12,6 +12,7 @@ export interface SessionRecord {
   correctChars: number
   durationSec?: number
   keyErrors?: Record<string, number>
+  maxCombo?: number
 }
 
 const STORAGE_KEY = 'yestyping.sessions.v1'

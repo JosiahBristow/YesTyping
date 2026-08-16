@@ -74,11 +74,12 @@ export function PracticePage() {
       elapsedSec: result.elapsedSec,
       correctChars: result.correctChars,
       keyErrors: result.keyErrors,
+      maxCombo: result.maxCombo,
     })
     const lesson = course.lessons[clampedIndex]
     if (lesson) {
       useProgress.getState().markDone(course.id, lesson.id, result.wpm, result.accuracy)
-      maybeUnlock(result)
+      maybeUnlock()
     }
   }
 

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { HomePage } from './pages/HomePage'
@@ -10,8 +11,13 @@ import { SettingsPage } from './pages/SettingsPage'
 import { CustomTextPage } from './pages/CustomTextPage'
 import { GamePage } from './pages/GamePage'
 import { VimTerminalPage } from './pages/VimTerminalPage'
+import { syncAchievements } from './features/achievements/achievements'
 
 export default function App() {
+  useEffect(() => {
+    syncAchievements()
+  }, [])
+
   return (
     <Layout>
       <Routes>

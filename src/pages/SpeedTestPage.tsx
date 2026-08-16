@@ -6,7 +6,7 @@ import type { EngineResult } from '../features/typing/metrics'
 import { formatClock } from '../features/typing/metrics'
 import { generateWords } from '../features/typing/words'
 import { useLocalStats } from '../features/stats/useLocalStats'
-import { maybeUnlock } from '../features/achievements/achievements'
+import { maybeUnlock, winRace } from '../features/achievements/achievements'
 import { Keyboard } from '../components/Keyboard'
 import { TrendChart } from '../components/TrendChart'
 import { FingerGuide } from '../components/FingerGuide'
@@ -50,7 +50,8 @@ function SpeedEngine({
     layout,
     onFinish: (r) => {
       setResult(r)
-      if (race) setRaceResult(r.correctChars >= goalChars ? 'win' : 'lose')
+      const won = race ? r.correctChars >= goalChars : false
+      if (race) setRaceResult(won ? 'win' : 'lose')
       add({
         label: `Speed test ${duration}s`,
         mode: r.mode,
@@ -60,8 +61,10 @@ function SpeedEngine({
         correctChars: r.correctChars,
         durationSec: duration,
         keyErrors: r.keyErrors,
+        maxCombo: r.maxCombo,
       })
-      maybeUnlock(r)
+      maybeUnlock()
+      winRace(won)
     },
   })
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { playError, playKey } from '../../lib/sound'
+import { unlockGame } from '../achievements/achievements'
 import { WORD_POOL } from '../typing/words'
 
 export interface FallingWord {
@@ -179,14 +180,7 @@ export function useWordRain() {
 
   useEffect(() => {
     if (!over) return
-    const best = loadGameBest()
-    if (scoreRef.current > best) {
-      try {
-        localStorage.setItem(STORAGE_KEY, String(scoreRef.current))
-      } catch {
-        // storage unavailable — ignore
-      }
-    }
+    unlockGame(scoreRef.current, maxComboRef.current)
   }, [over])
 
   return {

@@ -115,7 +115,14 @@
     "title": "Achievements",
     "subtitle": "Unlock badges as you practice — it all stays on your device.",
     "count": "{{count}} unlocked",
-    "toast": "New achievement!"
+    "toast": "New achievement!",
+    "cat": {
+      "progress": "Progress",
+      "course": "Courses",
+      "speed": "Speed",
+      "accuracy": "Accuracy",
+      "game": "Games"
+    }
   },
   "finger": {
     "lp": "Left pinky",

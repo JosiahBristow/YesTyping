@@ -115,7 +115,14 @@
     "title": "成就",
     "subtitle": "练习越多，解锁越多徽章 —— 数据仅保存在本地。",
     "count": "已解锁 {{count}}",
-    "toast": "解锁新成就！"
+    "toast": "解锁新成就！",
+    "cat": {
+      "progress": "进度",
+      "course": "课程",
+      "speed": "速度",
+      "accuracy": "准确率",
+      "game": "游戏"
+    }
   },
   "finger": {
     "lp": "左手小指",
