@@ -6,6 +6,7 @@ import type { EngineResult } from './metrics'
 import { formatClock } from './metrics'
 import { Keyboard } from '../../components/Keyboard'
 import { ResultSummary } from '../../components/ResultSummary'
+import { FingerGuide } from '../../components/FingerGuide'
 import { TypeArea } from './TypeArea'
 import { cn } from '../../lib/cn'
 
@@ -36,7 +37,8 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   const finger = currentChar ? fingerForChar(currentChar) : null
 
   return (
-    <>
+    <div className="session-grid">
+      <div className="session-main">
       <div className="stats-bar">
         <div className="stat">
           <b>{engine.wpm}</b>
@@ -69,6 +71,9 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
       )}
 
       <Keyboard activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
+      </div>
+
+      <FingerGuide finger={finger} />
 
       {result && (
         <div className="result-overlay">
@@ -95,7 +100,7 @@ function Engine({ text, onFinish, onNext, onPrev, onRestart }: EngineProps) {
           />
         </div>
       )}
-    </>
+    </div>
   )
 }
 

@@ -532,6 +532,54 @@ a {
   font-weight: 600;
 }
 
+/* ---------- Session layout + finger guide ---------- */
+
+.session-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.session-main {
+  min-width: 0;
+}
+
+.finger-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: sticky;
+  top: 82px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 0.75rem 0.9rem;
+}
+
+.finger-panel .hand {
+  width: 100%;
+  max-width: 92px;
+}
+
+.hand-finger {
+  transition: fill 0.12s ease, filter 0.12s ease;
+}
+
+.hand-finger.active {
+  filter: drop-shadow(0 2px 6px rgba(24, 32, 46, 0.3));
+}
+
+.finger-panel-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 /* ---------- Practice screen ---------- */
 
 .practice-wrap {
@@ -1061,6 +1109,17 @@ a {
   }
   .lesson-side {
     position: static;
+  }
+  .session-grid {
+    grid-template-columns: 1fr;
+  }
+  .finger-panel {
+    flex-direction: row;
+    position: static;
+    justify-content: center;
+  }
+  .finger-panel .hand {
+    width: 56px;
   }
 }
 
