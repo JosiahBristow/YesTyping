@@ -687,7 +687,7 @@ a {
 .kb-keys {
   position: relative;
   width: 775px;
-  height: 262px;
+  height: 306px;
 }
 
 .kb-row {
@@ -1110,7 +1110,7 @@ a {
   .kb-keys {
     transform: scale(0.78);
     transform-origin: top left;
-    margin-bottom: -58px;
+    margin-bottom: -67px;
   }
 }
 
@@ -1137,7 +1137,7 @@ a {
   .kb-keys {
     transform: scale(0.58);
     transform-origin: top left;
-    margin-bottom: -110px;
+    margin-bottom: -128px;
   }
 }
 

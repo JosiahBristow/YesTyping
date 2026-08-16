@@ -25,9 +25,8 @@ const ROW_BASE = [0, 0.5, 0.75, 1.25]
 const ROW_W = 13 * P - GAP // 746 — widest row (numbers / qwerty)
 const KB_W = ROW_BASE[1] * P + ROW_W // 775 — qwerty row sticks out 0.5 key
 const ROW_TOP = [0, CAP_H + GAP, 2 * (CAP_H + GAP), 3 * (CAP_H + GAP), 4 * (CAP_H + GAP)]
-const KB_H = ROW_TOP[4] + CAP_H
+const KB_H = ROW_TOP[4] + CAP_H + 44 // extra room below the space bar for the palms
 const HOMEROW_Y = ROW_TOP[2] + CAP_H / 2
-const SPACE_Y = ROW_TOP[4] + CAP_H / 2
 const SPACE_W = 6 * P
 
 const COLORS: Record<Finger, string> = {
@@ -41,47 +40,96 @@ const COLORS: Record<Finger, string> = {
   rp: '#7aa2f7',
   th: '#fb923c',
 }
-const REST_COLOR = '#c7d0e1'
 
-interface HandFinger {
+const SKIN = '#ebd6c2'
+const SKIN_EDGE = '#d2b294'
+const CREASE = 'rgba(158, 113, 74, 0.5)'
+
+interface FingerSpec {
   id: Finger
-  x: number
+  tip: [number, number]
+  base: [number, number]
+  baseW: number
+  tipW: number
+  bow: number
 }
 
-const LEFT_FINGERS: HandFinger[] = [
-  { id: 'lp', x: 68.5 - 7 },
-  { id: 'lr', x: 126.5 - 2 },
-  { id: 'lm', x: 184.5 + 3 },
-  { id: 'li', x: 242.5 + 9 },
+/* Fingertips land on the home-row key centers; bases meet the palms below. */
+const LEFT_FINGERS: FingerSpec[] = [
+  { id: 'lp', tip: [68.5 - 7, HOMEROW_Y], base: [61, 250], baseW: 15, tipW: 10, bow: 9 },
+  { id: 'lr', tip: [126.5 - 2, HOMEROW_Y], base: [124, 252], baseW: 16, tipW: 11, bow: 5 },
+  { id: 'lm', tip: [184.5 + 3, HOMEROW_Y], base: [187, 254], baseW: 17, tipW: 11, bow: 2 },
+  { id: 'li', tip: [242.5 + 9, HOMEROW_Y], base: [251, 252], baseW: 16, tipW: 11, bow: 7 },
 ]
-const RIGHT_FINGERS: HandFinger[] = [
-  { id: 'ri', x: 416.5 - 9 },
-  { id: 'rm', x: 474.5 - 3 },
-  { id: 'rr', x: 532.5 + 2 },
-  { id: 'rp', x: 590.5 + 7 },
+const RIGHT_FINGERS: FingerSpec[] = [
+  { id: 'ri', tip: [416.5 - 9, HOMEROW_Y], base: [407, 252], baseW: 16, tipW: 11, bow: -7 },
+  { id: 'rm', tip: [474.5 - 3, HOMEROW_Y], base: [472, 254], baseW: 17, tipW: 11, bow: -2 },
+  { id: 'rr', tip: [532.5 + 2, HOMEROW_Y], base: [534, 252], baseW: 16, tipW: 11, bow: -5 },
+  { id: 'rp', tip: [590.5 + 7, HOMEROW_Y], base: [598, 250], baseW: 15, tipW: 10, bow: -9 },
 ]
+const LEFT_THUMB: FingerSpec = { id: 'th', tip: [322, 236], base: [215, 256], baseW: 21, tipW: 13, bow: -18 }
+const RIGHT_THUMB: FingerSpec = { id: 'th', tip: [453, 236], base: [560, 256], baseW: 21, tipW: 13, bow: 18 }
 
-function HandFingerCap({
-  id,
-  x,
-  active,
-}: {
-  id: Finger
-  x: number
-  active: boolean
-}) {
-  const color = active ? COLORS[id] : REST_COLOR
+function fingerShape(
+  tip: [number, number],
+  base: [number, number],
+  baseW: number,
+  tipW: number,
+  bow: number,
+): { d: string; creases: Array<[[number, number], [number, number]]> } {
+  const [bx, by] = base
+  const [tx, ty] = tip
+  const dx = tx - bx
+  const dy = ty - by
+  const len = Math.hypot(dx, dy) || 1
+  const px = -dy / len
+  const py = dx / len
+  const mx = (bx + tx) / 2
+  const my = (by + ty) / 2
+  const lB = `${bx + px * (baseW / 2)},${by + py * (baseW / 2)}`
+  const rB = `${bx - px * (baseW / 2)},${by - py * (baseW / 2)}`
+  const lT = `${tx + px * (tipW / 2)},${ty + py * (tipW / 2)}`
+  const rT = `${tx - px * (tipW / 2)},${ty - py * (tipW / 2)}`
+  const lC = `${mx + px * bow},${my + py * bow}`
+  const rC = `${mx - px * bow},${my - py * bow}`
+  const d = `M ${lB} Q ${lC} ${lT} A ${tipW / 2} ${tipW / 2} 0 0 0 ${rT} Q ${rC} ${rB} A ${baseW / 2} ${baseW / 2} 0 0 0 ${lB} Z`
+  const creases: Array<[[number, number], [number, number]]> = []
+  for (const f of [0.6, 0.28]) {
+    const fx = bx + dx * f
+    const fy = by + dy * f
+    const wf = baseW + (tipW - baseW) * f
+    creases.push([
+      [fx + px * (wf / 2), fy + py * (wf / 2)],
+      [fx - px * (wf / 2), fy - py * (wf / 2)],
+    ])
+  }
+  return { d, creases }
+}
+
+function HandFinger({ spec, active }: { spec: FingerSpec; active: boolean }) {
+  const { d, creases } = fingerShape(spec.tip, spec.base, spec.baseW, spec.tipW, spec.bow)
   return (
-    <line
-      className={cn('hand-finger', active && 'active')}
-      x1={x}
-      y1={HOMEROW_Y + 48}
-      x2={x}
-      y2={HOMEROW_Y}
-      stroke={color}
-      strokeWidth={15}
-      strokeLinecap="round"
-    />
+    <g className={cn('hand-finger', active && 'active')}>
+      <path
+        d={d}
+        fill={active ? COLORS[spec.id] : SKIN}
+        stroke={SKIN_EDGE}
+        strokeWidth={1}
+        strokeLinejoin="round"
+      />
+      {creases.map(([a, b], i) => (
+        <line
+          key={i}
+          x1={a[0]}
+          y1={a[1]}
+          x2={b[0]}
+          y2={b[1]}
+          stroke={CREASE}
+          strokeWidth={1.4}
+          strokeLinecap="round"
+        />
+      ))}
+    </g>
   )
 }
 
@@ -94,34 +142,16 @@ function HandsOverlay({ finger }: { finger: Finger | null }) {
       height={KB_H}
       aria-hidden
     >
-      <ellipse cx={150} cy={212} rx={62} ry={50} fill={REST_COLOR} opacity="0.55" />
-      <ellipse cx={510} cy={212} rx={62} ry={50} fill={REST_COLOR} opacity="0.55" />
+      <ellipse cx={150} cy={278} rx={108} ry={30} fill={SKIN} stroke={SKIN_EDGE} strokeWidth={1} />
+      <ellipse cx={505} cy={278} rx={108} ry={30} fill={SKIN} stroke={SKIN_EDGE} strokeWidth={1} />
       {LEFT_FINGERS.map((f) => (
-        <HandFingerCap key={f.id} id={f.id} x={f.x} active={finger === f.id} />
+        <HandFinger key={f.id} spec={f} active={finger === f.id} />
       ))}
       {RIGHT_FINGERS.map((f) => (
-        <HandFingerCap key={f.id} id={f.id} x={f.x} active={finger === f.id} />
+        <HandFinger key={f.id} spec={f} active={finger === f.id} />
       ))}
-      <line
-        className={cn('hand-finger', finger === 'th' && 'active')}
-        x1={335}
-        y1={SPACE_Y + 34}
-        x2={335}
-        y2={SPACE_Y}
-        stroke={finger === 'th' ? COLORS.th : REST_COLOR}
-        strokeWidth={16}
-        strokeLinecap="round"
-      />
-      <line
-        className={cn('hand-finger', finger === 'th' && 'active')}
-        x1={411}
-        y1={SPACE_Y + 34}
-        x2={411}
-        y2={SPACE_Y}
-        stroke={finger === 'th' ? COLORS.th : REST_COLOR}
-        strokeWidth={16}
-        strokeLinecap="round"
-      />
+      <HandFinger spec={LEFT_THUMB} active={finger === 'th'} />
+      <HandFinger spec={RIGHT_THUMB} active={finger === 'th'} />
     </svg>
   )
 }
