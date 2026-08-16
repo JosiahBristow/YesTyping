@@ -2,12 +2,14 @@ import { Link, NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLang } from '../lib/lang'
 import { useSound } from '../lib/sound'
+import { displayName, useAuth } from '../lib/auth'
 import { AchievementToasts } from './AchievementToasts'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
   const { lang, setLang } = useLang()
   const sound = useSound((s) => s.enabled)
+  const user = useAuth((s) => s.user)
 
   const navLink = ({ isActive }: { isActive: boolean }) => (isActive ? 'active' : '')
 
@@ -29,6 +31,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <NavLink to="/speed-test" className={navLink}>
               {t('nav.speedTest')}
             </NavLink>
+            <NavLink to="/race" className={navLink}>
+              {t('nav.race')}
+            </NavLink>
             <NavLink to="/game" className={navLink}>
               {t('nav.game')}
             </NavLink>
@@ -40,6 +45,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </NavLink>
           </nav>
           <div className="nav-spacer" />
+          {user ? (
+            <div className="user-chip" title={user.email ?? ''}>
+              <span className="user-avatar">{displayName(user).slice(0, 1).toUpperCase()}</span>
+              <span className="user-name">{displayName(user)}</span>
+            </div>
+          ) : (
+            <Link to="/login" className="nav-icon-btn login-btn" title={t('nav.login')}>
+              👤
+            </Link>
+          )}
           <Link to="/settings" className="nav-icon-btn" aria-label={t('nav.settings')} title={t('nav.settings')}>
             ⚙️
           </Link>

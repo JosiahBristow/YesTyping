@@ -4,7 +4,22 @@
 
 YesTyping — a bilingual (中文/EN) touch-typing learning site modeled after
 typingfun.cn. React 19 + Vite 8 + TypeScript, react-router, i18next, zustand.
-No backend; all data lives in `localStorage`.
+Core data lives in `localStorage`; optional Supabase adds login and
+multiplayer (gracefully disabled when unconfigured).
+
+## Supabase (optional)
+
+- Credentials come from `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` (copy
+  `.env.example` → `.env` for local dev). When unset, `supabaseConfigured`
+  is `false` and auth/multiplayer surfaces show a setup notice.
+- `src/lib/supabase.ts` — client + `supabaseConfigured` flag.
+- `src/lib/auth.ts` — zustand auth store (`useAuth`), `displayName()`.
+- `src/features/race/useRace.ts` — realtime room (presence + broadcast).
+  All players type the same text via `generateSeededWords(count, seed)`.
+- `src/features/race/leaderboard.ts` — `saveRaceResult` / `fetchLeaderboard`.
+- DB table + RLS policies live in `supabase/schema.sql`; run it in the
+  Supabase SQL Editor. CI passes the env vars from GitHub secrets
+  (`.github/workflows/deploy.yml`).
 
 ## Commands
 

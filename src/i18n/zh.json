@@ -3,10 +3,12 @@
     "home": "首页",
     "courses": "课程",
     "speedTest": "打字测试",
+    "race": "多人对战",
     "game": "游戏",
     "stats": "我的数据",
     "achievements": "成就",
-    "settings": "设置"
+    "settings": "设置",
+    "login": "登录"
   },
   "hero": {
     "kicker": "免费打字练习",
@@ -207,6 +209,43 @@
       "dark": "深色"
     },
     "showKeyboard": "显示屏幕键盘"
+  },
+  "auth": {
+    "title": "账号",
+    "loading": "加载中…",
+    "notConfigured": "尚未配置 Supabase。要启用登录和多人对战，请创建一个 Supabase 项目并填入你的凭据。",
+    "notConfiguredHint": "具体步骤见 .env.example 和 supabase/schema.sql。",
+    "backHome": "返回首页",
+    "signedInAs": "已登录",
+    "signOut": "退出登录",
+    "signIn": "登录",
+    "signUp": "注册",
+    "email": "邮箱",
+    "password": "密码",
+    "or": "或使用以下方式",
+    "validation": "请输入有效的邮箱和至少 6 位的密码。",
+    "genericError": "出错了，请重试。",
+    "privacyNote": "进度和成就会保留在本设备。登录后对战成绩可进入排行榜。"
+  },
+  "race": {
+    "title": "多人对战",
+    "subtitle": "和其他玩家实时输入同一段文本——先完成者获胜。",
+    "name": "昵称",
+    "roomCode": "房间号",
+    "roomPlaceholder": "例如 room1234",
+    "join": "加入房间",
+    "quickMatch": "快速匹配",
+    "guestNote": "以游客身份也可以玩，成绩同样计入排行榜。",
+    "room": "房间",
+    "leave": "离开",
+    "you": "你",
+    "waiting": "{{count}} 人等待中",
+    "start": "开始比赛",
+    "needTwo": "把房间号发给好友——至少需要 2 名玩家才能开始。",
+    "results": "比赛结果",
+    "again": "再战一局",
+    "leaderboard": "排行榜",
+    "nameCol": "玩家"
   },
   "footer": {
     "tagline": "快乐学习打字"

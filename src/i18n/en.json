@@ -3,10 +3,12 @@
     "home": "Home",
     "courses": "Courses",
     "speedTest": "Speed Test",
+    "race": "Race",
     "game": "Game",
     "stats": "My Stats",
     "achievements": "Achievements",
-    "settings": "Settings"
+    "settings": "Settings",
+    "login": "Sign in"
   },
   "hero": {
     "kicker": "Free typing practice",
@@ -207,6 +209,43 @@
       "dark": "Dark"
     },
     "showKeyboard": "Show on-screen keyboard"
+  },
+  "auth": {
+    "title": "Account",
+    "loading": "Loading…",
+    "notConfigured": "Supabase isn't configured yet. To enable sign-in and multiplayer, create a Supabase project and fill in your credentials.",
+    "notConfiguredHint": "See .env.example and supabase/schema.sql for the setup steps.",
+    "backHome": "Back to home",
+    "signedInAs": "Signed in as",
+    "signOut": "Sign out",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "or": "or continue with",
+    "validation": "Enter a valid email and a password of at least 6 characters.",
+    "genericError": "Something went wrong. Please try again.",
+    "privacyNote": "Your progress and achievements stay on this device. Signing in adds your race results to the leaderboard."
+  },
+  "race": {
+    "title": "Multiplayer Race",
+    "subtitle": "Type the same text as other players in real time — first one to finish wins.",
+    "name": "Display name",
+    "roomCode": "Room code",
+    "roomPlaceholder": "e.g. room1234",
+    "join": "Join room",
+    "quickMatch": "Quick match",
+    "guestNote": "Playing as a guest is fine — results still go to the leaderboard.",
+    "room": "Room",
+    "leave": "Leave",
+    "you": "you",
+    "waiting": "{{count}} player(s) waiting",
+    "start": "Start race",
+    "needTwo": "Invite a friend with this room code — at least 2 players to start.",
+    "results": "Results",
+    "again": "Race again",
+    "leaderboard": "Top players",
+    "nameCol": "Player"
   },
   "footer": {
     "tagline": "Learn typing, have fun."
