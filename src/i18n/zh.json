@@ -106,7 +106,10 @@
     "type": "类型",
     "result": "结果",
     "speed": "速度",
-    "acc": "正确率"
+    "acc": "正确率",
+    "durationBests": "各时长最高速度",
+    "weakKeys": "薄弱按键",
+    "weakKeysEmpty": "还没有记录错误——继续练习，我们会帮你找出总打错的键。"
   },
   "achievements": {
     "title": "成就",

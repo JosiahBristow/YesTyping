@@ -11,6 +11,7 @@ export interface EngineResult {
   elapsedSec: number
   samples: number[]
   maxCombo: number
+  keyErrors: Record<string, number>
 }
 
 export function wpm(correctChars: number, seconds: number): number {

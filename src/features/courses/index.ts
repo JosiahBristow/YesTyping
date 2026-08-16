@@ -6,6 +6,7 @@ import { pinyinCourse } from './pinyin'
 import { chineseCourse } from './chinese'
 import { codeCourse } from './code'
 import { numpadCourse } from './numpad'
+import { vocabCourse } from './vocab'
 import type { Course } from './courseData'
 
 export const COURSES: Course[] = [
@@ -17,6 +18,7 @@ export const COURSES: Course[] = [
   vimCourse,
   pinyinCourse,
   chineseCourse,
+  vocabCourse,
 ]
 
 export function getCourse(id: string | undefined): Course | undefined {

@@ -6,6 +6,7 @@ export interface Lesson {
   id: string
   title: Bi
   text: string
+  hints?: Bi[]
 }
 
 export interface Course {

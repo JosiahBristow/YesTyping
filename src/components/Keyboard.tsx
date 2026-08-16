@@ -9,6 +9,7 @@ export interface KeyboardProps {
   pressCount?: number
   showLegend?: boolean
   layout?: LayoutId
+  errorKeys?: Record<string, number>
 }
 
 function capClass(finger: Finger | undefined): string {
@@ -21,20 +22,28 @@ export function Keyboard({
   pressCount = 0,
   showLegend = true,
   layout = 'qwerty',
+  errorKeys,
 }: KeyboardProps) {
   const { t } = useTranslation()
   const pressed = pressedKey ? keyForChar(pressedKey, layout) : null
+  const maxErr = errorKeys ? Math.max(1, ...Object.values(errorKeys)) : 0
 
   const renderCap = (key: string, extraClass = '') => {
     const finger = FINGER_BY_KEY[key]
     const isActive = activeKey === key
     const isPressed = pressed === key
+    const err = errorKeys?.[key] ?? 0
     const classes = cn('keycap', capClass(finger), isActive && 'is-active', isPressed && 'is-pressed', extraClass)
+    const style =
+      err > 0 && !isActive
+        ? ({ background: `rgba(239, 68, 68, ${0.1 + 0.4 * (err / maxErr)})` } as const)
+        : undefined
     return (
       <div
         key={isPressed ? `p-${pressCount}-${key}` : key}
         className={classes}
         data-finger={finger ?? undefined}
+        style={style}
         aria-hidden
       >
         {charAtKey(key, layout)}

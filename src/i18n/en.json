@@ -106,7 +106,10 @@
     "type": "Type",
     "result": "Result",
     "speed": "WPM",
-    "acc": "Acc"
+    "acc": "Acc",
+    "durationBests": "Best WPM by duration",
+    "weakKeys": "Weak keys",
+    "weakKeysEmpty": "No mistakes recorded yet — keep typing and we'll show which keys trip you up."
   },
   "achievements": {
     "title": "Achievements",

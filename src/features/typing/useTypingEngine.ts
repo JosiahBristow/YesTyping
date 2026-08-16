@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { playError, playKey } from '../../lib/sound'
+import { keyForChar, type LayoutId } from './layouts'
 import {
   accuracy,
   consistencyOf,
@@ -17,6 +18,7 @@ export interface EngineOptions {
   durationSec?: number
   extend?: () => string
   requireNumpad?: boolean
+  layout?: LayoutId
   onFinish?: (result: EngineResult) => void
 }
 
@@ -67,6 +69,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
   const samplesRef = useRef<number[]>([])
   const comboRef = useRef(0)
   const maxComboRef = useRef(0)
+  const keyErrorsRef = useRef<Record<string, number>>({})
   const optsRef = useRef(options)
   optsRef.current = options
 
@@ -100,6 +103,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
       elapsedSec: Math.round(secs),
       samples: samplesRef.current,
       maxCombo: maxComboRef.current,
+      keyErrors: keyErrorsRef.current,
     }
     setFinished(true)
     optsRef.current.onFinish?.(result)
@@ -134,6 +138,8 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
         if (comboRef.current > maxComboRef.current) maxComboRef.current = comboRef.current
       } else {
         comboRef.current = 0
+        const key = keyForChar(ch, optsRef.current.layout ?? 'qwerty')
+        keyErrorsRef.current[key] = (keyErrorsRef.current[key] ?? 0) + 1
       }
       if (ok) playKey()
       else playError()

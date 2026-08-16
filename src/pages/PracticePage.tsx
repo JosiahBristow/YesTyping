@@ -73,6 +73,7 @@ export function PracticePage() {
       accuracy: result.accuracy,
       elapsedSec: result.elapsedSec,
       correctChars: result.correctChars,
+      keyErrors: result.keyErrors,
     })
     const lesson = course.lessons[clampedIndex]
     if (lesson) {
@@ -104,6 +105,7 @@ export function PracticePage() {
               key={`${course.id}-${lesson.id}`}
               text={lesson.text}
               numpad={course.type === 'numpad'}
+              hints={course.type === 'vocab' ? lesson.hints : undefined}
               onFinish={onFinish}
               onNext={next}
               onPrev={prev}

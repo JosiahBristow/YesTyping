@@ -10,6 +10,8 @@ export interface SessionRecord {
   accuracy: number
   elapsedSec: number
   correctChars: number
+  durationSec?: number
+  keyErrors?: Record<string, number>
 }
 
 const STORAGE_KEY = 'yestyping.sessions.v1'

@@ -13,10 +13,12 @@ import { TypeArea } from './TypeArea'
 import { cn } from '../../lib/cn'
 import { useLayout } from '../../lib/layout'
 import { useSettings } from '../../lib/settings'
+import { useLang, type Bi } from '../../lib/lang'
 
 export interface TypingSessionProps {
   text: string
   numpad?: boolean
+  hints?: Bi[]
   onFinish?: (result: EngineResult) => void
   onNext?: () => void
   onPrev?: () => void
@@ -26,14 +28,17 @@ interface EngineProps extends TypingSessionProps {
   onRestart: () => void
 }
 
-function Engine({ text, numpad = false, onFinish, onNext, onPrev, onRestart }: EngineProps) {
+function Engine({ text, numpad = false, hints, onFinish, onNext, onPrev, onRestart }: EngineProps) {
   const { t } = useTranslation()
   const layout = useLayout((s) => s.layout)
+  const lang = useLang((s) => s.lang)
   const showKeyboard = useSettings((s) => s.showKeyboard)
   const [result, setResult] = useState<EngineResult | null>(null)
+  const hintTexts = hints?.map((hint) => (lang === 'zh' ? hint.zh : hint.en))
   const engine = useTypingEngine({
     text,
     requireNumpad: numpad,
+    layout,
     onFinish: (r) => {
       setResult(r)
       onFinish?.(r)
@@ -83,7 +88,7 @@ function Engine({ text, numpad = false, onFinish, onNext, onPrev, onRestart }: E
         </button>
       </div>
 
-      <TypeArea text={text} states={engine.states} index={engine.index} />
+      <TypeArea text={text} states={engine.states} index={engine.index} hints={hintTexts} />
 
       {!numpad && finger && (
         <div className="type-hint">
@@ -142,7 +147,7 @@ function Engine({ text, numpad = false, onFinish, onNext, onPrev, onRestart }: E
   )
 }
 
-export function TypingSession({ text, numpad, onFinish, onNext, onPrev }: TypingSessionProps) {
+export function TypingSession({ text, numpad, hints, onFinish, onNext, onPrev }: TypingSessionProps) {
   const [seed, setSeed] = useState(0)
   const restart = () => setSeed((s) => s + 1)
   return (
@@ -150,6 +155,7 @@ export function TypingSession({ text, numpad, onFinish, onNext, onPrev }: Typing
       key={seed}
       text={text}
       numpad={numpad}
+      hints={hints}
       onFinish={onFinish}
       onNext={onNext}
       onPrev={onPrev}

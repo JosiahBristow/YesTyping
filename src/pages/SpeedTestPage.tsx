@@ -47,6 +47,7 @@ function SpeedEngine({
     mode: 'timed',
     durationSec: duration,
     extend: () => generateWords(40),
+    layout,
     onFinish: (r) => {
       setResult(r)
       if (race) setRaceResult(r.correctChars >= goalChars ? 'win' : 'lose')
@@ -57,6 +58,8 @@ function SpeedEngine({
         accuracy: r.accuracy,
         elapsedSec: r.elapsedSec,
         correctChars: r.correctChars,
+        durationSec: duration,
+        keyErrors: r.keyErrors,
       })
       maybeUnlock(r)
     },
