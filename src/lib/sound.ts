@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import keySoundUrl from '../assets/sounds/key.mp3'
 
-const STORAGE_KEY = 'yestyping.sound'
+const STORAGE_KEY = 'yestyping.sound.v2'
 
 export function detectSound(): boolean {
   return localStorage.getItem(STORAGE_KEY) !== 'off'
