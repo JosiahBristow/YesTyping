@@ -1321,6 +1321,179 @@ a {
   margin-bottom: 1.3rem;
 }
 
+/* ---------- Vim terminal ---------- */
+
+.vim-term {
+  background: #0f1522;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(24, 32, 46, 0.35);
+  user-select: none;
+}
+
+.vt-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 1rem;
+  background: #1a2233;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.vt-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.vt-dots i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.vt-dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.vt-dots i:nth-child(3) {
+  background: #28c840;
+}
+
+.vt-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #7c8aa5;
+  flex: 1;
+}
+
+.vt-reset {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: #aeb9d2;
+  border-radius: 8px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.vt-reset:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.vt-body {
+  padding: 1.25rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #d7e0f0;
+  min-height: 240px;
+}
+
+.vt-row {
+  display: flex;
+  white-space: pre;
+}
+
+.vt-gutter {
+  flex: none;
+  width: 2.4rem;
+  text-align: right;
+  padding-right: 1rem;
+  color: #4a5670;
+  user-select: none;
+}
+
+.vt-line {
+  white-space: pre;
+}
+
+.vt-ch.sel {
+  background: rgba(80, 140, 255, 0.35);
+}
+
+.vt-ch.cur {
+  background: #7aa2f7;
+  color: #0f1522;
+  animation: vt-blink 1.06s step-end infinite;
+}
+
+@keyframes vt-blink {
+  0%, 100% { background: #7aa2f7; color: #0f1522; }
+  50% { background: transparent; color: #d7e0f0; }
+}
+
+.vt-input {
+  color: #f0b429;
+}
+
+.vt-caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: #f0b429;
+  animation: vt-blink 1.06s step-end infinite;
+}
+
+.vt-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: #1a2233;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.vt-mode {
+  color: #f0b429;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.vt-pending {
+  color: #9fb0cf;
+  font-weight: 400;
+}
+
+.vt-msg {
+  color: #28c840;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vt-msg.err {
+  color: #ff6b6b;
+}
+
+.vt-help {
+  padding: 0.6rem 1rem;
+  background: #0b101c;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+  color: #5d6b86;
+  text-align: center;
+}
+
+.vt-back {
+  margin-top: 1.25rem;
+}
+
+.practice-main-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vim-term-link {
+  align-self: flex-start;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {

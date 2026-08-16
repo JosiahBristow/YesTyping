@@ -98,14 +98,21 @@ export function PracticePage() {
       </div>
 
       <div className="practice-wrap">
-        <div className="card practice-panel">
-          <TypingSession
-            key={`${course.id}-${lesson.id}`}
-            text={lesson.text}
-            onFinish={onFinish}
-            onNext={next}
-            onPrev={prev}
-          />
+        <div className="practice-main-col">
+          <div className="card practice-panel">
+            <TypingSession
+              key={`${course.id}-${lesson.id}`}
+              text={lesson.text}
+              onFinish={onFinish}
+              onNext={next}
+              onPrev={prev}
+            />
+          </div>
+          {course.type === 'vim' && (
+            <Link to="/vim-terminal" className="btn btn-ghost vim-term-link">
+              🖥️ {t('vimTerminal.open')}
+            </Link>
+          )}
         </div>
 
         <aside className="lesson-side">

@@ -128,6 +128,24 @@
     "dvorak": "Dvorak",
     "colemak": "Colemak"
   },
+  "vimTerminal": {
+    "title": "Interactive Vim terminal",
+    "subtitle": "A sandboxed Vim where every keystroke is real. Move with hjkl, edit with dd / ciw / p, undo with u, search with /, and try :w or :q.",
+    "open": "Interactive terminal",
+    "back": "Back to Vim course",
+    "reset": "Reset",
+    "move": "move",
+    "words": "words",
+    "delete": "delete",
+    "yank": "copy",
+    "paste": "paste",
+    "undo": "undo",
+    "repeat": "repeat",
+    "change": "change word",
+    "visual": "visual",
+    "search": "search",
+    "commands": "commands"
+  },
   "footer": {
     "tagline": "Learn typing, have fun."
   }
