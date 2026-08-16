@@ -58,9 +58,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <header className="site-header">
         <div className="container">
           <Link to="/" className="logo">
-            <span className="logo-mark" aria-hidden>
-              ⌨️
-            </span>
+            <img
+              className="logo-mark"
+              src={`${import.meta.env.BASE_URL}favicon.ico`}
+              alt="YesTyping logo"
+              width={34}
+              height={34}
+            />
             YesTyping
           </Link>
           <nav className="nav" aria-label="main">

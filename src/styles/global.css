@@ -74,14 +74,12 @@ a {
 }
 
 .logo-mark {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 34px;
   height: 34px;
-  border-radius: 9px;
-  background: var(--ink);
-  font-size: 1.05rem;
-  line-height: 1;
+  border-radius: 8px;
+  object-fit: cover;
+  flex: none;
 }
 
 .nav {
