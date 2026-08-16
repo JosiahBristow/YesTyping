@@ -101,6 +101,9 @@ a {
 }
 
 .nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   flex: 0 0 auto;
   white-space: nowrap;
   padding: 0.42rem 0.65rem;
@@ -109,6 +112,17 @@ a {
   font-weight: 500;
   color: var(--ink-soft);
   transition: color 0.15s ease, background 0.15s ease;
+}
+
+.nav-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.nav-icon-mobile {
+  font-size: 1rem;
+  width: 1.4rem;
+  text-align: center;
 }
 
 .nav a:hover {
@@ -2730,6 +2744,9 @@ body {
   }
 
   .mobile-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     padding: 0.75rem 0.8rem;
     border-radius: var(--radius-sm);
     color: var(--ink-soft);

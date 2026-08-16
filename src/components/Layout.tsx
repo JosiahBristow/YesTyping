@@ -33,15 +33,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const navLink = ({ isActive }: { isActive: boolean }) => (isActive ? 'active' : '')
 
   const links = [
-    { to: '/', label: t('nav.home'), end: true },
-    { to: '/courses', label: t('nav.courses') },
-    { to: '/speed-test', label: t('nav.speedTest') },
-    { to: '/race', label: t('nav.race') },
-    { to: '/leaderboard', label: t('nav.leaderboard') },
-    { to: '/game', label: t('nav.game') },
-    { to: '/stats', label: t('nav.stats') },
-    { to: '/achievements', label: t('nav.achievements') },
+    { to: '/', label: t('nav.home'), icon: '🏠', end: true },
+    { to: '/courses', label: t('nav.courses'), icon: '📚' },
+    { to: '/speed-test', label: t('nav.speedTest'), icon: '⚡' },
+    { to: '/race', label: t('nav.race'), icon: '🏎️' },
+    { to: '/leaderboard', label: t('nav.leaderboard'), icon: '🏆' },
+    { to: '/game', label: t('nav.game'), icon: '🎮' },
+    { to: '/stats', label: t('nav.stats'), icon: '📊' },
+    { to: '/achievements', label: t('nav.achievements'), icon: '🏅' },
   ]
+
+  const renderLinks = (mobile: boolean) =>
+    links.map((l) => (
+      <NavLink key={l.to} to={l.to} end={l.end} className={navLink}>
+        <span className={cn('nav-icon', mobile && 'nav-icon-mobile')} aria-hidden>
+          {l.icon}
+        </span>
+        {l.label}
+      </NavLink>
+    ))
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -52,11 +62,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             YesTyping
           </Link>
           <nav className="nav" aria-label="main">
-            {links.map((l) => (
-              <NavLink key={l.to} to={l.to} end={l.end} className={navLink}>
-                {l.label}
-              </NavLink>
-            ))}
+            {renderLinks(false)}
           </nav>
           <div className="nav-spacer" />
           <div className="header-actions">
@@ -125,11 +131,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
         <div className={cn('mobile-nav', menuOpen && 'open')}>
           <nav className="mobile-links" aria-label="mobile">
-            {links.map((l) => (
-              <NavLink key={l.to} to={l.to} end={l.end} className={navLink}>
-                {l.label}
-              </NavLink>
-            ))}
+            {renderLinks(true)}
             <div className="mobile-divider" />
             {user ? (
               <Link to="/login" className="mobile-account">
