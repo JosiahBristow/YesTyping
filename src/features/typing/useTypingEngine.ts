@@ -61,6 +61,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
   const [pressCount, setPressCount] = useState(0)
   const [combo, setCombo] = useState(0)
   const [maxCombo, setMaxCombo] = useState(0)
+  const hiddenInputRef = useRef<HTMLInputElement | null>(null)
 
   const textRef = useRef(text)
   const statesRef = useRef(states)
@@ -175,7 +176,7 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     if (e.ctrlKey || e.altKey || e.metaKey) return
 
     const target = e.target as HTMLElement | null
-    if (target && target.closest('button, a, input, textarea, select, [contenteditable="true"]')) return
+    if (target && target !== hiddenInputRef.current && target.closest('button, a, input, textarea, select, [contenteditable="true"]')) return
 
     if (e.key === 'Backspace') {
       const i = indexRef.current
@@ -215,13 +216,15 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     el.style.cssText =
       'position:fixed;top:0;left:0;width:1px;height:1px;border:0;padding:0;background:transparent;opacity:0'
 
+    const onCompositionEnd = (e: CompositionEvent) => {
+      el.value = ''
+      const data = e.data
+      if (data && data.length > 0) commitText(data)
+    }
     const onInput = (e: Event) => {
       const ie = e as InputEvent
       if (ie.isComposing) return
-      if (ie.inputType !== 'insertCompositionText') return
-      const data = ie.data
       el.value = ''
-      if (data && data.length > 0) commitText(data)
     }
     const onFocus = () => el.focus()
     const onMouseDown = (e: MouseEvent) => {
@@ -231,13 +234,17 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     }
 
     document.body.appendChild(el)
+    hiddenInputRef.current = el
     el.focus()
     el.addEventListener('input', onInput)
+    el.addEventListener('compositionend', onCompositionEnd)
     window.addEventListener('focus', onFocus)
     window.addEventListener('mousedown', onMouseDown)
 
     return () => {
+      hiddenInputRef.current = null
       el.removeEventListener('input', onInput)
+      el.removeEventListener('compositionend', onCompositionEnd)
       window.removeEventListener('focus', onFocus)
       window.removeEventListener('mousedown', onMouseDown)
       el.remove()
