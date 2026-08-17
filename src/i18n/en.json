@@ -116,7 +116,9 @@
     "customStart": "Start test",
     "customClear": "Use random words",
     "custom": "Custom",
-    "customSeconds": "Custom seconds (press Enter to apply)",
+    "customSeconds": "Seconds (5–600)",
+    "customApply": "Start",
+    "customCancel": "Cancel",
     "unlockHint": "Skip challenge: reach over {{wpm}} WPM (English) or {{cpm}} chars/min (Chinese) to unlock lessons up to \"{{lesson}}\".",
     "unlockPassed": "Speed unlocked — every lesson up to \"{{lesson}}\" is now open!",
     "unlockFailed": "Not fast enough yet — you need over {{wpm}} WPM or {{cpm}} chars/min.",
@@ -234,16 +236,24 @@
     "title": "Settings",
     "heading": "Settings",
     "subtitle": "Tune the look and feel to your liking — everything stays on this device.",
-    "theme": "Theme",
-    "themeOption": {
-      "system": "System",
-      "light": "Light",
-      "dark": "Dark"
-    },
     "showKeyboard": "Show on-screen keyboard",
+    "appearance": "Appearance",
+    "keyboardStyle": "Keyboard style",
+    "keyboardStyleOption": {
+      "rainbow": "Rainbow",
+      "mono": "Minimal",
+      "vintage": "Vintage",
+      "neon": "Neon",
+      "pastel": "Pastel"
+    },
     "account": "Account",
     "username": "Username",
     "email": "Email"
+  },
+  "onboarding": {
+    "eyebrow": "Welcome to",
+    "subtitle": "Set your preferences before you start — you can change them anytime in Settings.",
+    "start": "Get started"
   },
   "auth": {
     "title": "Account",

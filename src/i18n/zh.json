@@ -116,7 +116,9 @@
     "customStart": "开始测试",
     "customClear": "改用随机单词",
     "custom": "自定义",
-    "customSeconds": "自定义秒数（回车应用）",
+    "customSeconds": "秒数（5–600）",
+    "customApply": "开始",
+    "customCancel": "取消",
     "unlockHint": "跳关挑战：速度超过 {{wpm}} WPM（英文）或 {{cpm}} 汉字/分钟（中文），即可解锁直到「{{lesson}}」的所有小节。",
     "unlockPassed": "速度达标——已解锁直到「{{lesson}}」的所有小节！",
     "unlockFailed": "速度还不够——需要超过 {{wpm}} WPM 或 {{cpm}} 汉字/分钟。",
@@ -234,16 +236,24 @@
     "title": "设置",
     "heading": "设置",
     "subtitle": "按你的喜好调整界面——所有设置仅保存在本设备。",
-    "theme": "主题",
-    "themeOption": {
-      "system": "跟随系统",
-      "light": "浅色",
-      "dark": "深色"
-    },
     "showKeyboard": "显示屏幕键盘",
+    "appearance": "外观",
+    "keyboardStyle": "键盘样式",
+    "keyboardStyleOption": {
+      "rainbow": "彩虹",
+      "mono": "简约",
+      "vintage": "复古",
+      "neon": "霓虹",
+      "pastel": "粉彩"
+    },
     "account": "账号",
     "username": "用户名",
     "email": "邮箱"
+  },
+  "onboarding": {
+    "eyebrow": "欢迎使用",
+    "subtitle": "开始前先设置你的偏好——之后随时可在设置中更改。",
+    "start": "开始使用"
   },
   "auth": {
     "title": "账号",

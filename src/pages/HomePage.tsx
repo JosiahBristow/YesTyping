@@ -143,14 +143,6 @@ export function HomePage() {
           </div>
         </div>
 
-        <div className="type-strip">
-          {COURSES.map((c) => (
-            <span className="type-chip" key={c.id}>
-              {c.icon} <b>{t(`courses.${c.type}`)}</b>
-            </span>
-          ))}
-        </div>
-
         <div className="course-grid" style={{ marginTop: '1.5rem' }}>
           {COURSES.map((c) => (
             <CourseCard key={c.id} course={c} />

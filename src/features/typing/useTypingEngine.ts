@@ -174,6 +174,9 @@ export function useTypingEngine(options: EngineOptions): TypingEngine {
     if (finishedRef.current) return
     if (e.ctrlKey || e.altKey || e.metaKey) return
 
+    const target = e.target as HTMLElement | null
+    if (target && target.closest('button, a, input, textarea, select, [contenteditable="true"]')) return
+
     if (e.key === 'Backspace') {
       const i = indexRef.current
       if (i > 0) {

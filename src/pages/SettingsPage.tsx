@@ -2,19 +2,20 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { displayName, useAuth } from '../lib/auth'
 import { useSound } from '../lib/sound'
-import { useTheme, type Theme } from '../lib/theme'
-import { useSettings } from '../lib/settings'
+import { useSettings, KEYBOARD_STYLES, type KeyboardStyle } from '../lib/settings'
 import { LAYOUTS, type LayoutId } from '../features/typing/layouts'
 import { useLayout } from '../lib/layout'
 import { useLang } from '../lib/lang'
 import { LANGS } from '../i18n'
 import { cn } from '../lib/cn'
 
-const THEMES: { id: Theme; icon: string }[] = [
-  { id: 'system', icon: '🖥️' },
-  { id: 'light', icon: '☀️' },
-  { id: 'dark', icon: '🌙' },
-]
+const KEYBOARD_ICONS: Record<KeyboardStyle, string> = {
+  rainbow: '🌈',
+  mono: '⬜',
+  vintage: '📠',
+  neon: '💡',
+  pastel: '🌸',
+}
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -27,9 +28,8 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 export function SettingsPage() {
   const { t } = useTranslation()
-  const { theme, setTheme } = useTheme()
   const sound = useSound((s) => s.enabled)
-  const { showKeyboard, setShowKeyboard } = useSettings()
+  const { showKeyboard, setShowKeyboard, keyboardStyle, setKeyboardStyle } = useSettings()
   const { layout, setLayout } = useLayout()
   const { lang, setLang } = useLang()
   const user = useAuth((s) => s.user)
@@ -71,18 +71,18 @@ export function SettingsPage() {
       </div>
 
       <div className="card settings-panel">
-        <Row label={t('settings.theme')}>
-          <div className="seg-group" role="radiogroup" aria-label={t('settings.theme')}>
-            {THEMES.map((th) => (
+        <Row label={t('settings.appearance')}>
+          <div className="seg-group" role="radiogroup" aria-label={t('settings.appearance')}>
+            {KEYBOARD_STYLES.map((id) => (
               <button
-                key={th.id}
+                key={id}
                 type="button"
                 role="radio"
-                aria-checked={theme === th.id}
-                className={cn(theme === th.id && 'active')}
-                onClick={() => setTheme(th.id)}
+                aria-checked={keyboardStyle === id}
+                className={cn(keyboardStyle === id && 'active')}
+                onClick={() => setKeyboardStyle(id)}
               >
-                {th.icon} {t(`settings.themeOption.${th.id}`)}
+                {KEYBOARD_ICONS[id]} {t(`settings.keyboardStyleOption.${id}`)}
               </button>
             ))}
           </div>

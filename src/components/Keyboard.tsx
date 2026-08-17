@@ -1,6 +1,7 @@
 import { cn } from '../lib/cn'
 import { FINGER_BY_KEY, KEYBOARD_ROWS, type Finger } from '../features/typing/fingerMap'
 import { charAtKey, keyForChar, shiftSymbolFor, type LayoutId } from '../features/typing/layouts'
+import { useSettings } from '../lib/settings'
 
 export interface KeyboardProps {
   activeKey?: string | null
@@ -27,6 +28,7 @@ export function Keyboard({
 }: KeyboardProps) {
   const pressed = pressedKey ? keyForChar(pressedKey, layout) : null
   const maxErr = errorKeys ? Math.max(1, ...Object.values(errorKeys)) : 0
+  const keyboardStyle = useSettings((s) => s.keyboardStyle)
 
   const renderCap = (key: string, isLeftShift = false, extraClass = '') => {
     const isShift = key === 'Shift'
@@ -82,7 +84,7 @@ export function Keyboard({
   }
 
   return (
-    <div className="kb" aria-hidden>
+    <div className={cn('kb', `kb-style-${keyboardStyle}`)} aria-hidden>
       {KEYBOARD_ROWS.map((row, r) => (
         <div className={cn('kb-row', `kb-row-${r}`)} key={r}>
           {row.map((k, i) => renderCap(k, k === 'Shift' && i === 0))}

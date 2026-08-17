@@ -6,6 +6,8 @@ import { useSound } from '../lib/sound'
 import { displayName, useAuth } from '../lib/auth'
 import { cn } from '../lib/cn'
 import { AchievementToasts } from './AchievementToasts'
+import { OnboardingModal } from './OnboardingModal'
+import { useSettings } from '../lib/settings'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
@@ -14,6 +16,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const user = useAuth((s) => s.user)
   const [menuOpen, setMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const onboarded = useSettings((s) => s.onboarded)
   const location = useLocation()
   const userMenuRef = useRef<HTMLDivElement>(null)
 
@@ -116,7 +119,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </button>
             <div className="lang-switch" role="group" aria-label={t('lang.label')}>
               <button type="button" className={lang === 'zh' ? 'active' : ''} onClick={() => setLang('zh')}>
-                中文
+                汉
               </button>
               <button type="button" className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>
                 EN
@@ -186,6 +189,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <span>v3.0.0</span>
         </div>
       </footer>
+      {!onboarded && <OnboardingModal />}
     </div>
   )
 }

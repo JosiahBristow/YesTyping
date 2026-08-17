@@ -1,5 +1,6 @@
 import { cn } from '../lib/cn'
 import { NUMPAD_FINGER } from '../features/typing/fingerMap'
+import { useSettings } from '../lib/settings'
 
 export interface NumpadProps {
   activeKey?: string | null
@@ -15,8 +16,9 @@ const NUMPAD_KEYS: string[][] = [
 ]
 
 export function Numpad({ activeKey, pressedKey, pressCount = 0 }: NumpadProps) {
+  const keyboardStyle = useSettings((s) => s.keyboardStyle)
   return (
-    <div className="numpad" aria-hidden>
+    <div className={cn('numpad', `kb-style-${keyboardStyle}`)} aria-hidden>
       {NUMPAD_KEYS.map((row, r) => (
         <div className="numpad-row" key={r}>
           {row.map((key) => {

@@ -72,6 +72,7 @@ function SpeedEngine({
   const [raceResult, setRaceResult] = useState<'win' | 'lose' | null>(null)
   const [unlockResult, setUnlockResult] = useState<'passed' | 'failed' | null>(null)
   const [customDraft, setCustomDraft] = useState(String(customTime))
+  const [customOpen, setCustomOpen] = useState(false)
 
   const { add } = useLocalStats()
   const hasCustom = Boolean(customText.trim())
@@ -209,6 +210,7 @@ function SpeedEngine({
     const n = Math.min(600, Math.max(5, Number.parseInt(customDraft, 10) || customTime))
     onCustomTime(n)
     onPick(n)
+    setCustomOpen(false)
   }
 
   return (
@@ -231,28 +233,13 @@ function SpeedEngine({
             {d}s
           </button>
         ))}
-        <div className="mode-tab-custom">
-          <button
-            type="button"
-            className={!DURATIONS.includes(duration) ? 'active' : ''}
-            onClick={applyCustom}
-          >
-            ⚙ {t('speed.custom')}
-          </button>
-          <input
-            className="mode-tab-input"
-            type="number"
-            min={5}
-            max={600}
-            value={customDraft}
-            title={t('speed.customSeconds')}
-            aria-label={t('speed.customSeconds')}
-            onChange={(e) => setCustomDraft(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') applyCustom()
-            }}
-          />
-        </div>
+        <button
+          type="button"
+          className={!DURATIONS.includes(duration) ? 'active' : ''}
+          onClick={() => setCustomOpen(true)}
+        >
+          ⚙ {t('speed.custom')}
+        </button>
       </div>
 
       {race ? (
@@ -396,6 +383,38 @@ function SpeedEngine({
             <button type="button" className="btn btn-primary" onClick={onRestart}>
               ↺ {t('speed.again')}
             </button>
+          </div>
+        </div>
+      )}
+
+      {customOpen && (
+        <div className="modal-overlay" onClick={() => setCustomOpen(false)}>
+          <div className="custom-modal card" onClick={(e) => e.stopPropagation()}>
+            <div className="custom-modal-head">
+              <h3>⚙ {t('speed.custom')}</h3>
+              <p>{t('speed.customSeconds')}</p>
+            </div>
+            <input
+              className="custom-modal-input"
+              type="number"
+              min={5}
+              max={600}
+              autoFocus
+              value={customDraft}
+              aria-label={t('speed.customSeconds')}
+              onChange={(e) => setCustomDraft(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') applyCustom()
+              }}
+            />
+            <div className="custom-modal-actions">
+              <button type="button" className="btn btn-ghost" onClick={() => setCustomOpen(false)}>
+                {t('speed.customCancel')}
+              </button>
+              <button type="button" className="btn btn-primary" onClick={applyCustom}>
+                {t('speed.customApply')}
+              </button>
+            </div>
           </div>
         </div>
       )}
