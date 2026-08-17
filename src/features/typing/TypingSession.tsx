@@ -213,7 +213,7 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
           <Numpad activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
         ) : (
           <div className="kb-wrap">
-            <HandOverlay finger={finger} keyName={activeKey} />
+            <HandOverlay finger={finger} keyName={activeKey} shiftSide={shiftSide} />
             <Keyboard
               activeKey={activeKey}
               pressedKey={engine.lastKey}

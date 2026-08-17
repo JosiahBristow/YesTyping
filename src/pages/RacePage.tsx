@@ -112,7 +112,7 @@ function RaceEngine({
         </div>
         {showKeyboard && (
           <div className="kb-wrap">
-            <HandOverlay finger={finger} keyName={activeKey} />
+            <HandOverlay finger={finger} keyName={activeKey} shiftSide={shiftSide} />
             <Keyboard
               activeKey={activeKey}
               pressedKey={engine.lastKey}

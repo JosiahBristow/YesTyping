@@ -46,9 +46,12 @@ const HAND_NUDGE_Y = -88;
 export function HandOverlay({
   finger,
   keyName,
+  shiftSide,
 }: {
   finger: Finger | null;
   keyName?: string | null;
+  /** Which Shift key is held ('left'/'right'); the opposite hand presses it. */
+  shiftSide?: "left" | "right" | null;
 }) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -95,7 +98,11 @@ export function HandOverlay({
     } else {
       const left = LEFT_HAND.has(finger);
       const groupId = keyName ? (HAND_GROUP[keyName] ?? keyName) : null;
-      show(left ? "neutral-right" : "neutral-left");
+      if (shiftSide) {
+        show(`shift-${shiftSide}`);
+      } else {
+        show(left ? "neutral-right" : "neutral-left");
+      }
       if (groupId) show(groupId);
     }
 
@@ -106,7 +113,7 @@ export function HandOverlay({
     overlay.style.left = `${kbRect.left - wrapRect.left + HAND_NUDGE_X}px`;
     // Overlay top aligns with the keyboard top; fingertips land on the home row.
     overlay.style.top = `${kbRect.top - wrapRect.top + HAND_NUDGE_Y}px`;
-  }, [finger, keyName]);
+  }, [finger, keyName, shiftSide]);
 
   useLayoutEffect(() => {
     measure();

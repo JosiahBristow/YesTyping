@@ -226,7 +226,7 @@ function SpeedEngine({
       </div>
       {showKeyboard && (
         <div className="kb-wrap">
-          <HandOverlay finger={engine.finished ? null : finger} keyName={activeKey} />
+          <HandOverlay finger={engine.finished ? null : finger} keyName={activeKey} shiftSide={shiftSide} />
           <Keyboard
             activeKey={activeKey}
             pressedKey={engine.lastKey}
