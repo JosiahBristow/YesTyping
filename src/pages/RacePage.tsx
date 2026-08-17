@@ -11,7 +11,7 @@ import { displayName, useAuth } from '../lib/auth'
 import { supabaseConfigured } from '../lib/supabase'
 import { Keyboard } from '../components/Keyboard'
 import { LayoutPicker } from '../components/LayoutPicker'
-import { FingerGuide } from '../components/FingerGuide'
+import { HandOverlay } from '../components/HandOverlay'
 import { TypeArea } from '../features/typing/TypeArea'
 import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from '../features/typing/layouts'
 import { KeyboardToggle } from '../components/KeyboardToggle'
@@ -111,17 +111,19 @@ function RaceEngine({
           <KeyboardToggle />
         </div>
         {showKeyboard && (
-          <Keyboard
-            activeKey={activeKey}
-            pressedKey={engine.lastKey}
-            pressCount={engine.pressCount}
-            layout={layout}
-            lastWasWrong={lastWasWrong}
-            shiftSide={shiftSide}
-          />
+          <div className="kb-wrap">
+            <HandOverlay finger={finger} keyName={activeKey} />
+            <Keyboard
+              activeKey={activeKey}
+              pressedKey={engine.lastKey}
+              pressCount={engine.pressCount}
+              layout={layout}
+              lastWasWrong={lastWasWrong}
+              shiftSide={shiftSide}
+            />
+          </div>
         )}
       </div>
-      <FingerGuide finger={finger} />
     </div>
   )
 }

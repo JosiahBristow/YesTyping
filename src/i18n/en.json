@@ -89,7 +89,8 @@
     "passTime": "Time",
     "passWpm": "Speed",
     "passAccuracy": "Accuracy",
-    "retryHint": "Meet all three bars to unlock the next lesson."
+    "retryHint": "Meet all three bars to unlock the next lesson.",
+    "progress": "Lesson progress"
   },
   "speed": {
     "title": "Speed Test",

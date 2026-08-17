@@ -89,6 +89,7 @@ export function TypeArea({ text, states, index, hints, hanzi }: TypeAreaProps) {
                     return (
                       <span
                         key={ci}
+                        data-index={pos}
                         className={cn(
                           'char',
                           st === 'correct' && 'correct',
@@ -123,6 +124,7 @@ export function TypeArea({ text, states, index, hints, hanzi }: TypeAreaProps) {
               return (
                 <span
                   key={ci}
+                  data-index={pos}
                   className={cn(
                     'char',
                     st === 'correct' && 'correct',
@@ -143,7 +145,7 @@ export function TypeArea({ text, states, index, hints, hanzi }: TypeAreaProps) {
           return hints ? (
             <span key={ti} className="word-gap" />
           ) : (
-            <span key={ti} className="tok-space">
+            <span key={ti} className="tok-space" data-index={tok.start}>
               {' '}
             </span>
           )

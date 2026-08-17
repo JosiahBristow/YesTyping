@@ -72,6 +72,7 @@ export function Keyboard({
         key={isPressed ? `p-${pressCount}-${key}` : key}
         className={classes}
         data-finger={finger ?? undefined}
+        data-key={key}
         style={style}
         aria-hidden
       >

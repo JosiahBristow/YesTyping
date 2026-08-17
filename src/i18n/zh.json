@@ -89,7 +89,8 @@
     "passTime": "用时",
     "passWpm": "速度",
     "passAccuracy": "正确率",
-    "retryHint": "三项都达标后才能解锁下一节。"
+    "retryHint": "三项都达标后才能解锁下一节。",
+    "progress": "课程进度"
   },
   "speed": {
     "title": "打字测试",

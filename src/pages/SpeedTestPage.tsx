@@ -13,7 +13,7 @@ import { useProgress } from '../features/progress/useProgress'
 import { Keyboard } from '../components/Keyboard'
 import { KeyboardToggle } from '../components/KeyboardToggle'
 import { TrendChart } from '../components/TrendChart'
-import { FingerGuide } from '../components/FingerGuide'
+import { HandOverlay } from '../components/HandOverlay'
 import { LayoutPicker } from '../components/LayoutPicker'
 import { TypeArea } from '../features/typing/TypeArea'
 import { cn } from '../lib/cn'
@@ -225,18 +225,19 @@ function SpeedEngine({
         <KeyboardToggle />
       </div>
       {showKeyboard && (
-        <Keyboard
-          activeKey={activeKey}
-          pressedKey={engine.lastKey}
-          pressCount={engine.pressCount}
-          layout={layout}
-          lastWasWrong={lastWasWrong}
-          shiftSide={shiftSide}
-        />
+        <div className="kb-wrap">
+          <HandOverlay finger={engine.finished ? null : finger} keyName={activeKey} />
+          <Keyboard
+            activeKey={activeKey}
+            pressedKey={engine.lastKey}
+            pressCount={engine.pressCount}
+            layout={layout}
+            lastWasWrong={lastWasWrong}
+            shiftSide={shiftSide}
+          />
+        </div>
       )}
         </div>
-
-        <FingerGuide finger={engine.finished ? null : finger} />
 
       </div>
 

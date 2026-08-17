@@ -166,5 +166,6 @@ export function keyForChar(ch: string, layout: LayoutId = 'qwerty'): string {
 }
 
 export function fingerForChar(ch: string, layout: LayoutId = 'qwerty'): Finger | null {
-  return FINGER_BY_KEY[keyForChar(ch, layout)] ?? null
+  const key = keyForChar(ch, layout)
+  return FINGER_BY_KEY[key === 'space' ? ' ' : key] ?? null
 }

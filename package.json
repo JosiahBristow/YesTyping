@@ -16,6 +16,7 @@
     "react-dom": "^19.2.8",
     "react-i18next": "^17.0.11",
     "react-router-dom": "^7.18.2",
+    "vkeyboardhand": "^1.0.5",
     "zustand": "^5.0.15"
   },
   "devDependencies": {

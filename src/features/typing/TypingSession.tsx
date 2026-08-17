@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useTypingEngine } from './useTypingEngine'
 import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from './layouts'
@@ -9,7 +9,7 @@ import { Numpad } from '../../components/Numpad'
 import { KeyboardToggle } from '../../components/KeyboardToggle'
 import { PassBanner } from '../../components/PassBanner'
 import { ResultSummary } from '../../components/ResultSummary'
-import { FingerGuide } from '../../components/FingerGuide'
+import { HandOverlay } from '../../components/HandOverlay'
 import { LayoutPicker } from '../../components/LayoutPicker'
 import { TypeArea } from './TypeArea'
 import { cn } from '../../lib/cn'
@@ -51,6 +51,68 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
     },
   })
 
+  const typeViewportRef = useRef<HTMLDivElement>(null)
+  const typeScrollRef = useRef<HTMLDivElement>(null)
+
+  // Keep one row visible and snap the current line to the top.
+  const measureViewport = useCallback(() => {
+    const vp = typeViewportRef.current
+    const scroll = typeScrollRef.current
+    if (!vp || !scroll) return
+    const area = scroll.querySelector('.type-area')
+    if (!area) return
+
+    // The caret can sit on a space, which has no char element — fall back to
+    // the nearest typed character (a space always shares its word's line).
+    let el = scroll.querySelector<HTMLElement>(`[data-index="${engine.index}"]`)
+    if (!el) {
+      for (let d = 1; d <= 64 && !el; d++) {
+        el =
+          scroll.querySelector<HTMLElement>(`[data-index="${engine.index - d}"]`) ??
+          scroll.querySelector<HTMLElement>(`[data-index="${engine.index + d}"]`)
+      }
+    }
+    if (!el) return
+
+    const cell = el.closest<HTMLElement>('.word-cell, .hanzi-cell')
+    const stacked = area.classList.contains('with-hints') || area.classList.contains('with-hanzi')
+    let rowHeight: number
+    let rowTop: number
+    if (cell && stacked) {
+      // Hints/hanzi rows: the cell is a flex column that spans the full row.
+      rowHeight = cell.offsetHeight
+      rowTop = cell.offsetTop
+    } else {
+      // Plain text: an inline char's offsetHeight is its font box, not the
+      // line box, so recover the line top via the half-leading gap.
+      const lineHeight = parseFloat(getComputedStyle(area).lineHeight) || el.offsetHeight
+      const halfLeading = (lineHeight - el.offsetHeight) / 2
+      rowHeight = lineHeight
+      rowTop = el.offsetTop - halfLeading
+    }
+    vp.style.height = `${rowHeight}px`
+    vp.scrollTop = Math.max(0, rowTop)
+  }, [engine.index])
+
+  useLayoutEffect(() => {
+    measureViewport()
+  })
+
+  useEffect(() => {
+    const onResize = () => measureViewport()
+    window.addEventListener('resize', onResize)
+    // The webfont loads after mount and re-wraps the lines — re-measure once
+    // it's ready and whenever the content reflows.
+    void document.fonts?.ready.then(onResize).catch(() => {})
+    const ro = new ResizeObserver(onResize)
+    const scrollEl = typeScrollRef.current
+    if (scrollEl) ro.observe(scrollEl)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      ro.disconnect()
+    }
+  }, [measureViewport])
+
   const verdict: PassVerdict | null = result && graded ? evaluatePass(result, text.length) : null
 
   const currentChar = engine.finished ? null : text[engine.index]
@@ -60,6 +122,9 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
   const shiftNeeded = currentChar !== null && needsShift(currentChar)
   const shiftSide = shiftNeeded && activeKey ? shiftSideForKey(activeKey) : null
+  const progressPct = engine.text.length
+    ? Math.min(100, Math.round((engine.correctChars / engine.text.length) * 100))
+    : 0
 
   useEffect(() => {
     if (!result) return
@@ -100,7 +165,25 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
         </button>
       </div>
 
-      <TypeArea text={text} states={engine.states} index={engine.index} hints={hintTexts} hanzi={hanzi} />
+      <div className="type-viewport" ref={typeViewportRef}>
+          <div className="type-scroll" ref={typeScrollRef}>
+            <TypeArea text={text} states={engine.states} index={engine.index} hints={hintTexts} hanzi={hanzi} />
+          </div>
+        </div>
+
+        <div
+          className="session-progress"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={progressPct}
+          aria-label={t('practice.progress')}
+        >
+          <div className="session-progress-track">
+            <div className="session-progress-fill" style={{ width: `${progressPct}%` }} />
+          </div>
+          <span className="session-progress-label">{progressPct}%</span>
+        </div>
 
       {!numpad && finger && currentChar && (
         <div className="type-hint">
@@ -129,18 +212,19 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
         (numpad ? (
           <Numpad activeKey={activeKey} pressedKey={engine.lastKey} pressCount={engine.pressCount} />
         ) : (
-          <Keyboard
-            activeKey={activeKey}
-            pressedKey={engine.lastKey}
-            pressCount={engine.pressCount}
-            layout={layout}
-            lastWasWrong={lastWasWrong}
-            shiftSide={shiftSide}
-          />
+          <div className="kb-wrap">
+            <HandOverlay finger={finger} keyName={activeKey} />
+            <Keyboard
+              activeKey={activeKey}
+              pressedKey={engine.lastKey}
+              pressCount={engine.pressCount}
+              layout={layout}
+              lastWasWrong={lastWasWrong}
+              shiftSide={shiftSide}
+            />
+          </div>
         ))}
       </div>
-
-      {!numpad && <FingerGuide finger={finger} />}
 
       {result && (
         <div className="result-overlay">

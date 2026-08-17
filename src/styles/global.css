@@ -1,4 +1,4 @@
-@import './tokens.css';
+@import "./tokens.css";
 
 *,
 *::before,
@@ -110,7 +110,9 @@ a {
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--ink-soft);
-  transition: color 0.15s ease, background 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
 .nav-icon {
@@ -211,7 +213,10 @@ a {
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease;
 }
 
 .btn:active {
@@ -291,19 +296,23 @@ a {
 }
 
 .hero::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -140px;
   right: -120px;
   width: 480px;
   height: 480px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 178, 36, 0.18), transparent 65%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 178, 36, 0.18),
+    transparent 65%
+  );
   pointer-events: none;
 }
 
 .hero::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -160px;
   left: -140px;
@@ -336,7 +345,7 @@ a {
 }
 
 .hero-kicker::before {
-  content: '';
+  content: "";
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -361,7 +370,7 @@ a {
 }
 
 .hero h1 .typo::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -456,8 +465,13 @@ a {
 }
 
 @keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 /* ---------- Feature / course sections ---------- */
@@ -502,9 +516,15 @@ a {
   background: var(--brand-soft);
 }
 
-.feature-card:nth-child(2) .feature-ic { background: var(--amber-soft); }
-.feature-card:nth-child(3) .feature-ic { background: var(--soft-mint); }
-.feature-card:nth-child(4) .feature-ic { background: var(--soft-rose); }
+.feature-card:nth-child(2) .feature-ic {
+  background: var(--amber-soft);
+}
+.feature-card:nth-child(3) .feature-ic {
+  background: var(--soft-mint);
+}
+.feature-card:nth-child(4) .feature-ic {
+  background: var(--soft-rose);
+}
 
 .feature-card h3 {
   font-size: 1rem;
@@ -546,7 +566,9 @@ a {
 .course-card {
   display: block;
   padding: 1.4rem;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .course-card:hover {
@@ -569,16 +591,36 @@ a {
   font-size: 1.4rem;
 }
 
-.course-card.type-finger .course-ic { background: var(--amber-soft); }
-.course-card.type-english .course-ic { background: var(--brand-soft); }
-.course-card.type-numbers .course-ic { background: var(--soft-rose); }
-.course-card.type-symbols .course-ic { background: var(--soft-violet); }
-.course-card.type-code .course-ic { background: var(--soft-violet); }
-.course-card.type-numpad .course-ic { background: var(--soft-mint); }
-.course-card.type-vim .course-ic { background: var(--soft-green); }
-.course-card.type-pinyin .course-ic { background: var(--soft-violet); }
-.course-card.type-chinese .course-ic { background: var(--soft-rose); }
-.course-card.type-vocab .course-ic { background: var(--amber-soft); }
+.course-card.type-finger .course-ic {
+  background: var(--amber-soft);
+}
+.course-card.type-english .course-ic {
+  background: var(--brand-soft);
+}
+.course-card.type-numbers .course-ic {
+  background: var(--soft-rose);
+}
+.course-card.type-symbols .course-ic {
+  background: var(--soft-violet);
+}
+.course-card.type-code .course-ic {
+  background: var(--soft-violet);
+}
+.course-card.type-numpad .course-ic {
+  background: var(--soft-mint);
+}
+.course-card.type-vim .course-ic {
+  background: var(--soft-green);
+}
+.course-card.type-pinyin .course-ic {
+  background: var(--soft-violet);
+}
+.course-card.type-chinese .course-ic {
+  background: var(--soft-rose);
+}
+.course-card.type-vocab .course-ic {
+  background: var(--amber-soft);
+}
 
 .custom-card .custom-ic {
   background: var(--brand-soft);
@@ -749,7 +791,7 @@ a {
 
 .session-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 132px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.25rem;
   align-items: start;
 }
@@ -758,39 +800,66 @@ a {
   min-width: 0;
 }
 
-.finger-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  position: sticky;
-  top: 82px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 1rem 0.75rem 0.9rem;
+.kb-wrap {
+  position: relative;
 }
 
-.finger-panel .hand {
+.hand-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.7;
+  filter: drop-shadow(0 4px 8px rgba(24, 32, 46, 0.12));
+}
+
+.hand-overlay svg {
+  display: block;
   width: 100%;
-  max-width: 92px;
+  height: 100%;
 }
 
-.hand-finger {
-  transition: fill 0.12s ease, filter 0.12s ease;
+/* Scoped styles for the injected hand.svg (group visibility + stroke accents). */
+.hand-overlay .st0 {
+  display: none;
+}
+.hand-overlay .st1 {
+  display: inline;
+  opacity: 0.33;
+  fill: #e0e1e2;
+}
+.hand-overlay .st2 {
+  display: inline;
+  fill: none;
+  stroke: #808285;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+}
+.hand-overlay .st3 {
+  display: inline;
+  opacity: 0.5;
+}
+.hand-overlay .st4 {
+  fill: #aeb0b2;
+}
+.hand-overlay .st5 {
+  display: inline;
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-miterlimit: 10;
 }
 
-.hand-finger.active {
-  filter: drop-shadow(0 2px 6px rgba(24, 32, 46, 0.3));
+[data-theme="dark"] .hand-overlay .st1 {
+  fill: #ccd2dc;
 }
-
-.finger-panel-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-align: center;
+[data-theme="dark"] .hand-overlay .st2 {
+  stroke: #0a101c;
+}
+[data-theme="dark"] .hand-overlay .st4 {
+  fill: #6c7890;
 }
 
 /* ---------- Practice screen ---------- */
@@ -870,9 +939,15 @@ a {
 }
 
 @keyframes combo-pop {
-  0% { transform: scale(0.6); }
-  60% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .type-area {
@@ -940,6 +1015,51 @@ a {
   width: 0.9rem;
 }
 
+.type-viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+.type-scroll {
+  position: relative;
+}
+
+.type-viewport .type-area {
+  font-size: 1.75rem;
+  min-height: 0;
+}
+
+.session-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.session-progress-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.session-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--brand);
+  transition: width 0.25s ease;
+}
+
+.session-progress-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  min-width: 3.2ch;
+  text-align: right;
+}
+
 .tok-word {
   display: inline-block;
   white-space: pre;
@@ -953,7 +1073,9 @@ a {
 .char {
   border-radius: 4px;
   color: var(--ink-faint);
-  transition: color 0.08s ease, background 0.08s ease;
+  transition:
+    color 0.08s ease,
+    background 0.08s ease;
 }
 
 .char.correct {
@@ -982,8 +1104,13 @@ a {
 }
 
 @keyframes caretblink {
-  0%, 100% { box-shadow: inset 0 -4px 0 -1px var(--brand); }
-  50% { box-shadow: inset 0 -4px 0 -1px transparent; }
+  0%,
+  100% {
+    box-shadow: inset 0 -4px 0 -1px var(--brand);
+  }
+  50% {
+    box-shadow: inset 0 -4px 0 -1px transparent;
+  }
 }
 
 .type-hint {
@@ -1159,6 +1286,8 @@ a {
 
 .keycap {
   --kc: var(--line);
+  --kb-bg: color-mix(in srgb, var(--kc) 12%, var(--panel));
+  --kb-bd: color-mix(in srgb, var(--kc) 45%, var(--line));
   position: relative;
   flex: 1 1 0;
   min-width: 0;
@@ -1169,15 +1298,19 @@ a {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink-soft);
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: var(--kb-bg);
+  border: 1px solid var(--kb-bd);
   border-radius: 10px;
-  box-shadow: 0 3px 0 var(--line);
-  transition: transform 0.1s ease, background 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
+  box-shadow: 0 3px 0 var(--kb-bd);
+  transition:
+    transform 0.1s ease,
+    background 0.1s ease,
+    box-shadow 0.1s ease,
+    color 0.1s ease;
 }
 
 .keycap::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 8px;
   right: 8px;
@@ -1188,15 +1321,33 @@ a {
   opacity: 0.65;
 }
 
-.finger-lp { --kc: #7aa2f7; }
-.finger-lr { --kc: #2dd4bf; }
-.finger-lm { --kc: #4ade80; }
-.finger-li { --kc: #fbbf24; }
-.finger-ri { --kc: #fbbf24; }
-.finger-rm { --kc: #4ade80; }
-.finger-rr { --kc: #2dd4bf; }
-.finger-rp { --kc: #7aa2f7; }
-.finger-th { --kc: #fb923c; }
+.finger-lp {
+  --kc: #ff9f43;
+}
+.finger-lr {
+  --kc: #f368e0;
+}
+.finger-lm {
+  --kc: #17c0eb;
+}
+.finger-li {
+  --kc: #1dd1a1;
+}
+.finger-ri {
+  --kc: #0abde3;
+}
+.finger-rm {
+  --kc: #a29bfe;
+}
+.finger-rr {
+  --kc: #fd79a8;
+}
+.finger-rp {
+  --kc: #fdcb6e;
+}
+.finger-th {
+  --kc: #6c5ce7;
+}
 
 .keycap.is-active {
   background: var(--kc);
@@ -1204,7 +1355,7 @@ a {
   border-color: transparent;
   transform: translateY(-2px) scale(1.08);
   box-shadow:
-     0 5px 0 rgba(24, 32, 46, 0.25),
+    0 5px 0 rgba(24, 32, 46, 0.25),
     inset 0 0 0 2px rgba(255, 255, 255, 0.4),
     0 0 18px var(--kc);
   z-index: 1;
@@ -1222,11 +1373,21 @@ a {
 }
 
 @keyframes key-wrong {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  50% { transform: translateX(4px); }
-  75% { transform: translateX(-2px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .keycap.is-active::after {
@@ -1262,9 +1423,15 @@ a {
 }
 
 @keyframes keypress {
-  0% { transform: translateY(0); }
-  45% { transform: translateY(3px) scale(0.96); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(3px) scale(0.96);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .kb-space-label {
@@ -1305,7 +1472,10 @@ a {
   border: 1px solid var(--line);
   border-radius: 10px;
   box-shadow: 0 3px 0 var(--line);
-  transition: transform 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    background 0.1s ease,
+    box-shadow 0.1s ease;
 }
 
 .numpad-key.is-active {
@@ -1392,7 +1562,10 @@ a {
   font-size: 0.95rem;
   color: var(--ink-soft);
   cursor: default;
-  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease,
+    background 0.12s ease;
 }
 
 .lesson-card.unlocked {
@@ -1461,7 +1634,10 @@ a {
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .lesson-skip:hover {
@@ -1523,8 +1699,14 @@ a {
 }
 
 @keyframes result-pop {
-  from { transform: scale(0.94); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .toast-stack {
@@ -1552,8 +1734,14 @@ a {
 }
 
 @keyframes toast-in {
-  from { transform: translateY(12px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .toast-ic {
@@ -1833,7 +2021,9 @@ a {
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  transition: background 0.12s ease, color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
 }
 
 .speed-custom-toggle:hover {
@@ -2072,7 +2262,9 @@ a {
   border-radius: 8px;
   padding: 0.3rem 0.75rem;
   font-size: 0.8rem;
-  transition: background 0.12s ease, color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
 }
 
 .vt-reset:hover {
@@ -2118,8 +2310,15 @@ a {
 }
 
 @keyframes vt-blink {
-  0%, 100% { background: #7aa2f7; color: #0f1522; }
-  50% { background: transparent; color: #d7e0f0; }
+  0%,
+  100% {
+    background: #7aa2f7;
+    color: #0f1522;
+  }
+  50% {
+    background: transparent;
+    color: #d7e0f0;
+  }
 }
 
 .vt-input {
@@ -2205,7 +2404,9 @@ a {
   font-size: 0.95rem;
   line-height: 1;
   margin-right: 0.5rem;
-  transition: background 0.12s ease, transform 0.12s ease;
+  transition:
+    background 0.12s ease,
+    transform 0.12s ease;
 }
 
 .nav-icon-btn:hover {
@@ -2273,7 +2474,9 @@ a {
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--ink-soft);
-  transition: background 0.12s ease, color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
 }
 
 .seg-group button.active {
@@ -2351,7 +2554,9 @@ a {
   height: 40px;
   font-size: 0.9rem;
   color: var(--ink-soft);
-  transition: background 0.12s ease, color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
 }
 
 .game-pause:hover {
@@ -2449,8 +2654,14 @@ a {
 }
 
 @keyframes combo-pop {
-  from { transform: scale(1.4); opacity: 0.4; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* ---------- Auth / login ---------- */
@@ -2576,7 +2787,7 @@ a {
 
 .auth-divider::before,
 .auth-divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: var(--line);
@@ -3058,14 +3269,6 @@ body {
   .session-grid {
     grid-template-columns: 1fr;
   }
-  .finger-panel {
-    flex-direction: row;
-    position: static;
-    justify-content: center;
-  }
-  .finger-panel .hand {
-    width: 56px;
-  }
 }
 
 @media (max-width: 720px) {
@@ -3165,6 +3368,9 @@ body {
   }
   .type-area {
     font-size: 1.15rem;
+  }
+  .type-viewport .type-area {
+    font-size: 1.35rem;
   }
   .keycap {
     height: 40px;
