@@ -1460,6 +1460,10 @@ a {
 }
 
 .numpad-key {
+  --kc: var(--line);
+  --kb-bg: color-mix(in srgb, var(--kc) 12%, var(--panel));
+  --kb-bd: color-mix(in srgb, var(--kc) 45%, var(--line));
+  position: relative;
   flex: 1;
   height: 48px;
   display: grid;
@@ -1468,14 +1472,26 @@ a {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink-soft);
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: var(--kb-bg);
+  border: 1px solid var(--kb-bd);
   border-radius: 10px;
-  box-shadow: 0 3px 0 var(--line);
+  box-shadow: 0 3px 0 var(--kb-bd);
   transition:
     transform 0.1s ease,
     background 0.1s ease,
     box-shadow 0.1s ease;
+}
+
+.numpad-key::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--kc);
+  opacity: 0.65;
 }
 
 .numpad-key.is-active {
@@ -2076,6 +2092,35 @@ a {
 .mode-tabs button.active {
   background: var(--ink);
   color: var(--canvas);
+}
+
+.mode-tab-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.mode-tab-input {
+  width: 52px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+}
+
+.mode-tab-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.mode-tab-input::-webkit-outer-spin-button,
+.mode-tab-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .trend {

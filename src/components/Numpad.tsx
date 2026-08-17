@@ -1,4 +1,5 @@
 import { cn } from '../lib/cn'
+import { NUMPAD_FINGER } from '../features/typing/fingerMap'
 
 export interface NumpadProps {
   activeKey?: string | null
@@ -21,14 +22,21 @@ export function Numpad({ activeKey, pressedKey, pressCount = 0 }: NumpadProps) {
           {row.map((key) => {
             const isActive = activeKey === key
             const isPressed = pressedKey === key
+            const finger = NUMPAD_FINGER[key]
             const classes = cn(
               'numpad-key',
+              finger && `finger-${finger}`,
               isActive && 'is-active',
               isPressed && 'is-pressed',
               key === 'Enter' && 'numpad-enter',
             )
             return (
-              <div key={isPressed ? `p-${pressCount}-${key}` : key} className={classes}>
+              <div
+                key={isPressed ? `p-${pressCount}-${key}` : key}
+                className={classes}
+                data-finger={finger ?? undefined}
+                aria-hidden
+              >
                 {key}
               </div>
             )

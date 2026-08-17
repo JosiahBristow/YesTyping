@@ -42,7 +42,25 @@ function expandCourse(course: Course): Course {
   return { ...course, lessons: course.lessons.map(expandLesson) }
 }
 
-export const COURSES: Course[] = RAW_COURSES.map(expandCourse)
+/** The final lesson of every course: one long drill that mixes the raw text
+ *  of all the course's lessons (full character set, higher difficulty). */
+function reviewLesson(course: Course): Lesson {
+  const all = course.lessons
+  const hanzi = all.every((l) => l.hanzi) ? all.map((l) => l.hanzi).join(' ') : undefined
+  const hints = all.every((l) => l.hints) ? all.flatMap((l) => l.hints!) : undefined
+  return {
+    id: 'comprehensive',
+    title: { en: 'Comprehensive practice', zh: '综合大练习' },
+    text: all.map((l) => l.text).join(' '),
+    hanzi,
+    hints,
+  }
+}
+
+export const COURSES: Course[] = RAW_COURSES.map((course) => {
+  const expanded = expandCourse(course)
+  return { ...expanded, lessons: [...expanded.lessons, reviewLesson(course)] }
+})
 
 export function getCourse(id: string | undefined): Course | undefined {
   return COURSES.find((c) => c.id === id)

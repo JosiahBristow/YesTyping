@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTypingEngine } from '../features/typing/useTypingEngine'
 import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from '../features/typing/layouts'
 import type { EngineResult } from '../features/typing/metrics'
@@ -49,6 +49,8 @@ function SpeedEngine({
   race,
   opponent,
   customText,
+  customTime,
+  onCustomTime,
   unlockTarget,
   onPick,
   onRestart,
@@ -57,6 +59,8 @@ function SpeedEngine({
   race: boolean
   opponent: number
   customText: string
+  customTime: number
+  onCustomTime: (n: number) => void
   unlockTarget?: string
   onPick: (d: number) => void
   onRestart: () => void
@@ -67,15 +71,22 @@ function SpeedEngine({
   const [result, setResult] = useState<EngineResult | null>(null)
   const [raceResult, setRaceResult] = useState<'win' | 'lose' | null>(null)
   const [unlockResult, setUnlockResult] = useState<'passed' | 'failed' | null>(null)
+  const [customDraft, setCustomDraft] = useState(String(customTime))
+
   const { add } = useLocalStats()
   const hasCustom = Boolean(customText.trim())
-  const initialText = useMemo(() => (hasCustom ? customText : generateWords(80)), [hasCustom, customText])
-
-  const goalChars = race ? Math.round((opponent * 5) / 60) * duration : 0
   const unlockParts = unlockTarget?.split(':') ?? []
   const unlockCourseId = unlockParts[0]
   const unlockLessonId = unlockParts[1]
   const unlockCourse = unlockCourseId ? getCourse(unlockCourseId) : undefined
+  // The skip challenge types the course's final comprehensive-practice text.
+  const unlockReviewText = unlockCourse?.lessons[unlockCourse.lessons.length - 1]?.text
+  const initialText = useMemo(
+    () => (hasCustom ? customText : unlockReviewText ?? generateWords(80)),
+    [hasCustom, customText, unlockReviewText],
+  )
+
+  const goalChars = race ? Math.round((opponent * 5) / 60) * duration : 0
   const unlockLessonName = unlockLessonId
     ? unlockCourse?.lessons.find((l) => l.id === unlockLessonId)?.title.en ?? ''
     : ''
@@ -84,7 +95,7 @@ function SpeedEngine({
     text: initialText,
     mode: 'timed',
     durationSec: duration,
-    extend: hasCustom ? undefined : () => generateWords(40),
+    extend: hasCustom || unlockReviewText ? undefined : () => generateWords(40),
     layout,
     onFinish: (r) => {
       setResult(r)
@@ -124,6 +135,67 @@ function SpeedEngine({
   })
 
   const progress = Math.min(1, engine.elapsed / duration)
+
+  const typeViewportRef = useRef<HTMLDivElement>(null)
+  const typeScrollRef = useRef<HTMLDivElement>(null)
+
+  // Keep one row visible and snap the current line to the top.
+  const measureViewport = useCallback(() => {
+    const vp = typeViewportRef.current
+    const scroll = typeScrollRef.current
+    if (!vp || !scroll) return
+    const area = scroll.querySelector('.type-area')
+    if (!area) return
+
+    // The caret can sit on a space, which has no char element — fall back to
+    // the nearest typed character (a space always shares its word's line).
+    let el = scroll.querySelector<HTMLElement>(`[data-index="${engine.index}"]`)
+    if (!el) {
+      for (let d = 1; d <= 64 && !el; d++) {
+        el =
+          scroll.querySelector<HTMLElement>(`[data-index="${engine.index - d}"]`) ??
+          scroll.querySelector<HTMLElement>(`[data-index="${engine.index + d}"]`)
+      }
+    }
+    if (!el) return
+
+    const cell = el.closest<HTMLElement>('.word-cell, .hanzi-cell')
+    const stacked = area.classList.contains('with-hints') || area.classList.contains('with-hanzi')
+    let rowHeight: number
+    let rowTop: number
+    if (cell && stacked) {
+      // Hints/hanzi rows: the cell is a flex column that spans the full row.
+      rowHeight = cell.offsetHeight
+      rowTop = cell.offsetTop
+    } else {
+      // Plain text: an inline char's offsetHeight is its font box, not the
+      // line box, so recover the line top via the half-leading gap.
+      const lineHeight = parseFloat(getComputedStyle(area).lineHeight) || el.offsetHeight
+      const halfLeading = (lineHeight - el.offsetHeight) / 2
+      rowHeight = lineHeight
+      rowTop = el.offsetTop - halfLeading
+    }
+    vp.style.height = `${rowHeight}px`
+    vp.scrollTop = Math.max(0, rowTop)
+  }, [engine.index])
+
+  useLayoutEffect(() => {
+    measureViewport()
+  })
+
+  useEffect(() => {
+    const onResize = () => measureViewport()
+    window.addEventListener('resize', onResize)
+    void document.fonts?.ready.then(onResize).catch(() => {})
+    const ro = new ResizeObserver(onResize)
+    const scrollEl = typeScrollRef.current
+    if (scrollEl) ro.observe(scrollEl)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      ro.disconnect()
+    }
+  }, [measureViewport])
+
   const playerFill = race ? Math.min(1, engine.correctChars / goalChars) : 0
   const currentChar = engine.finished ? null : engine.text[engine.index]
   const activeKey = currentChar ? keyForChar(currentChar, layout) : null
@@ -132,6 +204,12 @@ function SpeedEngine({
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
   const shiftNeeded = currentChar !== null && needsShift(currentChar)
   const shiftSide = shiftNeeded && activeKey ? shiftSideForKey(activeKey) : null
+
+  const applyCustom = () => {
+    const n = Math.min(600, Math.max(5, Number.parseInt(customDraft, 10) || customTime))
+    onCustomTime(n)
+    onPick(n)
+  }
 
   return (
     <>
@@ -153,6 +231,28 @@ function SpeedEngine({
             {d}s
           </button>
         ))}
+        <div className="mode-tab-custom">
+          <button
+            type="button"
+            className={!DURATIONS.includes(duration) ? 'active' : ''}
+            onClick={applyCustom}
+          >
+            ⚙ {t('speed.custom')}
+          </button>
+          <input
+            className="mode-tab-input"
+            type="number"
+            min={5}
+            max={600}
+            value={customDraft}
+            title={t('speed.customSeconds')}
+            aria-label={t('speed.customSeconds')}
+            onChange={(e) => setCustomDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') applyCustom()
+            }}
+          />
+        </div>
       </div>
 
       {race ? (
@@ -200,7 +300,11 @@ function SpeedEngine({
         </button>
       </div>
 
-      <TypeArea text={engine.text} states={engine.states} index={engine.index} />
+      <div className="type-viewport" ref={typeViewportRef}>
+        <div className="type-scroll" ref={typeScrollRef}>
+          <TypeArea text={engine.text} states={engine.states} index={engine.index} />
+        </div>
+      </div>
 
       {finger && !engine.finished && currentChar && (
         <div className="type-hint">
@@ -304,6 +408,7 @@ export function SpeedTestPage() {
   const [searchParams] = useSearchParams()
   const unlockTarget = searchParams.get('unlock') ?? undefined
   const [duration, setDuration] = useState(30)
+  const [customTime, setCustomTime] = useState(45)
   const [race, setRace] = useState(false)
   const [opponent, setOpponent] = useState(40)
   const [customText, setCustomText] = useState(loadCustomText)
@@ -412,6 +517,8 @@ export function SpeedTestPage() {
           race={race}
           opponent={opponent}
           customText={customText}
+          customTime={customTime}
+          onCustomTime={setCustomTime}
           unlockTarget={unlockTarget}
           onPick={pick}
           onRestart={restart}

@@ -115,6 +115,8 @@
     "customPlaceholder": "粘贴或输入你的测试文本…",
     "customStart": "开始测试",
     "customClear": "改用随机单词",
+    "custom": "自定义",
+    "customSeconds": "自定义秒数（回车应用）",
     "unlockHint": "跳关挑战：速度超过 {{wpm}} WPM（英文）或 {{cpm}} 汉字/分钟（中文），即可解锁直到「{{lesson}}」的所有小节。",
     "unlockPassed": "速度达标——已解锁直到「{{lesson}}」的所有小节！",
     "unlockFailed": "速度还不够——需要超过 {{wpm}} WPM 或 {{cpm}} 汉字/分钟。",

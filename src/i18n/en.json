@@ -115,6 +115,8 @@
     "customPlaceholder": "Paste or type your own text for the test…",
     "customStart": "Start test",
     "customClear": "Use random words",
+    "custom": "Custom",
+    "customSeconds": "Custom seconds (press Enter to apply)",
     "unlockHint": "Skip challenge: reach over {{wpm}} WPM (English) or {{cpm}} chars/min (Chinese) to unlock lessons up to \"{{lesson}}\".",
     "unlockPassed": "Speed unlocked — every lesson up to \"{{lesson}}\" is now open!",
     "unlockFailed": "Not fast enough yet — you need over {{wpm}} WPM or {{cpm}} chars/min.",

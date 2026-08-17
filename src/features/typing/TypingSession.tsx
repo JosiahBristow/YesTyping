@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Trans, useTranslation } from 'react-i18next'
 import { useTypingEngine } from './useTypingEngine'
 import { fingerForChar, keyForChar, needsShift, shiftSideForKey } from './layouts'
+import { NUMPAD_FINGER } from './fingerMap'
 import type { EngineResult } from './metrics'
 import { evaluatePass, formatClock, type PassVerdict } from './metrics'
 import { Keyboard } from '../../components/Keyboard'
@@ -117,7 +118,13 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
 
   const currentChar = engine.finished ? null : text[engine.index]
   const activeKey = numpad ? currentChar : currentChar ? keyForChar(currentChar, layout) : null
-  const finger = numpad ? null : currentChar ? fingerForChar(currentChar, layout) : null
+  const finger = numpad
+    ? currentChar
+      ? (NUMPAD_FINGER[currentChar] ?? (currentChar === ' ' ? 'th' : null))
+      : null
+    : currentChar
+      ? fingerForChar(currentChar, layout)
+      : null
   const lastWasWrong = engine.index > 0 && engine.states[engine.index - 1] === 'wrong'
   const nextKeyLabel = currentChar === ' ' ? 'Space' : currentChar
   const shiftNeeded = currentChar !== null && needsShift(currentChar)
@@ -185,7 +192,7 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
           <span className="session-progress-label">{progressPct}%</span>
         </div>
 
-      {!numpad && finger && currentChar && (
+      {finger && currentChar && (
         <div className="type-hint">
           <span className="next-key" title={t('practice.nextKey')}>
             {nextKeyLabel}

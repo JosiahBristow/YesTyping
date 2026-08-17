@@ -183,7 +183,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <footer className="site-footer">
         <div className="container">
           <span>YesTyping · {t('footer.tagline')}</span>
-          <span>v0.1.0</span>
+          <span>v3.0.0</span>
         </div>
       </footer>
     </div>

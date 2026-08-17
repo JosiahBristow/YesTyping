@@ -44,7 +44,7 @@ const HAND_GAP = 5;
 
 /** Nudge the whole overlay, in screen px. */
 const HAND_NUDGE_X = -145;
-const HAND_NUDGE_Y = -88;
+const HAND_NUDGE_Y = -90;
 
 /** How many px the hand reaching a top-row key (numbers & shifted symbols)
  *  lifts up toward that row. 0 disables. */

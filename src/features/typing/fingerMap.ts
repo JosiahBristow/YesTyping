@@ -32,6 +32,14 @@ export const FINGER_BY_KEY: Record<string, Finger> = {
   ' ': 'th',
 }
 
+/** Numpad finger assignment (right hand only). */
+export const NUMPAD_FINGER: Record<string, Finger> = {
+  '7': 'ri', '8': 'rm', '9': 'rr', '+': 'rp',
+  '4': 'ri', '5': 'rm', '6': 'rr', '-': 'rp',
+  '1': 'ri', '2': 'rm', '3': 'rr', '*': 'rp',
+  '0': 'th', '.': 'rr', Enter: 'rp', '/': 'rp',
+}
+
 export const KEYBOARD_ROWS: string[][] = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
   ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
