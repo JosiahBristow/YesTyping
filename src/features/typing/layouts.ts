@@ -92,6 +92,8 @@ const SHIFT_KEYS: Record<string, string> = {
   '<': ',',
   '>': '.',
   '?': '/',
+  '~': '`',
+  '|': '\\',
 }
 
 const SHIFT_CHARS = new Set(Object.keys(SHIFT_KEYS))
