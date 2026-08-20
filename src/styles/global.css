@@ -2584,22 +2584,6 @@ a {
   animation: onboard-fade 0.25s ease;
 }
 
-.cheat-card {
-  max-width: 420px;
-  padding: 2rem 2.25rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-}
-
-.cheat-card .cheat-text {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin: 0;
-}
-
 /* ---------- Onboarding ---------- */
 
 .onboard-card {
@@ -2859,6 +2843,397 @@ a {
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+/* ---------- Games hub ---------- */
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: transform 0.15s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-2px);
+}
+
+.game-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-card-top .go {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brand);
+}
+
+.game-card h3 {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.game-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  flex: 1;
+}
+
+.game-card-best {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.game-card-best b {
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+
+/* ---------- Word Shooter ---------- */
+
+.game-burst {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 1.6rem;
+  pointer-events: none;
+  animation: burst-pop 0.45s ease-out forwards;
+}
+
+@keyframes burst-pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+.game-target {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 92px;
+  height: 92px;
+  box-shadow: var(--shadow-sm);
+}
+
+.game-target.target {
+  color: var(--ink);
+  border-color: var(--brand);
+}
+
+.game-target .typed {
+  color: var(--good);
+}
+
+.game-target-fuse {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--amber);
+  transform-origin: left center;
+  transform: translateX(-50%) scaleX(1);
+  animation-name: fuse-burn;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fuse-burn {
+  from {
+    transform: translateX(-50%) scaleX(1);
+  }
+  to {
+    transform: translateX(-50%) scaleX(0);
+  }
+}
+
+/* ---------- Zombie Siege ---------- */
+
+.zombie-wall {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  opacity: 0.6;
+}
+
+.game-zombie {
+  position: absolute;
+  top: 38%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  transition: color 0.1s ease;
+}
+
+.zombie-word {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.15rem 0.45rem;
+  white-space: nowrap;
+}
+
+.game-zombie.target .zombie-word {
+  color: var(--ink);
+  border-color: var(--danger);
+}
+
+.game-zombie .typed {
+  color: var(--good);
+}
+
+.zombie-emoji {
+  font-size: 1.9rem;
+  filter: saturate(1.1);
+}
+
+/* ---------- Flash Words ---------- */
+
+.memory-show,
+.memory-type {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1.2rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.memory-show-label,
+.memory-type-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+.memory-show-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.memory-show-word {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.5rem;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+  border-radius: 10px;
+  padding: 0.35rem 0.75rem;
+  animation: memory-flash 0.5s ease;
+}
+
+@keyframes memory-flash {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.memory-slots {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.memory-slot {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--ink-faint);
+  border: 2px dashed var(--line);
+  border-radius: 8px;
+}
+
+.memory-slot.typed {
+  border-style: solid;
+  border-color: var(--brand);
+  color: var(--brand-ink);
+  background: var(--brand-soft);
+}
+
+.memory-slot.wrong {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ---------- Typing Snake ---------- */
+
+.snake-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:
+    calc(100% / 25) calc(100% / 18),
+    calc(100% / 25) calc(100% / 18);
+}
+
+.snake-seg {
+  position: absolute;
+  width: calc(100% / 25);
+  height: calc(100% / 18);
+  transform: translate(-50%, -50%);
+  background: var(--good);
+  border-radius: 4px;
+}
+
+.snake-seg.head {
+  background: var(--brand);
+  border-radius: 5px;
+}
+
+.snake-food {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  pointer-events: none;
+}
+
+.snake-food-emoji {
+  font-size: 1.4rem;
+}
+
+.snake-food-word {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.05rem 0.3rem;
+  white-space: nowrap;
+}
+
+.snake-food-word .typed {
+  color: var(--good);
+}
+
+/* ---------- Rhythm Tiles ---------- */
+
+.rhythm-field {
+  position: absolute;
+  inset: 0;
+}
+
+.rhythm-lane {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 25%;
+  border-left: 1px solid var(--line);
+}
+
+.rhythm-lane:last-of-type {
+  border-right: 1px solid var(--line);
+}
+
+.rhythm-judge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 86%;
+  height: 3px;
+  background: var(--amber);
+  opacity: 0.7;
+}
+
+.rhythm-tile {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 22%;
+  height: 9%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #fff;
+  background: var(--brand);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+.rhythm-tile.in-zone {
+  background: var(--good);
+  animation: tile-pulse 0.16s ease;
+}
+
+@keyframes tile-pulse {
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+.rhythm-spark {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 86%;
+  font-size: 1.4rem;
+  animation: spark-up 0.4s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes spark-up {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-26px);
   }
 }
 

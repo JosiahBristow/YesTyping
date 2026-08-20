@@ -40,7 +40,6 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
   const lang = useLang((s) => s.lang)
   const showKeyboard = useSettings((s) => s.showKeyboard)
   const [result, setResult] = useState<EngineResult | null>(null)
-  const [cheatOpen, setCheatOpen] = useState(false)
   const hintTexts = hints?.map((hint) => (lang === 'zh' ? hint.zh : hint.en))
   const engine = useTypingEngine({
     text,
@@ -133,10 +132,6 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
   const progressPct = engine.text.length
     ? Math.min(100, Math.round((engine.correctChars / engine.text.length) * 100))
     : 0
-
-  useEffect(() => {
-    if (engine.wpm > 100 && !engine.finished) setCheatOpen(true)
-  }, [engine.wpm, engine.finished])
 
   useEffect(() => {
     if (!result) return
@@ -237,17 +232,6 @@ function Engine({ text, numpad = false, autoSpace = false, hints, hanzi, graded 
           </div>
         ))}
       </div>
-
-      {cheatOpen && (
-        <div className="modal-overlay" onClick={() => setCheatOpen(false)}>
-          <div className="cheat-card card" onClick={(e) => e.stopPropagation()}>
-            <p className="cheat-text">666,哥们你是人类？不要作弊呀！！！</p>
-            <button type="button" className="btn btn-primary" onClick={() => setCheatOpen(false)}>
-              {t('practice.again')}
-            </button>
-          </div>
-        </div>
-      )}
 
       {result && (
         <div className="result-overlay">
