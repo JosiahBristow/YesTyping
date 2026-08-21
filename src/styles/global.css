@@ -2875,6 +2875,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  padding: 1rem;
   border-color: transparent;
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--line) 50%, transparent),
