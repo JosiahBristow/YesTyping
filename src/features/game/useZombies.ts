@@ -1,31 +1,42 @@
 import { useEffect, useRef, useState } from 'react'
 import { playError, playKey } from '../../lib/sound'
-import { unlockGame } from '../achievements/achievements'
+import { recordGameScore } from '../achievements/achievements'
 import { loadBest, saveBest, type GameId } from './gameCore'
 import { WORD_POOL } from '../typing/words'
-import { pickSpawnX } from './placement'
 
-export interface FallingWord {
+export interface Zombie {
   id: number
   word: string
   x: number
-  y: number
 }
 
-const GAME_ID: GameId = 'word-rain'
+export interface KillFx {
+  id: number
+  x: number
+}
+
+const GAME_ID: GameId = 'zombies'
 
 const POOL = WORD_POOL.filter((w) => w.length >= 3 && w.length <= 7 && /^[a-z]+$/.test(w))
 
-const TICK_MS = 33
+const TICK_MS = 50
 const START_LIVES = 3
-const LEVEL_SCORE = 150
+const MAX_ZOMBIES = 6
+const KILL_POINTS = 10
+const WALL_X = 96
 
-export function loadGameBest(): number {
-  return loadBest(GAME_ID)
+function randWord(lastRef: { current: string }): string {
+  let w = POOL[Math.floor(Math.random() * POOL.length)]
+  for (let i = 0; i < 6 && w === lastRef.current; i++) {
+    w = POOL[Math.floor(Math.random() * POOL.length)]
+  }
+  lastRef.current = w
+  return w
 }
 
-export function useWordRain() {
-  const [words, setWords] = useState<FallingWord[]>([])
+export function useZombies() {
+  const [zombies, setZombies] = useState<Zombie[]>([])
+  const [kills, setKills] = useState<KillFx[]>([])
   const [score, setScore] = useState(0)
   const [lives, setLives] = useState(START_LIVES)
   const [level, setLevel] = useState(1)
@@ -36,10 +47,11 @@ export function useWordRain() {
   const [over, setOver] = useState(false)
   const [started, setStarted] = useState(false)
   const [paused, setPaused] = useState(false)
-  const [best, setBest] = useState(loadGameBest)
+  const [best, setBest] = useState(loadBest(GAME_ID))
   const [newBest, setNewBest] = useState(false)
 
-  const wordsRef = useRef<FallingWord[]>([])
+  const zombiesRef = useRef<Zombie[]>([])
+  const killsRef = useRef<KillFx[]>([])
   const livesRef = useRef(START_LIVES)
   const overRef = useRef(false)
   const startedRef = useRef(false)
@@ -49,23 +61,13 @@ export function useWordRain() {
   const comboRef = useRef(0)
   const maxComboRef = useRef(0)
   const bufferRef = useRef('')
-  const targetRef = useRef<FallingWord | null>(null)
+  const targetRef = useRef<Zombie | null>(null)
   const nextIdRef = useRef(1)
   const lastWordRef = useRef('')
+  const lastSpawnRef = useRef(0)
 
-  const syncWords = () => setWords([...wordsRef.current])
-
-  const spawn = () => {
-    if (wordsRef.current.length >= 4 + Math.floor(levelRef.current / 2)) return
-    let word = POOL[Math.floor(Math.random() * POOL.length)]
-    for (let tries = 0; tries < 6 && word === lastWordRef.current; tries++) {
-      word = POOL[Math.floor(Math.random() * POOL.length)]
-    }
-    lastWordRef.current = word
-    const x = pickSpawnX(word, wordsRef.current)
-    if (x === null) return
-    wordsRef.current.push({ id: nextIdRef.current++, word, x, y: -5 })
-  }
+  const syncZombies = () => setZombies([...zombiesRef.current])
+  const syncKills = () => setKills([...killsRef.current])
 
   const clearTarget = () => {
     bufferRef.current = ''
@@ -74,38 +76,59 @@ export function useWordRain() {
     setTargetId(null)
   }
 
-  const destroy = (id: number) => {
-    wordsRef.current = wordsRef.current.filter((w) => w.id !== id)
-    syncWords()
+  const loseLife = (): boolean => {
+    livesRef.current -= 1
+    setLives(livesRef.current)
+    if (livesRef.current <= 0) {
+      overRef.current = true
+      startedRef.current = false
+      setOver(true)
+      setStarted(false)
+      return true
+    }
+    return false
+  }
+
+  const spawn = () => {
+    if (overRef.current || zombiesRef.current.length >= MAX_ZOMBIES) return
+    zombiesRef.current.push({ id: nextIdRef.current++, word: randWord(lastWordRef), x: -6 - Math.random() * 22 })
+    syncZombies()
   }
 
   useEffect(() => {
     if (!started || over) return
     const id = window.setInterval(() => {
       if (pausedRef.current) return
-      const drop = 0.22 + levelRef.current * 0.1
-      for (const w of wordsRef.current) {
-        w.y += drop
-      }
-      const remaining = wordsRef.current.filter((w) => w.y <= 100)
-      if (remaining.length !== wordsRef.current.length) {
-        wordsRef.current = remaining
-        if (targetRef.current && remaining.every((w) => w.id !== targetRef.current!.id)) clearTarget()
-        livesRef.current -= 1
-        setLives(livesRef.current)
-        if (livesRef.current <= 0) {
-          overRef.current = true
-          setOver(true)
-          setStarted(false)
-          return
+      const speed = 1.6 + levelRef.current * 0.75
+      for (const z of zombiesRef.current) z.x += speed * (TICK_MS / 1000)
+      const breached = zombiesRef.current.filter((z) => z.x >= WALL_X)
+      if (breached.length > 0) {
+        for (const z of breached) {
+          if (targetRef.current?.id === z.id) clearTarget()
+          comboRef.current = 0
+          setCombo(0)
         }
+        zombiesRef.current = zombiesRef.current.filter((z) => z.x < WALL_X)
+        syncZombies()
+        if (loseLife()) return
       }
-      spawn()
-      syncWords()
+      if (performance.now() - lastSpawnRef.current > Math.max(700, 2200 - levelRef.current * 220)) {
+        lastSpawnRef.current = performance.now()
+        spawn()
+      }
     }, TICK_MS)
     return () => window.clearInterval(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, over])
+
+  const kill = (id: number, x: number) => {
+    killsRef.current = [...killsRef.current, { id, x }]
+    syncKills()
+    window.setTimeout(() => {
+      killsRef.current = killsRef.current.filter((k) => k.id !== id)
+      syncKills()
+    }, 500)
+  }
 
   const onKey = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -131,17 +154,18 @@ export function useWordRain() {
         if (next === target.word) {
           comboRef.current += 1
           if (comboRef.current > maxComboRef.current) maxComboRef.current = comboRef.current
-          scoreRef.current += target.word.length * 10
+          scoreRef.current += target.word.length * KILL_POINTS
           setScore(scoreRef.current)
           setCombo(comboRef.current)
           setMaxCombo(maxComboRef.current)
-          const newLevel = Math.floor(scoreRef.current / LEVEL_SCORE) + 1
+          kill(target.id, target.x)
+          zombiesRef.current = zombiesRef.current.filter((z) => z.id !== target.id)
+          syncZombies()
+          const newLevel = Math.floor(scoreRef.current / 250) + 1
           if (newLevel > levelRef.current) {
             levelRef.current = newLevel
             setLevel(newLevel)
-            spawn()
           }
-          destroy(target.id)
           clearTarget()
         }
       } else {
@@ -153,7 +177,7 @@ export function useWordRain() {
       return
     }
 
-    const hit = wordsRef.current.find((w) => w.word.startsWith(ch))
+    const hit = zombiesRef.current.find((z) => z.word.startsWith(ch))
     if (hit) {
       targetRef.current = hit
       bufferRef.current = ch
@@ -177,7 +201,8 @@ export function useWordRain() {
   }
 
   const start = () => {
-    wordsRef.current = []
+    zombiesRef.current = []
+    killsRef.current = []
     bufferRef.current = ''
     targetRef.current = null
     scoreRef.current = 0
@@ -185,10 +210,12 @@ export function useWordRain() {
     levelRef.current = 1
     comboRef.current = 0
     maxComboRef.current = 0
+    lastSpawnRef.current = performance.now()
     overRef.current = false
     startedRef.current = true
     pausedRef.current = false
-    setWords([])
+    setZombies([])
+    setKills([])
     setScore(0)
     setLives(START_LIVES)
     setLevel(1)
@@ -199,8 +226,8 @@ export function useWordRain() {
     setOver(false)
     setStarted(true)
     setPaused(false)
-    for (let i = 0; i < 2; i++) spawn()
-    syncWords()
+    setNewBest(false)
+    for (let i = 0; i < 3; i++) spawn()
   }
 
   useEffect(() => {
@@ -208,11 +235,12 @@ export function useWordRain() {
     const b = saveBest(GAME_ID, scoreRef.current)
     setBest(b)
     setNewBest(scoreRef.current >= b && scoreRef.current > 0)
-    unlockGame(scoreRef.current, maxComboRef.current)
+    recordGameScore(GAME_ID, scoreRef.current, maxComboRef.current)
   }, [over])
 
   return {
-    words,
+    zombies,
+    kills,
     score,
     lives,
     level,

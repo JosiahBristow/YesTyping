@@ -50,6 +50,12 @@ Verify with `npm run lint && npm run build` after changes.
   `space`, uppercase → lowercase, shift symbols → base key).
 - `src/features/courses/` — course data as typed `Course`/`Lesson` objects with
   bilingual `{en, zh}` titles.
+- `src/features/game/` — typing games. `/game` is a hub (`GamesHubPage`); each
+  game is a `use*` hook in `src/features/game/` plus a page at `/game/:id`.
+  Shared pieces: `gameCore.ts` (best scores + game registry),
+  `components/GameShell.tsx` (HUD/overlays/start-over flow), and
+  `recordGameScore` in achievements for per-game achievements. Existing games:
+  word-rain, shooter, zombies, memory, snake, rhythm.
 - `src/features/stats/useLocalStats.ts` — session persistence (localStorage key
   `yestyping.sessions.v1`).
 - `src/i18n/` — UI strings in `en.json`/`zh.json`. Course content uses `Bi`

@@ -142,10 +142,21 @@ export function TypeArea({ text, states, index, hints, hanzi }: TypeAreaProps) {
         )
 
         if (tok.kind === 'space') {
+          const st = states[tok.start]
           return hints ? (
             <span key={ti} className="word-gap" />
           ) : (
-            <span key={ti} className="tok-space" data-index={tok.start}>
+            <span
+              key={ti}
+              className={cn(
+                'tok-space',
+                st === 'correct' && 'correct',
+                st === 'corrected' && 'corrected',
+                st === 'wrong' && 'wrong',
+                tok.start === index && 'current',
+              )}
+              data-index={tok.start}
+            >
               {' '}
             </span>
           )

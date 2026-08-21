@@ -426,7 +426,7 @@ export function SpeedTestPage() {
   const { t } = useTranslation()
   const [searchParams] = useSearchParams()
   const unlockTarget = searchParams.get('unlock') ?? undefined
-  const [duration, setDuration] = useState(30)
+  const [duration, setDuration] = useState(60)
   const [customTime, setCustomTime] = useState(45)
   const [race, setRace] = useState(false)
   const [opponent, setOpponent] = useState(40)

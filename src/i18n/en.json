@@ -214,14 +214,15 @@
     "new": "New text",
     "paste": "Paste your own text"
   },
-  "game": {
-    "title": "Word Rain",
-    "subtitle": "Type the falling words before they hit the ground. Speed up, level up, don't get drenched.",
+  "gameHub": {
+    "title": "Typing Games",
+    "subtitle": "A collection of arcade typing games — train your fingers without noticing.",
+    "play": "Play"
+  },
+  "gameCommon": {
     "score": "Score",
-    "level": "Level",
-    "lives": "Lives",
     "best": "Best",
-    "howto": "Words are falling — type each one to zap it. Missing a word costs a life.",
+    "combo": "Combo",
     "start": "Start game",
     "done": "Game over!",
     "finalScore": "Final score",
@@ -231,6 +232,57 @@
     "resume": "Resume",
     "paused": "Paused",
     "pauseHint": "Press Esc or the button to resume"
+  },
+  "games": {
+    "word-rain": {
+      "title": "Word Rain",
+      "desc": "Type the falling words before they hit the ground. Speed up, level up, don't get drenched.",
+      "howto": "Words are falling — type each one to zap it. Missing a word costs a life.",
+      "score": "Score",
+      "level": "Level",
+      "lives": "Lives"
+    },
+    "shooter": {
+      "title": "Word Shooter",
+      "desc": "Take aim and type to shoot moving targets.",
+      "howto": "Targets appear on the field — type each word to fire a shot. Combo keeps growing on hit streaks.",
+      "score": "Score",
+      "level": "Level",
+      "lives": "Lives"
+    },
+    "zombies": {
+      "title": "Zombie Siege",
+      "desc": "Type to blast zombies before they reach you.",
+      "howto": "Zombies march in from the left. Type each one's word to kill it before it reaches the wall.",
+      "score": "Score",
+      "level": "Level",
+      "lives": "Lives"
+    },
+    "memory": {
+      "title": "Flash Words",
+      "desc": "Memorize flashing words and retype them from scratch.",
+      "howto": "Words flash briefly, then vanish. Retype them in order before your memory fades.",
+      "round": "Round",
+      "time": "Time",
+      "lives": "Lives",
+      "memorize": "Memorize these words!",
+      "wordOf": "Word {{n}} / {{total}}"
+    },
+    "snake": {
+      "title": "Typing Snake",
+      "desc": "Type food words to feed a growing snake.",
+      "howto": "Steer the snake with the arrow keys and type the food's word to eat it. Each meal grows the snake.",
+      "length": "Length",
+      "speed": "Speed"
+    },
+    "rhythm": {
+      "title": "Rhythm Tiles",
+      "desc": "Hit the falling tiles to the beat.",
+      "howto": "Tiles fall down the lanes. When a tile crosses the line, type its letter to hit it. Keep the combo alive!",
+      "score": "Score",
+      "level": "Level",
+      "lives": "Lives"
+    }
   },
   "settings": {
     "title": "Settings",

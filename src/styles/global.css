@@ -1053,8 +1053,25 @@ a {
 }
 
 .tok-space {
-  display: inline-block;
   white-space: pre;
+  border-radius: 4px;
+  transition: background 0.08s ease;
+}
+
+.tok-space.correct {
+  background: var(--soft-green);
+}
+
+.tok-space.corrected {
+  background: var(--amber-soft);
+}
+
+.tok-space.wrong {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.tok-space.current {
+  box-shadow: inset 0 -4px 0 -1px var(--brand);
 }
 
 .char {

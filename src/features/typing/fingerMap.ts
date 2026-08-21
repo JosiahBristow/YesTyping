@@ -29,7 +29,7 @@ export const FINGER_BY_KEY: Record<string, Finger> = {
   z: 'lp', x: 'lr', c: 'lm', v: 'li', b: 'li',
   n: 'ri', m: 'ri',
   ',': 'rm', '.': 'rr', '/': 'rp',
-  ' ': 'th',
+  ' ': 'th', space: 'th',
 }
 
 /** Numpad finger assignment (right hand only). */

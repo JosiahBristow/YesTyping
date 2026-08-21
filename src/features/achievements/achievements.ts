@@ -59,12 +59,40 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'game-1000', icon: '🎮', category: cat('game'), title: { en: 'Game on', zh: '初露锋芒' }, desc: { en: 'Score 1,000 in Word Rain.', zh: '单词雨得分达到 1000。' } },
   { id: 'game-5000', icon: '👑', category: cat('game'), title: { en: 'High roller', zh: '游戏高手' }, desc: { en: 'Score 5,000 in Word Rain.', zh: '单词雨得分达到 5000。' } },
   { id: 'game-combo-10', icon: '🔥', category: cat('game'), title: { en: 'Rainmaker', zh: '连击大师' }, desc: { en: 'Reach a 10-combo in Word Rain.', zh: '单词雨中连击达到 10。' } },
+  { id: 'shooter-500', icon: '🎯', category: cat('game'), title: { en: 'Dead eye', zh: '神枪手' }, desc: { en: 'Score 500 in Word Shooter.', zh: '单词射击得分达到 500。' } },
+  { id: 'shooter-2000', icon: '💥', category: cat('game'), title: { en: 'Sharpshooter', zh: '百发百中' }, desc: { en: 'Score 2,000 in Word Shooter.', zh: '单词射击得分达到 2000。' } },
+  { id: 'zombies-500', icon: '🧟', category: cat('game'), title: { en: 'Zombie hunter', zh: '僵尸猎人' }, desc: { en: 'Score 500 in Zombie Siege.', zh: '僵尸围城得分达到 500。' } },
+  { id: 'zombies-2000', icon: '☠️', category: cat('game'), title: { en: 'Last stand', zh: '末日幸存者' }, desc: { en: 'Score 2,000 in Zombie Siege.', zh: '僵尸围城得分达到 2000。' } },
+  { id: 'memory-8', icon: '🧠', category: cat('game'), title: { en: 'Good memory', zh: '记忆犹新' }, desc: { en: 'Finish 8 rounds in Flash Words.', zh: '闪词记忆完成 8 轮。' } },
+  { id: 'memory-20', icon: '🏛️', category: cat('game'), title: { en: 'Photographic', zh: '过目不忘' }, desc: { en: 'Finish 20 rounds in Flash Words.', zh: '闪词记忆完成 20 轮。' } },
+  { id: 'snake-8', icon: '🐍', category: cat('game'), title: { en: 'Snake charmer', zh: '驯蛇人' }, desc: { en: 'Reach length 8 in Typing Snake.', zh: '贪吃蛇打字长度达到 8。' } },
+  { id: 'snake-20', icon: '🐉', category: cat('game'), title: { en: 'Dragon tamer', zh: '御蛇高手' }, desc: { en: 'Reach length 20 in Typing Snake.', zh: '贪吃蛇打字长度达到 20。' } },
+  { id: 'rhythm-1000', icon: '🎵', category: cat('game'), title: { en: 'On beat', zh: '踩准节拍' }, desc: { en: 'Score 1,000 in Rhythm Tiles.', zh: '音乐节奏得分达到 1000。' } },
+  { id: 'rhythm-5000', icon: '🎶', category: cat('game'), title: { en: 'Groove master', zh: '节奏大师' }, desc: { en: 'Score 5,000 in Rhythm Tiles.', zh: '音乐节奏得分达到 5000。' } },
 ]
 
 const STORAGE_KEY = 'yestyping.achievements.v1'
 const RACE_KEY = 'yestyping.raceWins'
 const STREAK_KEY = 'yestyping.streak'
 const GAME_COMBO_KEY = 'yestyping.gameMaxCombo'
+
+const GAME_BEST_KEYS: Record<string, string> = {
+  'word-rain': 'yestyping.gameBest',
+  shooter: 'yestyping.game.best.shooter',
+  zombies: 'yestyping.game.best.zombies',
+  memory: 'yestyping.game.best.memory',
+  snake: 'yestyping.game.best.snake',
+  rhythm: 'yestyping.game.best.rhythm',
+}
+
+const GAME_COMBO_KEYS: Record<string, string> = {
+  'word-rain': GAME_COMBO_KEY,
+  shooter: 'yestyping.game.combo.shooter',
+  zombies: 'yestyping.game.combo.zombies',
+  memory: 'yestyping.game.combo.memory',
+  snake: 'yestyping.game.combo.snake',
+  rhythm: 'yestyping.game.combo.rhythm',
+}
 
 function loadUnlocked(): string[] {
   try {
@@ -170,6 +198,11 @@ export function evaluateAll(): string[] {
   const raceWins = readNumber(RACE_KEY)
   const gameBest = readNumber('yestyping.gameBest')
   const gameCombo = readNumber(GAME_COMBO_KEY)
+  const shooterBest = readNumber(GAME_BEST_KEYS.shooter)
+  const zombiesBest = readNumber(GAME_BEST_KEYS.zombies)
+  const memoryBest = readNumber(GAME_BEST_KEYS.memory)
+  const snakeBest = readNumber(GAME_BEST_KEYS.snake)
+  const rhythmBest = readNumber(GAME_BEST_KEYS.rhythm)
   const streak = readStreak()
 
   // Progress
@@ -209,6 +242,16 @@ export function evaluateAll(): string[] {
   if (gameBest >= 1000) ids.push('game-1000')
   if (gameBest >= 5000) ids.push('game-5000')
   if (gameCombo >= 10) ids.push('game-combo-10')
+  if (shooterBest >= 500) ids.push('shooter-500')
+  if (shooterBest >= 2000) ids.push('shooter-2000')
+  if (zombiesBest >= 500) ids.push('zombies-500')
+  if (zombiesBest >= 2000) ids.push('zombies-2000')
+  if (memoryBest >= 8) ids.push('memory-8')
+  if (memoryBest >= 20) ids.push('memory-20')
+  if (snakeBest >= 8) ids.push('snake-8')
+  if (snakeBest >= 20) ids.push('snake-20')
+  if (rhythmBest >= 1000) ids.push('rhythm-1000')
+  if (rhythmBest >= 5000) ids.push('rhythm-5000')
 
   return ids
 }
@@ -244,15 +287,22 @@ export function winRace(won: boolean): void {
   unlockWithToast(newlyUnlocked())
 }
 
-/** Record Word Rain stats and unlock game achievements. */
-export function unlockGame(score: number, maxCombo: number): void {
+/** Record a game's score and max combo, then unlock whatever applies. */
+export function recordGameScore(game: string, score: number, maxCombo: number): void {
   try {
-    if (score > readNumber('yestyping.gameBest')) localStorage.setItem('yestyping.gameBest', String(score))
-    if (maxCombo > readNumber(GAME_COMBO_KEY)) localStorage.setItem(GAME_COMBO_KEY, String(maxCombo))
+    const bestKey = GAME_BEST_KEYS[game]
+    const comboKey = GAME_COMBO_KEYS[game]
+    if (bestKey && score > readNumber(bestKey)) localStorage.setItem(bestKey, String(score))
+    if (comboKey && maxCombo > readNumber(comboKey)) localStorage.setItem(comboKey, String(maxCombo))
   } catch {
     // ignore
   }
   unlockWithToast(newlyUnlocked())
+}
+
+/** Record Word Rain stats and unlock game achievements. */
+export function unlockGame(score: number, maxCombo: number): void {
+  recordGameScore('word-rain', score, maxCombo)
 }
 
 /** Unlock everything already earned, silently (runs once on startup for returning users). */
