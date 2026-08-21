@@ -49,7 +49,7 @@ export function ZombiesPage() {
             <span
               key={z.id}
               className={cn('game-zombie', game.targetId === z.id && 'target')}
-              style={{ left: `${z.x}%` }}
+              style={{ left: `${z.x}%`, top: `${32 + (z.id % 3) * 8}%` }}
             >
               <span className="zombie-word">
                 {z.word.split('').map((ch, i) => (
