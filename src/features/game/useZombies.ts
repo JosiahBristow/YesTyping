@@ -99,6 +99,7 @@ export function useZombies() {
     let raf: number
     let last = performance.now()
     const loop = (now: number) => {
+      if (overRef.current) return
       raf = requestAnimationFrame(loop)
       if (pausedRef.current) { last = now; return }
       const dt = (now - last) / 1000
