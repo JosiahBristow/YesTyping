@@ -19,7 +19,6 @@ const GAME_ID: GameId = 'zombies'
 
 const POOL = WORD_POOL.filter((w) => w.length >= 3 && w.length <= 7 && /^[a-z]+$/.test(w))
 
-const TICK_MS = 50
 const START_LIVES = 3
 const MAX_ZOMBIES = 6
 const KILL_POINTS = 10
@@ -97,10 +96,15 @@ export function useZombies() {
 
   useEffect(() => {
     if (!started || over) return
-    const id = window.setInterval(() => {
-      if (pausedRef.current) return
+    let raf: number
+    let last = performance.now()
+    const loop = (now: number) => {
+      raf = requestAnimationFrame(loop)
+      if (pausedRef.current) { last = now; return }
+      const dt = (now - last) / 1000
+      last = now
       const speed = 1.6 + levelRef.current * 0.75
-      for (const z of zombiesRef.current) z.x += speed * (TICK_MS / 1000)
+      for (const z of zombiesRef.current) z.x += speed * dt
       const breached = zombiesRef.current.filter((z) => z.x >= WALL_X)
       if (breached.length > 0) {
         for (const z of breached) {
@@ -112,12 +116,13 @@ export function useZombies() {
         syncZombies()
         if (loseLife()) return
       }
-      if (performance.now() - lastSpawnRef.current > Math.max(400, 1400 - levelRef.current * 140)) {
-        lastSpawnRef.current = performance.now()
+      if (now - lastSpawnRef.current > Math.max(400, 1400 - levelRef.current * 140)) {
+        lastSpawnRef.current = now
         spawn()
       }
-    }, TICK_MS)
-    return () => window.clearInterval(id)
+    }
+    raf = requestAnimationFrame(loop)
+    return () => cancelAnimationFrame(raf)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, over])
 
