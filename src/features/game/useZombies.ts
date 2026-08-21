@@ -112,7 +112,7 @@ export function useZombies() {
         syncZombies()
         if (loseLife()) return
       }
-      if (performance.now() - lastSpawnRef.current > Math.max(700, 2200 - levelRef.current * 220)) {
+      if (performance.now() - lastSpawnRef.current > Math.max(400, 1400 - levelRef.current * 140)) {
         lastSpawnRef.current = performance.now()
         spawn()
       }
