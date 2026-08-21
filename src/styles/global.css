@@ -2875,11 +2875,18 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  transition: transform 0.15s ease;
+  border-color: transparent;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--line) 50%, transparent),
+    var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .game-card:hover {
   transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--line) 60%, transparent),
+    0 6px 20px rgba(24, 32, 46, 0.1);
 }
 
 .game-card-top {
