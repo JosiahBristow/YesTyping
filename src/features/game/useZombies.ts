@@ -105,6 +105,7 @@ export function useZombies() {
       last = now
       const speed = 1.6 + levelRef.current * 0.75
       for (const z of zombiesRef.current) z.x += speed * dt
+      syncZombies()
       const breached = zombiesRef.current.filter((z) => z.x >= WALL_X)
       if (breached.length > 0) {
         for (const z of breached) {
