@@ -2952,10 +2952,16 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 1px;
   font-family: var(--font-mono);
   font-weight: 600;
-  font-size: 1.05rem;
+  /* 92px circle minus 2*6px padding ≈ 80px usable; 0.6em/char mono → 80/0.6/N */
+  font-size: min(1.05rem, calc(127px / var(--len, 4)));
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0 6px;
+  box-sizing: border-box;
   color: var(--ink-soft);
   background: var(--panel);
   border: 1px solid var(--line);

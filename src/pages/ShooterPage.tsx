@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShooter } from '../features/game/useShooter'
 import { GameShell, type GameState } from '../components/GameShell'
@@ -48,7 +49,11 @@ export function ShooterPage() {
             <span
               key={tg.id}
               className={cn('game-target', game.targetId === tg.id && 'target')}
-              style={{ left: `${tg.x}%`, top: `${tg.y}%` }}
+              style={{
+                left: `${tg.x}%`,
+                top: `${tg.y}%`,
+                ['--len' as string]: tg.word.length,
+              } as CSSProperties}
             >
               <span
                 className="game-target-fuse"
